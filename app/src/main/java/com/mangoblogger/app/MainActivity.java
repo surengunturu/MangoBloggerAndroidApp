@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * To load fragments for sample
+     * To load fragments into container
      *
      * @param position menu index
      */
     private void changeFragment(int position) {
 
-        Fragment newFragment = null;
+        Fragment newFragment;
 
         if (position == 0) {
             newFragment = new AnalyticsTermsFragment();
