@@ -1,5 +1,6 @@
 package com.mangoblogger.app;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,9 @@ import android.webkit.WebView;
 
 /**
  * Created by karthikprasad on 7/29/17.
+ *
  */
-
+@SuppressLint("SetJavaScriptEnabled")
 public class AnalyticsTermsFragment extends Fragment {
     @Nullable
     @Override
@@ -21,6 +23,9 @@ public class AnalyticsTermsFragment extends Fragment {
 
         WebView myWebView = (WebView) rootView.findViewById(R.id.webview);
         myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
+//       must be enabled to
+        myWebView.getSettings().setJavaScriptEnabled(true);
+
         myWebView.loadUrl("https://www.mangoblogger.com/analytics-definitions/");
 
         return rootView;

@@ -21,7 +21,7 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (Uri.parse(url).getHost().equals("www.example.com")) {
+       if (Uri.parse(url).getHost().equals("www.example.com")) {
             // This is my web site, so do not override; let my WebView load the page
             return false;
         }
@@ -29,6 +29,16 @@ public class MyWebViewClient extends WebViewClient {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(intent);
         return true;
+    }
+
+
+// Here you can use javascript to target the html tags and do whatever you want to
+//    javascript must be enabled in child view to make it work
+    @Override
+    public void onPageCommitVisible(WebView view, String url) {
+        super.onPageCommitVisible(view, url);
+        view.loadUrl("javascript:document.querySelector('header').setAttribute('style','display:none;');");
+        view.loadUrl("javascript:document.querySelector('footer').setAttribute('style','display:none;');");
     }
 
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {

@@ -22,13 +22,14 @@ public class UxTermsFragment extends Fragment {
         WebView myWebView = (WebView) rootView.findViewById(R.id.webview);
         myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
 
-        myWebView.setWebChromeClient(new WebChromeClient() {
+       /* myWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
                 getActivity().setProgress(progress * 1000);
             }
-        });
+        });*/
+        myWebView.getSettings().setJavaScriptEnabled(true);
 
 
         myWebView.loadUrl("https://www.mangoblogger.com/ux-definitions/");
