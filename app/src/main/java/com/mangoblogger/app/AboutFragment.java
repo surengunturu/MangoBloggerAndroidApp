@@ -1,7 +1,6 @@
 package com.mangoblogger.app;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,18 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
 
 import java.util.Locale;
 
-/**
- * Created by karthikprasad on 7/29/17.
- */
+
 
 public class AboutFragment extends Fragment{
 
     View view;
-    LinearLayout email, find_location;
+    LinearLayout email, find_location, send_msg;
     ImageView facebook, twitter, youtube, linkedin, insta;
 
     @Override
@@ -30,6 +27,7 @@ public class AboutFragment extends Fragment{
         view = inflater.inflate(R.layout.fragment_about, container, false);
 
         email = (LinearLayout) view.findViewById(R.id.send_email);
+        send_msg = (LinearLayout) view.findViewById(R.id.send_whatsapp_msg);
         find_location = (LinearLayout) view.findViewById(R.id.find_location);
         facebook = (ImageView) view.findViewById(R.id.facebook);
         twitter = (ImageView) view.findViewById(R.id.twitter);
@@ -56,6 +54,18 @@ public class AboutFragment extends Fragment{
                 String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 19.708079, 75.300217);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 getContext().startActivity(intent);
+            }
+        });
+
+        send_msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String smsNumber = "3157518581";
+                Uri uri = Uri.parse("smsto:" + smsNumber);
+                Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                i.putExtra("sms_body", "Hi");
+                i.setPackage("com.whatsapp");
+                startActivity(i);
             }
         });
 
