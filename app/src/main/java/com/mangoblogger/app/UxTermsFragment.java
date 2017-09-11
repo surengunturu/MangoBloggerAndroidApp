@@ -21,15 +21,16 @@ public class UxTermsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_ux_terms, container, false);
 
         WebView myWebView = (WebView) rootView.findViewById(R.id.webview);
-        myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
 
-       /* myWebView.setWebChromeClient(new WebChromeClient() {
+       myWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
                 getActivity().setProgress(progress * 1000);
             }
-        });*/
+        });
+        myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
+
         myWebView.getSettings().setJavaScriptEnabled(true);
 
 

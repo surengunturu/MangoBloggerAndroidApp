@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:paddingBottom="0dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="40dp">
-
-    <ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,7 +30,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/activity_vertical_margin"
-                        android:text="About"
+                        android:text="@string/about_title"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -43,7 +39,7 @@
                         android:id="@+id/view"
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
-                        android:background="@color/colorPrimaryDark"></View>
+                        android:background="@color/colorPrimaryDark"/>
 
                     <TextView
                         android:id="@+id/about"
@@ -54,8 +50,8 @@
                         android:paddingRight="@dimen/activity_vertical_margin"
                         android:paddingTop="20dp"
                         android:text="@string/about_us"
-                        android:textSize="12sp" />
-
+                        android:textSize="13sp"
+                        android:lineSpacingExtra="6.5dp"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -76,7 +72,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/activity_vertical_margin"
-                        android:text="Contact Us"
+                        android:text="@string/contact_title"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -84,7 +80,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
-                        android:background="@color/colorPrimaryDark"></View>
+                        android:background="@color/colorPrimaryDark"/>
 
                     <LinearLayout
                         android:id="@+id/find_location"
@@ -99,6 +95,7 @@
                             android:id="@+id/imageView"
                             android:layout_width="0dp"
                             android:layout_weight="1"
+                            android:contentDescription="@string/location_description"
                             android:layout_height="wrap_content"
                             app:srcCompat="@mipmap/ic_location_on_black_36dp" />
                         <TextView
@@ -107,8 +104,12 @@
                             android:text="@string/loaction"
                             android:layout_weight="10"
                             android:paddingLeft="10dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp"
                             android:layout_gravity="top"
-                            android:textSize="12sp"
+                            android:textSize="13sp"
+                            android:lineSpacingExtra="3dp"
                             android:textStyle="bold"/>
                     </LinearLayout>
                     <LinearLayout
@@ -122,6 +123,7 @@
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_weight="1"
+                            android:contentDescription="@string/mail_description"
                             android:layout_height="wrap_content"
                             app:srcCompat="@mipmap/ic_email_black_18dp" />
                         <TextView
@@ -131,7 +133,10 @@
                             android:text="@string/email"
                             android:layout_gravity="center_vertical"
                             android:paddingLeft="10dp"
-                            android:textSize="12sp"
+                            android:paddingStart="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp"
+                            android:textSize="13sp"
                             android:textStyle="bold"/>
                     </LinearLayout>
                     <LinearLayout
@@ -146,6 +151,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:contentDescription="@string/whatsapp_description"
                             app:srcCompat="@drawable/ic_whatsapp" />
 
                         <TextView
@@ -155,7 +161,10 @@
                             android:text="@string/phone"
                             android:layout_gravity="center_vertical"
                             android:paddingLeft="10dp"
-                            android:textSize="12sp"
+                            android:paddingStart="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingEnd="10dp"
+                            android:textSize="13sp"
                             android:textStyle="bold"/>
                     </LinearLayout>
                     <LinearLayout
@@ -173,30 +182,35 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/facebook_description"
                             app:srcCompat="@drawable/ic_facebook" />
                         <ImageView
                             android:id="@+id/twitter"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/twitter_description"
                             app:srcCompat="@drawable/ic_action_name" />
                         <ImageView
                             android:id="@+id/linkedin"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/linkedin_description"
                             app:srcCompat="@drawable/ic_linkedin" />
                         <ImageView
                             android:id="@+id/youtube"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/youtube_description"
                             app:srcCompat="@drawable/ic_youtube" />
                         <ImageView
                             android:id="@+id/insta"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:contentDescription="@string/insta_description"
                             app:srcCompat="@drawable/ic_instagram" />
                         <View
                             android:layout_width="0dp"
@@ -207,7 +221,4 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
-
     </ScrollView>
-
-</RelativeLayout>

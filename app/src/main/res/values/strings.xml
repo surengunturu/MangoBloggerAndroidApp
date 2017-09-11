@@ -3,6 +3,15 @@
     <string name="analytics_terms_title">Analytics Terms</string>
     <string name="ux_terms_title">UX Terms</string>
     <string name="about_title">About</string>
+    <string name="contact_title">Contact Us</string>
+    <string name="location_description">Our location</string>
+    <string name="mail_description">Email Us</string>
+    <string name="whatsapp_description">Whatsapp Us</string>
+    <string name="facebook_description">Open our facebook page</string>
+    <string name="insta_description">Open our Instagram page</string>
+    <string name="youtube_description">Open our Youtube channel</string>
+    <string name="twitter_description">Open our Twitter account</string>
+    <string name="linkedin_description">Open our LinkedIn page</string>
     <string name="email"><u>contact@mangoblogger.com</u></string>
     <string name="phone">+1 315.751.8581</string>
     <string name="loaction"># 6, Khivansara Nagar, Post Bidkin,Tal. Paithan, Aurangabad, Maharashtra, 431105 India</string>
