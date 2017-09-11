@@ -50,9 +50,11 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAnalytics.setMinimumSessionDuration(20000);
 
         Bundle bundle = new Bundle();
-      // bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
-      //  bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-      //  bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        String id = "MangoBlogger";
+        String name = "Google analytics";
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         changeFragment(0);
