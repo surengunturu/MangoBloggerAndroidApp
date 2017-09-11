@@ -3,4 +3,8 @@
     <string name="analytics_terms_title">Analytics Terms</string>
     <string name="ux_terms_title">UX Terms</string>
     <string name="about_title">About</string>
+    <string name="email"><u>contact@mangoblogger.com</u></string>
+    <string name="phone">+1 315.751.8581</string>
+    <string name="loaction"># 6, Khivansara Nagar, Post Bidkin,Tal. Paithan, Aurangabad, Maharashtra, 431105 India</string>
+    <string name="about_us">MangoBlogger.com is a UX agency specializing in web analytics and SEO. We create useful Google Analytics Dashboards for your business using Google Tag Manager. Our dashabords integerate with AdWords conversion tracking, Retargetting, Facebook Pixel, Google Publisher and much more.</string>
 </resources>
