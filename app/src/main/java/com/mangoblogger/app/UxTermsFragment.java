@@ -3,6 +3,7 @@ package com.mangoblogger.app;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,33 @@ public class UxTermsFragment extends Fragment {
 
         myWebView.loadUrl("https://www.mangoblogger.com/ux-definitions/");
 
+        // Quick fix to load previously opened url on back key pressed
+        // To do - Create a separate class by extending android.webkit.webview
+        //          and move this code into same.
+        myWebView.setOnKeyListener(new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if(event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    WebView webView = (WebView) v;
+
+                    switch(keyCode)
+                    {
+                        case KeyEvent.KEYCODE_BACK:
+                            if(webView.canGoBack())
+                            {
+                                webView.goBack();
+                                return true;
+                            }
+                            break;
+                    }
+                }
+
+                return false;
+            }
+        });
         return rootView;
     }
 }

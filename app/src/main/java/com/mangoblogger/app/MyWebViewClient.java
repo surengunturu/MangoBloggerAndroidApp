@@ -3,6 +3,8 @@ package com.mangoblogger.app;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -21,7 +23,7 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-       if (Uri.parse(url).getHost().equals("www.example.com")) {
+       if (Uri.parse(url).getHost().equals("www.mangoblogger.com")) {
             // This is my web site, so do not override; let my WebView load the page
             return false;
         }
@@ -43,5 +45,37 @@ public class MyWebViewClient extends WebViewClient {
 
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         Toast.makeText(context, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * A custom onBackPressed method which loads previously opened url in same webview on
+     * back key pressed.
+     * @param myWebView the current webview
+     */
+    public void onBackPressed(WebView myWebView) {
+        myWebView.setOnKeyListener(new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if(event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    WebView webView = (WebView) v;
+
+                    switch(keyCode)
+                    {
+                        case KeyEvent.KEYCODE_BACK:
+                            if(webView.canGoBack())
+                            {
+                                webView.goBack();
+                                return true;
+                            }
+                            break;
+                    }
+                }
+
+                return false;
+            }
+        });
     }
 }
