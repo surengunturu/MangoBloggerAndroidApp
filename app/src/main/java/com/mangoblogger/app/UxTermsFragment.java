@@ -9,24 +9,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by karthikprasad on 7/29/17.
+ *
  */
 
 public class UxTermsFragment extends Fragment {
+    ProgressBar mProgressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_ux_terms, container, false);
 
         WebView myWebView = (WebView) rootView.findViewById(R.id.webview);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress);
 
        myWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
                 getActivity().setProgress(progress * 1000);
+                super.onProgressChanged(view, progress);
+                mProgressBar.setProgress(progress);
+                mProgressBar.setVisibility(progress == 100 ? GONE : VISIBLE);
             }
         });
         myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
