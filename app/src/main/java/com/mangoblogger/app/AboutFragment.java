@@ -30,6 +30,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.youtube).setOnClickListener(this);
         view.findViewById(R.id.linkedin).setOnClickListener(this);
         view.findViewById(R.id.insta).setOnClickListener(this);
+        view.findViewById(R.id.fab).setOnClickListener(this);
         return view;
     }
 
@@ -59,7 +60,20 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.insta:
                 startBrowserIntent("https://www.youtube.com/channel/UCCgxPOWNEqpcA60HnYg051w");
+                break;
+            case R.id.fab:
+                startShareIntent();
+                break;
         }
+    }
+
+    private void startShareIntent() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        String shareBody = "Here is the share content body";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 
 
