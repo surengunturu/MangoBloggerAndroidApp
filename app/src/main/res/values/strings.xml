@@ -16,4 +16,5 @@
     <string name="phone">+1 315.751.8581</string>
     <string name="loaction"># 6, Khivansara Nagar, Post Bidkin,Tal. Paithan, Aurangabad, Maharashtra, 431105 India</string>
     <string name="about_us">MangoBlogger.com is a UX agency specializing in web analytics and SEO. We create useful Google Analytics Dashboards for your business using Google Tag Manager. Our dashabords integerate with AdWords conversion tracking, Retargetting, Facebook Pixel, Google Publisher and much more.</string>
+    <string name="offline_notice">You are currently offline.</string>
 </resources>

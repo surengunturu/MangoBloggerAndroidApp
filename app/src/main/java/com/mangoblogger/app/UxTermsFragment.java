@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import static android.view.View.GONE;
@@ -29,6 +30,7 @@ public class UxTermsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_ux_terms, container, false);
 
         WebView myWebView = (WebView) rootView.findViewById(R.id.webview);
+
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress);
 
        myWebView.setWebChromeClient(new WebChromeClient() {

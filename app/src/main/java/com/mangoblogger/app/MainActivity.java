@@ -3,6 +3,8 @@ package com.mangoblogger.app;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 public class MainActivity extends AppCompatActivity {
+    private CoordinatorLayout mCoordinatorLayout;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.content_frame);
+
         // Obtain the FirebaseAnalytics instance.
        FirebaseAnalytics  firebaseAnalytics = FirebaseAnalytics.getInstance(this);
        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
     private void changeFragment(int position) {
 
         Fragment newFragment;
+        if (!AppUtils.hasConnection(this)) {
+            Snackbar.make(mCoordinatorLayout, R.string.offline_notice, Snackbar.LENGTH_LONG).show();
+        }
 
         if (position == 0) {
             newFragment = new AnalyticsTermsFragment();
