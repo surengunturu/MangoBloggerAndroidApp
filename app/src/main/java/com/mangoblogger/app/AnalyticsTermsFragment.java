@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+
+
 import android.webkit.WebView;
 import android.widget.ProgressBar;
+
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -30,10 +33,10 @@ public class AnalyticsTermsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_analytics_terms, container, false);
 
-        WebView myWebView = (WebView) rootView.findViewById(R.id.webview);
+        WebView mWebView = (WebView) rootView.findViewById(R.id.webview);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress);
 
-        myWebView.setWebChromeClient(new WebChromeClient() {
+       mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 super.onProgressChanged(view, progress);
                 if(mProgressBar != null) {
@@ -42,23 +45,20 @@ public class AnalyticsTermsFragment extends Fragment {
                 }
             }
         });
-        myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
-//       must be enabled to
-        myWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new MyWebViewClient(getActivity()));
 
-        myWebView.loadUrl("https://www.mangoblogger.com/analytics-definitions/");
+        mWebView.loadUrl("https://www.mangoblogger.com/analytics-definitions/");
 
-        // Quick fix to load previously opened url on back key pressed
-        // To do - Create a separate class by extending android.webkit.webview
-        //          and move this code into same.
-        myWebView.setOnKeyListener(new View.OnKeyListener()
+        //      This thing here no longer works
+        // This used to load previous page on pressing back key
+        mWebView.setOnKeyListener(new View.OnKeyListener()
         {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event)
             {
                 if(event.getAction() == KeyEvent.ACTION_DOWN)
                 {
-                    WebView webView = (WebView) v;
+                    com.mangoblogger.app.widget.WebView webView = (com.mangoblogger.app.widget.WebView) v;
 
                     switch(keyCode)
                     {
@@ -77,10 +77,8 @@ public class AnalyticsTermsFragment extends Fragment {
         });
 
 
-
         return rootView;
     }
-
 
 
 

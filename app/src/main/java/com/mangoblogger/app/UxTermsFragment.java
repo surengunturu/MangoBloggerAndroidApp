@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -41,9 +42,6 @@ public class UxTermsFragment extends Fragment {
                 }
             }
         });
-        myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
-
-        myWebView.getSettings().setJavaScriptEnabled(true);
 
 
         myWebView.loadUrl("https://www.mangoblogger.com/ux-definitions/");
@@ -51,6 +49,7 @@ public class UxTermsFragment extends Fragment {
         // Quick fix to load previously opened url on back key pressed
         // To do - Create a separate class by extending android.webkit.webview
         //          and move this code into same.
+        // not working ... :(
         myWebView.setOnKeyListener(new View.OnKeyListener()
         {
             @Override
