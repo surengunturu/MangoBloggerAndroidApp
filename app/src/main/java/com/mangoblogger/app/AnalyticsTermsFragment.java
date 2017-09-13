@@ -35,12 +35,11 @@ public class AnalyticsTermsFragment extends Fragment {
 
         myWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
-                // Activities and WebViews measure progress with different scales.
-                // The progress meter will automatically disappear when we reach 100%
-                getActivity().setProgress(progress * 1000);
                 super.onProgressChanged(view, progress);
-                mProgressBar.setProgress(progress);
-                mProgressBar.setVisibility(progress == 100 ? GONE : VISIBLE);
+                if(mProgressBar != null) {
+                    mProgressBar.setProgress(progress);
+                    mProgressBar.setVisibility(progress == 100 ? GONE : VISIBLE);
+                }
             }
         });
         myWebView.setWebViewClient(new MyWebViewClient(getActivity()));

@@ -1,5 +1,6 @@
 package com.mangoblogger.app;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ import static android.view.View.VISIBLE;
  * Created by karthikprasad on 7/29/17.
  *
  */
-
+@SuppressLint("SetJavaScriptEnabled")
 public class UxTermsFragment extends Fragment {
     ProgressBar mProgressBar;
 
@@ -33,10 +34,11 @@ public class UxTermsFragment extends Fragment {
             public void onProgressChanged(WebView view, int progress) {
                 // Activities and WebViews measure progress with different scales.
                 // The progress meter will automatically disappear when we reach 100%
-                getActivity().setProgress(progress * 1000);
                 super.onProgressChanged(view, progress);
-                mProgressBar.setProgress(progress);
-                mProgressBar.setVisibility(progress == 100 ? GONE : VISIBLE);
+                if(mProgressBar != null) {
+                    mProgressBar.setProgress(progress);
+                    mProgressBar.setVisibility(progress == 100 ? GONE : VISIBLE);
+                }
             }
         });
         myWebView.setWebViewClient(new MyWebViewClient(getActivity()));
