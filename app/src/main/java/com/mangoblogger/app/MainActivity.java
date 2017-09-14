@@ -2,14 +2,18 @@ package com.mangoblogger.app;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -22,9 +26,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String ANALYTICS_URL = "https://www.mangoblogger.com/analytics-definitions/";
     private static final String UXTERM_URL = "https://www.mangoblogger.com/ux-definitions/";
 
+    private CoordinatorLayout mCoordinator;
     private ViewPager mViewPager;
     private MenuItem mPrevMenuItem;
     private BottomNavigationView mNavigation;
+    private boolean doubleBackToExitPressedOnce = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -35,10 +41,12 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     //inflate analytics fragment
                     mViewPager.setCurrentItem(0);
+                    initSnackBar();
                     return true;
                 case R.id.navigation_dashboard:
                     //inflate ux fragment
                     mViewPager.setCurrentItem(1);
+                    initSnackBar();
                     return true;
                 case R.id.navigation_notifications:
                     //inflate about fragment
@@ -75,6 +83,38 @@ public class MainActivity extends AppCompatActivity {
         mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        mCoordinator = (CoordinatorLayout) findViewById(R.id.content_frame);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+    private void initSnackBar() {
+        if (!AppUtils.hasConnection(this)) {
+            Snackbar.make(mCoordinator, R.string.offline_notice, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void initViewPager() {
@@ -117,9 +157,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
-
 
     /**
      * class used to populate fragments in viewpager extends FragmentPagerAdapter

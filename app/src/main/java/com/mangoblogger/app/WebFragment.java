@@ -76,6 +76,7 @@ public class WebFragment extends Fragment {
         mWebView.loadUrl(mUrl);
         // enable caching
         enableCache();
+        // enable back key press
         enableBackKeyPressed();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
