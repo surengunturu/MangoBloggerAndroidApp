@@ -1,6 +1,7 @@
 package com.mangoblogger.app;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 
-
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
@@ -25,25 +26,57 @@ import static android.view.View.VISIBLE;
  */
 
 @SuppressLint("SetJavaScriptEnabled")
-public class AnalyticsTermsFragment extends Fragment {
-    private static final String URL = "https://www.mangoblogger.com/analytics-definitions/";
+public class WebFragment extends Fragment {
+    private static final String URL = "url";
 
     private ProgressBar mProgressBar;
     private WebView mWebView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String mUrl;
 
-    @Nullable
+    /**
+     * Use this method to create the instance of this class
+     * @param url the url which you want to use in WebView
+     * @return instance of this class
+     */
+    public static WebFragment newInstance(String url) {
+        WebFragment fragment = new WebFragment();
+        Bundle args = new Bundle();
+        args.putString(URL, url);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_analytics_terms, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mUrl = getArguments().getString(URL);
+        }
+    }
 
-        mWebView = (WebView) rootView.findViewById(R.id.webview);
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_web, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mWebView = (WebView) view.findViewById(R.id.webview);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 
         mWebView.setWebViewClient(new MyWebViewClient(getActivity()));
+        // enable javascript
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.loadUrl(URL);
+        mWebView.loadUrl(mUrl);
+        // enable caching
+        enableCache();
+        enableBackKeyPressed();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -64,9 +97,29 @@ public class AnalyticsTermsFragment extends Fragment {
                 }
             }
         });
+    }
 
-        //      This thing here no longer works
-        // This used to load previous page on pressing back key
+    /**
+     * Function to enable caching
+     */
+    private void enableCache() {
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setAppCacheMaxSize(5 * 1024 * 1024); // 5MB
+        webSettings.setAppCachePath(getContext().getCacheDir().getAbsolutePath());
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAppCacheEnabled(true);
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
+
+        if (!AppUtils.hasConnection(getContext())) { // loading offline
+            webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
+    }
+
+    /**
+     * A custom onBackPressed method which loads previously opened url in same webview on
+     * back key pressed.
+     */
+    private void enableBackKeyPressed() {
         mWebView.setOnKeyListener(new View.OnKeyListener()
         {
             @Override
@@ -91,11 +144,5 @@ public class AnalyticsTermsFragment extends Fragment {
                 return false;
             }
         });
-
-
-        return rootView;
     }
-
-
-
 }

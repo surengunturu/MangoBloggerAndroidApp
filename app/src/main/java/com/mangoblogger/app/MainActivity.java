@@ -19,6 +19,8 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final String ANALYTICS_URL = "https://www.mangoblogger.com/analytics-definitions/";
+    private static final String UXTERM_URL = "https://www.mangoblogger.com/ux-definitions/";
 
     private ViewPager mViewPager;
     private MenuItem mPrevMenuItem;
@@ -81,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
         // shows list of contacts, populated from json file
-        pagerAdapter.addFragment(new AnalyticsTermsFragment(), "Analytics");
+        pagerAdapter.addFragment(WebFragment.newInstance(ANALYTICS_URL), "Analytics");
         // shows list of sent messages, populates from sqlite database
-        pagerAdapter.addFragment(new UxTermsFragment(), "Ux Terms");
+        pagerAdapter.addFragment(WebFragment.newInstance(UXTERM_URL), "Ux Terms");
         pagerAdapter.addFragment(new AboutFragment(), "About");
 
         mViewPager.setAdapter(pagerAdapter);

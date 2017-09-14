@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 /**
  * Created by karthikprasad on 7/29/17.
+ *
  */
 
 public class MyWebViewClient extends WebViewClient {
@@ -42,40 +43,8 @@ public class MyWebViewClient extends WebViewClient {
         view.loadUrl("javascript:document.querySelector('footer').setAttribute('style','display:none;');");
     }
 
-
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         Toast.makeText(context, "Failed to Load,Please Try again!", Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * A custom onBackPressed method which loads previously opened url in same webview on
-     * back key pressed.
-     * @param myWebView the current webview
-     */
-    public void onBackPressed(WebView myWebView) {
-        myWebView.setOnKeyListener(new View.OnKeyListener()
-        {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
-                if(event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    WebView webView = (WebView) v;
-
-                    switch(keyCode)
-                    {
-                        case KeyEvent.KEYCODE_BACK:
-                            if(webView.canGoBack())
-                            {
-                                webView.goBack();
-                                return true;
-                            }
-                            break;
-                    }
-                }
-
-                return false;
-            }
-        });
-    }
 }

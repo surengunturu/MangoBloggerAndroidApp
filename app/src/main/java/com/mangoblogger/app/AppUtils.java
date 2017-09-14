@@ -6,6 +6,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
 
 /**
  * Created by ujjawal on 12/9/17.
@@ -14,19 +20,13 @@ import android.text.TextUtils;
 
 public class AppUtils {
 
-    public static boolean isOnWiFi(Context context) {
-        NetworkInfo activeNetwork = ((ConnectivityManager) context.getSystemService(
-                Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting() &&
-                activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+    public static boolean hasConnection(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static boolean hasConnection(Context context) {
-        NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService(
-                Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
+
 
 
 }
