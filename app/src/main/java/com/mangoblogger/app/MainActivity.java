@@ -1,20 +1,28 @@
 package com.mangoblogger.app;
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
-    private CoordinatorLayout mCoordinatorLayout;
+
+    private ViewPager mViewPager;
+    private MenuItem mPrevMenuItem;
+    private BottomNavigationView mNavigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -24,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     //inflate analytics fragment
-                    changeFragment(0);
+                    mViewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_dashboard:
                     //inflate ux fragment
-                    changeFragment(1);
+                    mViewPager.setCurrentItem(1);
                     return true;
                 case R.id.navigation_notifications:
                     //inflate about fragment
-                    changeFragment(2);
+                    mViewPager.setCurrentItem(2);
                     return true;
             }
             return false;
@@ -45,14 +53,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.content_frame);
+        initViewPager();
 
         // Obtain the FirebaseAnalytics instance.
-       FirebaseAnalytics  firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-       firebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        FirebaseAnalytics  firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
         firebaseAnalytics.setMinimumSessionDuration(20000);
 
-       Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         String id = "MangoBlogger";
         String name = "Google analytics";
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
@@ -61,34 +69,92 @@ public class MainActivity extends AppCompatActivity {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
 
-        changeFragment(0);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
+        mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
+    private void initViewPager() {
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+        mViewPager.setOffscreenPageLimit(2);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+
+        // shows list of contacts, populated from json file
+        pagerAdapter.addFragment(new AnalyticsTermsFragment(), "Analytics");
+        // shows list of sent messages, populates from sqlite database
+        pagerAdapter.addFragment(new UxTermsFragment(), "Ux Terms");
+        pagerAdapter.addFragment(new AboutFragment(), "About");
+
+        mViewPager.setAdapter(pagerAdapter);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mPrevMenuItem != null) {
+                    mPrevMenuItem.setChecked(false);
+                }
+                else
+                {
+                    mNavigation.getMenu().getItem(0).setChecked(false);
+                }
+                mNavigation.getMenu().getItem(position).setChecked(true);
+                mPrevMenuItem = mNavigation.getMenu().getItem(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+    }
+
+
+
+
     /**
-     * To load fragments into container
-     *
-     * @param position menu index
+     * class used to populate fragments in viewpager extends FragmentPagerAdapter
      */
-    private void changeFragment(int position) {
+    private static class PagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> fragmentList = new ArrayList<>();
+        private final List<String> fragmentTitleList = new ArrayList<>();
 
-        Fragment newFragment;
-        if (!AppUtils.hasConnection(this)) {
-            Snackbar.make(mCoordinatorLayout, R.string.offline_notice, Snackbar.LENGTH_LONG).show();
+        private PagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
         }
 
-        if (position == 0) {
-            newFragment = new AnalyticsTermsFragment();
-        } else if (position == 1) {
-            newFragment = new UxTermsFragment();
-        } else {
-            newFragment = new AboutFragment();
+        /**
+         * Call to add new fragment in the view pager
+         * @param fragment the fragment you want to add
+         * @param title title of fragment
+         */
+        private void addFragment(Fragment fragment, String title) {
+            fragmentList.add(fragment);
+            fragmentTitleList.add(title);
         }
 
-        getSupportFragmentManager().beginTransaction().replace(
-                R.id.container, newFragment)
-                .commit();
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return fragmentTitleList.get(position);
+        }
     }
 
 }
