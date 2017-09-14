@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +26,31 @@ import static android.view.View.VISIBLE;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class AnalyticsTermsFragment extends Fragment {
+    private static final String URL = "https://www.mangoblogger.com/analytics-definitions/";
 
     private ProgressBar mProgressBar;
+    private WebView mWebView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_analytics_terms, container, false);
 
-        WebView mWebView = (WebView) rootView.findViewById(R.id.webview);
+        mWebView = (WebView) rootView.findViewById(R.id.webview);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+
+        mWebView.setWebViewClient(new MyWebViewClient(getActivity()));
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.loadUrl(URL);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mWebView.loadUrl(mWebView.getUrl());
+            }
+        });
 
        mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
@@ -43,11 +59,11 @@ public class AnalyticsTermsFragment extends Fragment {
                     mProgressBar.setProgress(progress);
                     mProgressBar.setVisibility(progress == 100 ? GONE : VISIBLE);
                 }
+                if(mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(!(progress == 100));
+                }
             }
         });
-        mWebView.setWebViewClient(new MyWebViewClient(getActivity()));
-
-        mWebView.loadUrl("https://www.mangoblogger.com/analytics-definitions/");
 
         //      This thing here no longer works
         // This used to load previous page on pressing back key
@@ -58,7 +74,7 @@ public class AnalyticsTermsFragment extends Fragment {
             {
                 if(event.getAction() == KeyEvent.ACTION_DOWN)
                 {
-                    com.mangoblogger.app.widget.WebView webView = (com.mangoblogger.app.widget.WebView) v;
+                    WebView webView = (WebView) v;
 
                     switch(keyCode)
                     {

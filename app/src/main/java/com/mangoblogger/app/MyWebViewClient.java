@@ -2,6 +2,7 @@ package com.mangoblogger.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,17 +35,16 @@ public class MyWebViewClient extends WebViewClient {
     }
 
 
-// Here you can use javascript to target the html tags and do whatever you want to
-//    javascript must be enabled in child view to make it work
     @Override
-    public void onPageCommitVisible(WebView view, String url) {
-        super.onPageCommitVisible(view, url);
+    public void onLoadResource(WebView view, String url) {
+        super.onLoadResource(view, url);
         view.loadUrl("javascript:document.querySelector('header').setAttribute('style','display:none;');");
         view.loadUrl("javascript:document.querySelector('footer').setAttribute('style','display:none;');");
     }
 
+
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-        Toast.makeText(context, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Failed to Load,Please Try again!", Toast.LENGTH_SHORT).show();
     }
 
     /**
