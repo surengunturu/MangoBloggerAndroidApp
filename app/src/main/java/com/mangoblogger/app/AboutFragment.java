@@ -65,33 +65,41 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
 
     private void startEmailIntent() {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        getActivity().getIntent().setData(Uri.parse(("mailto: ")));
-        String[] to = {"contact@mangoblogger.com"};
-        intent.putExtra(Intent.EXTRA_EMAIL, to);
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Mail from Mangoblogger App");
-        intent.setType("message/rfc822");
-        startActivity(Intent.createChooser(intent, "Send Email"));
+        if(intent.resolveActivity(getContext().getPackageManager()) != null) {
+            getActivity().getIntent().setData(Uri.parse(("mailto: ")));
+            String[] to = {"contact@mangoblogger.com"};
+            intent.putExtra(Intent.EXTRA_EMAIL, to);
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Mail from Mangoblogger App");
+            intent.setType("message/rfc822");
+            startActivity(Intent.createChooser(intent, "Send Email"));
+        }
     }
 
     private void startWhatsappIntent() {
         String smsNumber = "3157518581";
         Uri uri = Uri.parse("smsto:" + smsNumber);
-        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-        i.putExtra("sms_body", "Hi");
-        i.setPackage("com.whatsapp");
-        startActivity(i);
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+        if(intent.resolveActivity(getContext().getPackageManager()) != null) {
+            intent.putExtra("sms_body", "Hi");
+            intent.setPackage("com.whatsapp");
+            startActivity(intent);
+        }
     }
 
     private void startLocationIntent() {
         String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 19.708079, 75.300217);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        getContext().startActivity(intent);
+        if(intent.resolveActivity(getContext().getPackageManager()) != null) {
+            getContext().startActivity(intent);
+        }
     }
 
     private void startBrowserIntent(String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse(
                 url));
-        startActivity(browserIntent);
+        if(browserIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivity(browserIntent);
+        }
     }
 
 
