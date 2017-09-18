@@ -65,21 +65,21 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     //inflate analytics fragment
                     mViewPager.setCurrentItem(0);
-                    setAnalyticsScreenName(mPagerAdapter.getPageTitle(0).toString(),
+                    setAnalyticsScreenName("Analytics",
                             WebFragment.class.getName());
                     initSnackBar();
                     return true;
                 case R.id.navigation_dashboard:
                     //inflate ux fragment
                     mViewPager.setCurrentItem(1);
-                    setAnalyticsScreenName(mPagerAdapter.getPageTitle(1).toString(),
+                    setAnalyticsScreenName("Ux Terms",
                             WebFragment.class.getName());
                     initSnackBar();
                     return true;
                 case R.id.navigation_notifications:
                     //inflate about fragment
                     mViewPager.setCurrentItem(2);
-                    setAnalyticsScreenName(mPagerAdapter.getPageTitle(2).toString(),
+                    setAnalyticsScreenName("About",
                             AboutFragment.class.getName());
                     return true;
             }
