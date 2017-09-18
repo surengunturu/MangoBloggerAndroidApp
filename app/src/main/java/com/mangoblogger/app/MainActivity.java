@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
+    
+
     private void initSnackBar() {
         if (!AppUtils.hasConnection(this)) {
             Snackbar.make(mCoordinator, R.string.offline_notice, Snackbar.LENGTH_LONG).show();
