@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import java.util.Locale;
 
 /**
  * Created by karthikprasad on 7/29/17.
@@ -18,10 +18,57 @@ import java.util.Locale;
 
 public class AboutFragment extends Fragment implements View.OnClickListener {
 
+    private String mAbout;
+    private String mContactNumber;
+    private String mCountryCode;
+    private String mAddress;
+    private String mGeoLatitude;
+    private String mGeoLongitude;
+
+    public static AboutFragment newInstance(String about, String countryCode, String contactNumber,
+                                            String address, String geoLatitude, String geoLongitude) {
+        AboutFragment fragment = new AboutFragment();
+        Bundle args = new Bundle();
+        args.putString(MainActivity.ABOUT_KEY, about);
+        args.putString(MainActivity.COUNTRY_CODE_KEY, countryCode);
+        args.putString(MainActivity.CONTACT_NUMBER_KEY, contactNumber);
+        args.putString(MainActivity.ADDRESS_KEY, address);
+        args.putString(MainActivity.GEO_LATITUDE_KEY, geoLatitude);
+        args.putString(MainActivity.GEO_LONGITUDE_KEY, geoLongitude);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mAbout = getArguments().getString(MainActivity.ABOUT_KEY);
+            mCountryCode = getArguments().getString(MainActivity.COUNTRY_CODE_KEY);
+            mContactNumber = getArguments().getString(MainActivity.CONTACT_NUMBER_KEY);
+            mAddress = getArguments().getString(MainActivity.ADDRESS_KEY);
+            mGeoLatitude = getArguments().getString(MainActivity.GEO_LATITUDE_KEY);
+            mGeoLongitude = getArguments().getString(MainActivity.GEO_LONGITUDE_KEY);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about, container, false);
+        return inflater.inflate(R.layout.fragment_about, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String contact = mCountryCode + " " + mContactNumber;
+
+        TextView aboutView = (TextView) view.findViewById(R.id.about);
+        aboutView.setText(mAbout);
+        TextView contactView = (TextView) view.findViewById(R.id.contact_number);
+        contactView.setText(contact);
+        TextView addressView = (TextView) view.findViewById(R.id.address);
+        addressView.setText(mAddress);
         view.findViewById(R.id.send_email).setOnClickListener(this);
         view.findViewById(R.id.send_whatsapp_msg).setOnClickListener(this);
         view.findViewById(R.id.find_location).setOnClickListener(this);
@@ -30,7 +77,6 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.youtube).setOnClickListener(this);
         view.findViewById(R.id.linkedin).setOnClickListener(this);
         view.findViewById(R.id.insta).setOnClickListener(this);
-        return view;
     }
 
     @Override
@@ -76,7 +122,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     }
 
     private void startWhatsappIntent() {
-        String smsNumber = "3157518581";
+        String smsNumber = mContactNumber;
         Uri uri = Uri.parse("smsto:" + smsNumber);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
         if(intent.resolveActivity(getContext().getPackageManager()) != null) {
@@ -87,10 +133,11 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     }
 
     private void startLocationIntent() {
-        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 19.708079, 75.300217);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        if(intent.resolveActivity(getContext().getPackageManager()) != null) {
-            getContext().startActivity(intent);
+        Uri gmmIntentUri = Uri.parse("geo:"+mGeoLatitude+","+mGeoLongitude);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            startActivity(mapIntent);
         }
     }
 
