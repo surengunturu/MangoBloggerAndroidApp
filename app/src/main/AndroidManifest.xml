@@ -25,11 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="b9c24ca6ec017aeeaa0dc9ff699ac4ec6be2e947" />
-
+        
         <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
             <intent-filter>
@@ -49,6 +45,7 @@
             </intent-filter>
         </receiver>
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+
     </application>
 
 </manifest>
