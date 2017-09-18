@@ -40,9 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
     private CoordinatorLayout mCoordinator;
     private ViewPager mViewPager;
+    private PagerAdapter mPagerAdapter;
     private MenuItem mPrevMenuItem;
     private BottomNavigationView mNavigation;
     private boolean doubleBackToExitPressedOnce = false;
+    private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private String mCountryCode;
     private String mContactNumber;
@@ -63,16 +65,22 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     //inflate analytics fragment
                     mViewPager.setCurrentItem(0);
+                    setAnalyticsScreenName(mPagerAdapter.getPageTitle(0).toString(),
+                            WebFragment.class.getName());
                     initSnackBar();
                     return true;
                 case R.id.navigation_dashboard:
                     //inflate ux fragment
                     mViewPager.setCurrentItem(1);
+                    setAnalyticsScreenName(mPagerAdapter.getPageTitle(1).toString(),
+                            WebFragment.class.getName());
                     initSnackBar();
                     return true;
                 case R.id.navigation_notifications:
                     //inflate about fragment
                     mViewPager.setCurrentItem(2);
+                    setAnalyticsScreenName(mPagerAdapter.getPageTitle(2).toString(),
+                            AboutFragment.class.getName());
                     return true;
             }
             return false;
@@ -87,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
         initViewPager();
 
         // Obtain the FirebaseAnalytics instance.
-        FirebaseAnalytics  firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        firebaseAnalytics.setMinimumSessionDuration(20000);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setMinimumSessionDuration(20000);
         // firebase remote configuration
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfigSettings();
@@ -102,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
 
 
@@ -135,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+
+    private void setAnalyticsScreenName(String screeName, String className) {
+        mFirebaseAnalytics.setCurrentScreen(getParent(), screeName,
+                className);
     }
 
     private void firebaseRemoteConfigSettings() {
@@ -173,16 +186,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPagerAdapter() {
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         // shows list of contacts, populated from json file
-        pagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl), "Analytics");
+        mPagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl), "Analytics");
         // shows list of sent messages, populates from sqlite database
-        pagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl), "Ux Terms");
-        pagerAdapter.addFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
+        mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl), "Ux Terms");
+        mPagerAdapter.addFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
                 mGeoLatitude, mGeoLongitude), "About");
 
 
-        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setAdapter(mPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
