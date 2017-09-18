@@ -1,6 +1,8 @@
 package com.mangoblogger.app;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -47,19 +50,49 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 startLocationIntent();
                 break;
             case R.id.facebook:
-                startBrowserIntent("https://www.facebook.com/mangoblogger/");
+                try{
+                    startBrowserIntent("https://www.facebook.com/mangoblogger/");
+                }
+                catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "Please install a web browser or facebook app",  Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
                 break;
             case R.id.twitter:
-                startBrowserIntent("https://twitter.com/mangoblogger");
+                try{
+                    startBrowserIntent("https://twitter.com/mangoblogger");
+                }
+                catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "Please install a web browser or twitter app",  Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
                 break;
             case R.id.youtube:
-                startBrowserIntent("");
+                try{
+                    startBrowserIntent("https://www.youtube.com/channel/UCCgxPOWNEqpcA60HnYg051w");
+                }
+                catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "Please install a web browser or YouTube app",  Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
                 break;
             case R.id.linkedin:
-                startBrowserIntent("https://www.linkedin.com/company-beta/17919027");
+                try{
+                    startBrowserIntent("https://www.linkedin.com/company-beta/17919027");
+                }
+                catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "Please install a web browser or Linkedin app",  Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
                 break;
             case R.id.insta:
-                startBrowserIntent("https://www.youtube.com/channel/UCCgxPOWNEqpcA60HnYg051w");
+                try{
+                    startBrowserIntent("https://www.instagram.com/mangoblogger_analytics/");
+                }
+                catch (ActivityNotFoundException e) {
+                    Toast.makeText(getActivity(), "Please install a web browser or Instagram app",  Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
                 break;
             case R.id.fab:
                 startShareIntent();
@@ -70,7 +103,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     private void startShareIntent() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = "Here is the share content body";
+        String shareBody = "https://play.google.com/store/apps/details?id=com.mangoblogger.app&utm_source=googleplaybadge&utm_campaign=website_homepage&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1";
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
@@ -78,28 +111,57 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
 
 
     private void startEmailIntent() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        getActivity().getIntent().setData(Uri.parse(("mailto: ")));
-        String[] to = {"contact@mangoblogger.com"};
-        intent.putExtra(Intent.EXTRA_EMAIL, to);
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Mail from Mangoblogger App");
-        intent.setType("message/rfc822");
-        startActivity(Intent.createChooser(intent, "Send Email"));
+        PackageManager pm = getActivity().getPackageManager();
+        try {
+            pm.getPackageInfo("com.google.android.gm", PackageManager.GET_META_DATA);
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            getActivity().getIntent().setData(Uri.parse(("mailto: ")));
+            String[] to = {"contact@mangoblogger.com"};
+            intent.putExtra(Intent.EXTRA_EMAIL, to);
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Mail from Mangoblogger App");
+            intent.setType("message/rfc822");
+            startActivity(Intent.createChooser(intent, "Send Email"));
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            Toast.makeText(getActivity(), "Please install gmail app", Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     private void startWhatsappIntent() {
-        String smsNumber = "3157518581";
-        Uri uri = Uri.parse("smsto:" + smsNumber);
-        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-        i.putExtra("sms_body", "Hi");
-        i.setPackage("com.whatsapp");
-        startActivity(i);
+        PackageManager pm = getActivity().getPackageManager();
+        try{
+            pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+            String smsNumber = "3157518581";
+            Uri uri = Uri.parse("smsto:" + smsNumber);
+            Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+            i.putExtra("sms_body", "Hi");
+            i.setPackage("com.whatsapp");
+            startActivity(i);
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            Toast.makeText(getActivity(), "Please install whatsapp app", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
     }
 
     private void startLocationIntent() {
-        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 19.708079, 75.300217);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        getContext().startActivity(intent);
+        PackageManager pm = getActivity().getPackageManager();
+        try {
+            pm.getPackageInfo("com.google.android.gm", PackageManager.GET_META_DATA);
+            String uri = String.format(Locale.ENGLISH, "geo:%f,%f", 19.708079, 75.300217);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            getContext().startActivity(intent);
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            Toast.makeText(getActivity(), "Please install Google map's app", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
     }
 
     private void startBrowserIntent(String url) {

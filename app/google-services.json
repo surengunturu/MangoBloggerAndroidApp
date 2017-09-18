@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "294815825175",
+    "firebase_url": "https://mangoblogger-9ffff.firebaseio.com",
+    "project_id": "mangoblogger-9ffff",
+    "storage_bucket": "mangoblogger-9ffff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294815825175:android:eaab829c2fc4b4ab",
+        "android_client_info": {
+          "package_name": "com.mangoblogger.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294815825175-9a55d4l19avup8j2mntg9d6hrlnrjo51.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mangoblogger.app",
+            "certificate_hash": "f9027db1fce4795cb8fc37b21bceafe3f55e2a26"
+          }
+        },
+        {
+          "client_id": "294815825175-q0rn8guhkmucchp8u33pvaq2k88prapr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOIMmkfyVusMmj4r3u7Ltn4H7NlVxS1h4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "294815825175-q0rn8guhkmucchp8u33pvaq2k88prapr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
