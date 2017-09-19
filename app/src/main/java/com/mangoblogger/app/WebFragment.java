@@ -19,10 +19,7 @@ import android.widget.ProgressBar;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-/**
- * Created by karthikprasad on 7/29/17.
- *
- */
+
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebFragment extends Fragment {

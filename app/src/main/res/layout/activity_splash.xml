@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.mangoblogger.app.Splash.KenBurnsView
+        android:id="@+id/ken_burns_images"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/imagelogo"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:src="@drawable/ic_mango2"
+        android:layout_above="@+id/welcome_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp" />
+
+    <com.mangoblogger.app.Splash.RobotoTextView
+        android:id="@+id/welcome_text"
+        style="@style/TextViewAppearance.Headline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.0"
+        android:textSize="24sp"
+        android:text="MangoBlogger.com"
+        android:textColor="@color/colorBlack"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <com.mangoblogger.app.Splash.RobotoTextView
+        android:id="@+id/welcome_text2"
+        android:layout_below="@+id/welcome_text"
+        style="@style/TextViewAppearance.Headline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.0"
+        android:textSize="14sp"
+        android:text="Startup Google Analytics Dashboards"
+        android:textColor="@color/colorBlack"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

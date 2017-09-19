@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mangoblogger.app.WelcomeActivity"
+            android:name="com.mangoblogger.app.Splash.SplashActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
@@ -26,6 +26,9 @@
 
         <activity
             android:name="com.mangoblogger.app.MainActivity"
+            android:label="@string/title_activity_welcome" />
+        <activity
+            android:name="com.mangoblogger.app.WelcomeActivity"
             android:label="@string/title_activity_welcome" />
         <meta-data
             android:name="io.fabric.ApiKey"
