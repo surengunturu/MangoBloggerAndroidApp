@@ -13,10 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-/**
- * Created by karthikprasad on 7/29/17.
- *  Fragment to show About view
- */
 
 public class AboutFragment extends Fragment implements View.OnClickListener {
 

@@ -14,10 +14,7 @@ import android.webkit.WebView;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
-/**
- * Created by ujjawal on 12/9/17.
- * Set of some useful Utils
- */
+
 
 public class AppUtils {
 
