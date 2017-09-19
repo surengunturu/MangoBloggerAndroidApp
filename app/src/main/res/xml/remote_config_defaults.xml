@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>contact_number</key>
+        <value>3157518581</value>
+    </entry>
+    <entry>
+        <key>contact_number_country_code</key>
+        <value>+1</value>
+    </entry>
+    <entry>
+        <key>analytics_url</key>
+        <value>https://www.mangoblogger.com/analytics-definitions/</value>
+    </entry>
+    <entry>
+        <key>uxterms_url</key>
+        <value>https://www.mangoblogger.com/ux-definitions/</value>
+    </entry>
+    <entry>
+        <key>about</key>
+        <value>MangoBlogger.com is a UX agency specializing in web analytics and SEO. We create useful Google Analytics Dashboards for your business using Google Tag Manager. Our dashabords integerate with AdWords conversion tracking, Retargetting, Facebook Pixel, Google Publisher and much more.</value>
+    </entry>
+    <entry>
+        <key>address</key>
+        <value># 6, Khivansara Nagar, Post Bidkin,Tal. Paithan, Aurangabad, Maharashtra, 431105 India</value>
+    </entry>
+    <entry>
+        <key>geo_latitude</key>
+        <value>19.708079</value>
+    </entry>
+    <entry>
+        <key>geo_longitude</key>
+        <value>75.300217</value>
+    </entry>
+</defaultsMap>
+    <!-- END xml_defaults -->
