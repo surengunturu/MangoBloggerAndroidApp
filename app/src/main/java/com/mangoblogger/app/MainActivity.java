@@ -16,21 +16,45 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String ANALYTICS_URL = "https://www.mangoblogger.com/analytics-definitions/";
-    private static final String UXTERM_URL = "https://www.mangoblogger.com/ux-definitions/";
+    private static final String ANALYTICS_URL_KEY = "analytics_url"; // value must be equal to parameter in firebase remote config
+    private static final String UXTERMS_URL_KEY = "uxterms_url"; // value must be equal to parameter in firebase remote config
+    public static final String ABOUT_KEY = "about";
+    public static final String CONTACT_NUMBER_KEY = "contact_number"; // value must be equal to parameter in firebase remote config
+    public static final String COUNTRY_CODE_KEY = "contact_number_country_code"; // value must be equal to parameter in firebase remote config
+    public static final String ADDRESS_KEY = "address";
+    public static final String GEO_LATITUDE_KEY = "geo_latitude";
+    public static final String GEO_LONGITUDE_KEY = "geo_longitude";
+
+
 
     private CoordinatorLayout mCoordinator;
     private ViewPager mViewPager;
+    private PagerAdapter mPagerAdapter;
     private MenuItem mPrevMenuItem;
     private BottomNavigationView mNavigation;
     private boolean doubleBackToExitPressedOnce = false;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private String mCountryCode;
+    private String mContactNumber;
+    private String mAnalyticsUrl;
+    private String mUxtermsUrl;
+    private String mAbout;
+    private String mAddress;
+    private String mGeoLatitude;
+    private String mGeoLongitude;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -41,16 +65,22 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     //inflate analytics fragment
                     mViewPager.setCurrentItem(0);
+                    setAnalyticsScreenName("Analytics",
+                            WebFragment.class.getName());
                     initSnackBar();
                     return true;
                 case R.id.navigation_dashboard:
                     //inflate ux fragment
                     mViewPager.setCurrentItem(1);
+                    setAnalyticsScreenName("Ux Terms",
+                            WebFragment.class.getName());
                     initSnackBar();
                     return true;
                 case R.id.navigation_notifications:
                     //inflate about fragment
                     mViewPager.setCurrentItem(2);
+                    setAnalyticsScreenName("About",
+                            AboutFragment.class.getName());
                     return true;
             }
             return false;
@@ -62,13 +92,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initViewPager();
 
         // Obtain the FirebaseAnalytics instance.
-        FirebaseAnalytics  firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        firebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        firebaseAnalytics.setMinimumSessionDuration(20000);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setMinimumSessionDuration(20000);
+        // firebase remote configuration
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        firebaseRemoteConfigSettings();
+        fetchFirebaseRemoteConfig();
+
 
         Bundle bundle = new Bundle();
         String id = "MangoBlogger";
@@ -76,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
 
 
@@ -111,24 +145,57 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    private void initSnackBar() {
-        if (!AppUtils.hasConnection(this)) {
-            Snackbar.make(mCoordinator, R.string.offline_notice, Snackbar.LENGTH_LONG).show();
-        }
+    private void setAnalyticsScreenName(String screeName, String className) {
+        mFirebaseAnalytics.setCurrentScreen(getParent(), screeName,
+                className);
+    }
+
+    private void firebaseRemoteConfigSettings() {
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+
+    }
+
+    private void fetchFirebaseRemoteConfig() {
+        long cacheExpiration = 3600; // 1 hour in seconds.
+        mFirebaseRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+                            // After config data is successfully fetched, it must be activated before newly fetched
+                            // values are returned.
+                            mFirebaseRemoteConfig.activateFetched();
+
+                        } else {
+                            Toast.makeText(MainActivity.this, "Fetch Failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        getRemoteConfigs();
+                    }
+                });
     }
 
     private void initViewPager() {
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(2);
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+    }
 
+    private void initPagerAdapter() {
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         // shows list of contacts, populated from json file
-        pagerAdapter.addFragment(WebFragment.newInstance(ANALYTICS_URL), "Analytics");
+        mPagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl), "Analytics");
         // shows list of sent messages, populates from sqlite database
-        pagerAdapter.addFragment(WebFragment.newInstance(UXTERM_URL), "Ux Terms");
-        pagerAdapter.addFragment(new AboutFragment(), "About");
+        mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl), "Ux Terms");
+        mPagerAdapter.addFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
+                mGeoLatitude, mGeoLongitude), "About");
 
-        mViewPager.setAdapter(pagerAdapter);
+
+        mViewPager.setAdapter(mPagerAdapter);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -155,8 +222,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
+
+    private void getRemoteConfigs() {
+        mAnalyticsUrl = mFirebaseRemoteConfig.getString(ANALYTICS_URL_KEY);
+        mUxtermsUrl = mFirebaseRemoteConfig.getString(UXTERMS_URL_KEY);
+        mAbout = mFirebaseRemoteConfig.getString(ABOUT_KEY);
+        mCountryCode = mFirebaseRemoteConfig.getString(COUNTRY_CODE_KEY);
+        mContactNumber = mFirebaseRemoteConfig.getString(CONTACT_NUMBER_KEY);
+        mAddress = mFirebaseRemoteConfig.getString(ADDRESS_KEY);
+        mGeoLatitude = mFirebaseRemoteConfig.getString(GEO_LATITUDE_KEY);
+        mGeoLongitude = mFirebaseRemoteConfig.getString(GEO_LONGITUDE_KEY);
+        initPagerAdapter();
+    }
+
+
+
+    private void initSnackBar() {
+        if (!AppUtils.hasConnection(this)) {
+            Snackbar.make(mCoordinator, R.string.offline_notice, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+
 
     /**
      * class used to populate fragments in viewpager extends FragmentPagerAdapter
