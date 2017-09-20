@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViewPager();
 
+
+
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
@@ -121,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mCoordinator = (CoordinatorLayout) findViewById(R.id.content_frame);
+
+        //google analytics
+        ((SubApplication)getApplication()).startTracking();
 
     }
 

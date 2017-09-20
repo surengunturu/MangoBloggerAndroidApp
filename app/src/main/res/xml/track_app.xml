@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <string name="ga_trackingId">UA-106256858-1</string>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <screenName name="com.mangoblogger.app.MainActivity">
+        Home Screen
+    </screenName>
+    <screenName name="com.mangoblogger.app.AboutFragment">
+        About Screen
+    </screenName>
+    <screenName name="com.mangoblogger.app.Splash.SplashActivity">
+        Splash Screen
+    </screenName>
+    <screenName name="com.mangoblogger.app.WelcomeActivity">
+        App Intro Walkthrough
+    </screenName>
+    <screenName name="com.mangoblogger.app.WebFragment">
+        WebFragments
+    </screenName>
+</resources>
