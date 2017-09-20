@@ -142,7 +142,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     private void startShareIntent() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = "https://i2.wp.com/play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png?fit=980%2C50&ssl=1";
+        String shareBody = "https://play.google.com/store/apps/details?id=com.mangoblogger.app \n \n Check it out!";
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
