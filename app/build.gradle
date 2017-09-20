@@ -39,6 +39,10 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:11.2.2'
     compile 'com.google.firebase:firebase-config:11.2.2'
     compile 'com.google.android.gms:play-services-tagmanager:11.2.2'
+
+    //google Analytics integration
+    compile 'com.google.android.gms:play-services-analytics:11.2.2'
+
     testCompile 'junit:junit:4.12'
 }
 
