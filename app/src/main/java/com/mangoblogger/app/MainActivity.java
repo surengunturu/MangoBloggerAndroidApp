@@ -171,10 +171,10 @@ public class MainActivity extends AppCompatActivity {
                             // values are returned.
                             mFirebaseRemoteConfig.activateFetched();
 
-                        } else {
+                        } /*else {
                             Toast.makeText(MainActivity.this, "Fetch Failed",
                                     Toast.LENGTH_SHORT).show();
-                        }
+                        }*/ // comment it out to test
                         getRemoteConfigs();
                     }
                 });
