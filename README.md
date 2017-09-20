@@ -1,5 +1,5 @@
-# MagnoBlogger Android App
-Your Digital Marketing Assistant 
+# MangoBlogger Android App
+Digital Marketing Assistant for your business
 
 This is the code for our mangoblogger.com Android app. 
 
