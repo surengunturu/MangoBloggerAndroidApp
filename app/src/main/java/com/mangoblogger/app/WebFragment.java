@@ -16,6 +16,8 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -27,21 +29,24 @@ import static android.view.View.VISIBLE;
 @SuppressLint("SetJavaScriptEnabled")
 public class WebFragment extends Fragment {
     private static final String URL = "url";
+    private static final String TAG = "tag";
 
     private ProgressBar mProgressBar;
     private WebView mWebView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String mUrl;
+    private String mTag;
 
     /**
      * Use this method to create the instance of this class
      * @param url the url which you want to use in WebView
      * @return instance of this class
      */
-    public static WebFragment newInstance(String url) {
+    public static WebFragment newInstance(String url, String tag) {
         WebFragment fragment = new WebFragment();
         Bundle args = new Bundle();
         args.putString(URL, url);
+        args.putString(TAG, tag);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,6 +56,7 @@ public class WebFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mUrl = getArguments().getString(URL);
+            mTag = getArguments().getString(TAG);
         }
     }
 
@@ -97,6 +103,15 @@ public class WebFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Bundle params = new Bundle();
+        params.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "screen");
+        params.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
+//        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, params);
     }
 
     /**

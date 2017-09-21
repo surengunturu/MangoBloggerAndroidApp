@@ -16,12 +16,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,8 +93,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         initViewPager();
+
+
 
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -118,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mCoordinator = (CoordinatorLayout) findViewById(R.id.content_frame);
+
+        //google analytics
+        ((SubApplication)getApplication()).startTracking();
 
     }
 
@@ -188,9 +196,9 @@ public class MainActivity extends AppCompatActivity {
     private void initPagerAdapter() {
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         // shows list of contacts, populated from json file
-        mPagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl), "Analytics");
+        mPagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl, "Analytics"), "Analytics");
         // shows list of sent messages, populates from sqlite database
-        mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl), "Ux Terms");
+        mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl, "Ux Terms"), "Ux Terms");
         mPagerAdapter.addFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
                 mGeoLatitude, mGeoLongitude), "About");
 
