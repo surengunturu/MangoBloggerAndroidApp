@@ -193,9 +193,9 @@ public class MainActivity extends AppCompatActivity {
     private void initPagerAdapter() {
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         // shows list of contacts, populated from json file
-        mPagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl), "Analytics");
+        mPagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl, "Analytics"), "Analytics");
         // shows list of sent messages, populates from sqlite database
-        mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl), "Ux Terms");
+        mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl, "Ux Terms"), "Ux Terms");
         mPagerAdapter.addFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
                 mGeoLatitude, mGeoLongitude), "About");
 
