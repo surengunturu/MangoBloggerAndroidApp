@@ -29,7 +29,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:contentDescription="@string/about_title"
-                        android:src="@color/colorAccent" />
+                        android:src="@mipmap/back"
+                        android:scaleType="fitXY"/>
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/share"
@@ -38,7 +39,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/activity_vertical_margin"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
-                        app:srcCompat="@drawable/ic_share_yellow" />
+                        app:srcCompat="@mipmap/ic_share_white" />
 
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/profile_image"
