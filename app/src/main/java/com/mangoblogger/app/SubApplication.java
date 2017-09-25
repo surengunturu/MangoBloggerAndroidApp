@@ -5,6 +5,8 @@ import android.app.Application;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.Logger;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.TagManager;
 
 /**
  * Created by PyAndroDev on 21-09-2017.
@@ -13,6 +15,32 @@ import com.google.android.gms.analytics.Logger;
 public class SubApplication extends Application {
 
     public Tracker mTracker;
+
+
+    public ContainerHolder mContainerHolder;
+    public TagManager mTagManager;
+
+
+    // Get the Tag Manager
+    public TagManager getTagManager () {
+        if (mTagManager == null) {
+            // create the TagManager, save it in mTagManager
+            mTagManager = TagManager.getInstance(this);
+        }
+        return mTagManager;
+    }
+
+
+    // Set the ContainerHolder
+    public void setContainerHolder (ContainerHolder containerHolder) {
+        mContainerHolder = containerHolder;
+    }
+
+    // Get the ContainerHolder
+    public ContainerHolder getContainerHolder() {
+        return mContainerHolder;
+    }
+
 
     // Get the tracker associated with this app
     public void startTracking() {
