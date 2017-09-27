@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -69,13 +70,16 @@ public class MainActivity extends AppCompatActivity {
                     mViewPager.setCurrentItem(0);
                     setAnalyticsScreenName("Analytics",
                             WebFragment.class.getName());
+
                     initSnackBar();
+
                     return true;
                 case R.id.navigation_dashboard:
                     //inflate ux fragment
                     mViewPager.setCurrentItem(1);
                     setAnalyticsScreenName("Ux Terms",
                             WebFragment.class.getName());
+
                     initSnackBar();
                     return true;
                 case R.id.navigation_notifications:
@@ -84,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
                     setAnalyticsScreenName("About",
                             AboutFragment.class.getName());
                     return true;
+                case R.id.navigation_firebaseList :
+                    mViewPager.setCurrentItem(3);
+                    setAnalyticsScreenName("Firebase List", FirebaseList.class.getName());
+                    return true;
+
             }
             return false;
         }
@@ -94,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_main);
         initViewPager();
 
@@ -201,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl, "Ux Terms"), "Ux Terms");
         mPagerAdapter.addFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
                 mGeoLatitude, mGeoLongitude), "About");
-
+       mPagerAdapter.addFragment(FirebaseList.newInstance(), "Firebase List");
 
         mViewPager.setAdapter(mPagerAdapter);
 

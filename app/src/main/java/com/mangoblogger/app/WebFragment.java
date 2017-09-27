@@ -54,6 +54,7 @@ public class WebFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mUrl = getArguments().getString(URL);
             mTag = getArguments().getString(TAG);
