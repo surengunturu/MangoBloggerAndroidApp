@@ -8,6 +8,7 @@ import com.google.android.gms.analytics.Logger;
 
 /**
  * Created by PyAndroDev on 21-09-2017.
+ *
  */
 
 public class SubApplication extends Application {

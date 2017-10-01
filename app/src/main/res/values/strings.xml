@@ -2,7 +2,7 @@
     <string name="app_name">MangoBlogger</string>
     <string name="analytics_terms_title">Analytics Terms</string>
     <string name="ux_terms_title">UX Terms</string>
-    <string name="about_title">MangoBlogger</string>
+    <string name="about_title">About</string>
     <string name="contact_title">Contact Us</string>
     <string name="location_description">Our location</string>
     <string name="mail_description">Email Us</string>
@@ -17,4 +17,27 @@
     <string name="loaction"># 6, Khivansara Nagar, Post Bidkin,Tal. Paithan, Aurangabad, Maharashtra, 431105 India</string>
     <string name="about_us">MangoBlogger.com is a UX agency specializing in web analytics and SEO. We create useful Google Analytics Dashboards for your business using Google Tag Manager. Our dashabords integerate with AdWords conversion tracking, Retargetting, Facebook Pixel, Google Publisher and much more.</string>
     <string name="offline_notice">You are currently offline.</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">MANGOBLOGGER
+a UX agency specializing web analytics and SEO</string>
+    <string name="slide_1_desc">We work with startups in implementing robust web analytics solutions and train the team on how to use web analytics to drive growth decisions.</string>
+
+    <string name="slide_2_title">We think big,
+start small,
+and move fast</string>
+    <string name="slide_2_desc">We create custom Google Analytics Dashboards in order to track the KPIs which matter the most for your business.</string>
+
+    <string name="slide_3_title">Our Work Our Craft</string>
+    <string name="slide_3_desc">We take work seriously and practice our craft. We constantly push our own boundaries and set high standards for the work we produce.</string>
+
+    <string name="slide_4_title">Our Vision</string>
+    <string name="slide_4_desc">Bring the power of web analytics and SEO to small and medium-sized businesses and Simplify digital marketing by providing tools and analytics in a pay as you go mode</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
 </resources>

@@ -10,10 +10,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-/**
- * Created by karthikprasad on 7/29/17.
- *
- */
+
 
 public class MyWebViewClient extends WebViewClient {
 
