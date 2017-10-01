@@ -2,7 +2,7 @@
     <string name="app_name">MangoBlogger</string>
     <string name="analytics_terms_title">Analytics Terms</string>
     <string name="ux_terms_title">UX Terms</string>
-    <string name="about_title">MangoBlogger</string>
+    <string name="about_title">About</string>
     <string name="contact_title">Contact Us</string>
     <string name="location_description">Our location</string>
     <string name="mail_description">Email Us</string>
@@ -17,8 +17,6 @@
     <string name="loaction"># 6, Khivansara Nagar, Post Bidkin,Tal. Paithan, Aurangabad, Maharashtra, 431105 India</string>
     <string name="about_us">MangoBlogger.com is a UX agency specializing in web analytics and SEO. We create useful Google Analytics Dashboards for your business using Google Tag Manager. Our dashabords integerate with AdWords conversion tracking, Retargetting, Facebook Pixel, Google Publisher and much more.</string>
     <string name="offline_notice">You are currently offline.</string>
-<<<<<<< HEAD
-=======
 
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">NEXT</string>
@@ -42,5 +40,4 @@ and move fast</string>
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
->>>>>>> 7c05922... Background Animated Splash Screen And App Intro Modification
 </resources>

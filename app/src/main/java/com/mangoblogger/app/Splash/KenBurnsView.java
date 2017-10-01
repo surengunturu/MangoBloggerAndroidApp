@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -16,7 +17,7 @@ import android.widget.ImageView;
  * @see Transition
  * @see TransitionGenerator
  */
-public class KenBurnsView extends ImageView {
+public class KenBurnsView extends AppCompatImageView {
 
     /** Delay between a pair of frames at a 60 FPS frame rate. */
     private static final long FRAME_DELAY = 1000 / 60;

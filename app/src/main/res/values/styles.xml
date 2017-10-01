@@ -16,8 +16,6 @@
         <item name="android:progressDrawable">@drawable/progress</item>
     </style>
 
-<<<<<<< HEAD
-=======
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -51,8 +49,4 @@
         <!-- <item name="android:paddingEnd">26dp</item> -->
     </style>
 
-<<<<<<< HEAD
->>>>>>> 7c05922... Background Animated Splash Screen And App Intro Modification
-=======
->>>>>>> 7c05922... Background Animated Splash Screen And App Intro Modification
 </resources>
