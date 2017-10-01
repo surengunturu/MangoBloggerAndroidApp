@@ -5,7 +5,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.mangoblogger.app.Splash.KenBurnsView
+    <com.mangobloggerandroid.app.Splash.KenBurnsView
         android:id="@+id/ken_burns_images"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="11dp" />
 
-    <com.mangoblogger.app.Splash.RobotoTextView
+    <com.mangobloggerandroid.app.Splash.RobotoTextView
         android:id="@+id/welcome_text"
         style="@style/TextViewAppearance.Headline2"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <com.mangoblogger.app.Splash.RobotoTextView
+    <com.mangobloggerandroid.app.Splash.RobotoTextView
         android:id="@+id/welcome_text2"
         android:layout_below="@+id/welcome_text"
         style="@style/TextViewAppearance.Headline2"

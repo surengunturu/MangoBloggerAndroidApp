@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mangoblogger.app">
+    package="com.mangobloggerandroid.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,10 +14,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".SubApplication"
+        android:name="com.mangobloggerandroid.app.SubApplication"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mangoblogger.app.Splash.SplashActivity"
+            android:name="com.mangobloggerandroid.app.Splash.SplashActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
@@ -28,10 +28,10 @@
         </activity>
 
         <activity
-            android:name="com.mangoblogger.app.MainActivity"
+            android:name="com.mangobloggerandroid.app.MainActivity"
             android:label="@string/title_activity_welcome" />
         <activity
-            android:name="com.mangoblogger.app.WelcomeActivity"
+            android:name="com.mangobloggerandroid.app.WelcomeActivity"
             android:label="@string/title_activity_welcome" />
 
         <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"

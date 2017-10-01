@@ -1,5 +1,5 @@
 
-package com.mangoblogger.app.Splash;
+package com.mangobloggerandroid.app.Splash;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -12,9 +12,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.mangoblogger.app.R;
-import com.mangoblogger.app.MainActivity;
-import com.mangoblogger.app.WelcomeActivity;
+import com.mangobloggerandroid.app.R;
+import com.mangobloggerandroid.app.WelcomeActivity;
 
 public class SplashActivity extends Activity {
 

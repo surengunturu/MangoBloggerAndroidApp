@@ -1,4 +1,4 @@
-package com.mangoblogger.app.Splash;
+package com.mangobloggerandroid.app.Splash;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.mangoblogger.app.R;
+import com.mangobloggerandroid.app.R;
 
 
 public class RobotoTextView extends TextView {

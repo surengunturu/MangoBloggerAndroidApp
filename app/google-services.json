@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:294815825175:android:eaab829c2fc4b4ab",
         "android_client_info": {
-          "package_name": "com.mangoblogger.app"
+          "package_name": "com.mangobloggerandroid.app"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "294815825175-9a55d4l19avup8j2mntg9d6hrlnrjo51.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.mangoblogger.app",
+            "package_name": "com.mangobloggerandroid.app",
             "certificate_hash": "f9027db1fce4795cb8fc37b21bceafe3f55e2a26"
           }
         },

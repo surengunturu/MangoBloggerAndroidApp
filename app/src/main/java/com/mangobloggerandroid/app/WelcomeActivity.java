@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangobloggerandroid.app;
 
 /**
  * Created by Yatin on 19/09/17.

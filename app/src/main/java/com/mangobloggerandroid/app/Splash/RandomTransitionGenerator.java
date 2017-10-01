@@ -1,4 +1,4 @@
-package com.mangoblogger.app.Splash;
+package com.mangobloggerandroid.app.Splash;
 
 
 
@@ -8,7 +8,7 @@ import android.view.animation.Interpolator;
 
 import java.util.Random;
 
-public class RandomTransitionGenerator implements com.mangoblogger.app.Splash.TransitionGenerator {
+public class RandomTransitionGenerator implements com.mangobloggerandroid.app.Splash.TransitionGenerator {
 
     /** Default value for the transition duration in milliseconds. */
     public static final int DEFAULT_TRANSITION_DURATION = 10000;

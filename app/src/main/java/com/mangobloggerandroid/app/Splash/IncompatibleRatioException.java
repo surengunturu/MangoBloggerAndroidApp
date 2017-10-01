@@ -1,4 +1,4 @@
-package com.mangoblogger.app.Splash;
+package com.mangobloggerandroid.app.Splash;
 
 public class IncompatibleRatioException extends RuntimeException {
 

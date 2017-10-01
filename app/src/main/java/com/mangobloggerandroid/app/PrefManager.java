@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangobloggerandroid.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;

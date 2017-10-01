@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangobloggerandroid.app;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

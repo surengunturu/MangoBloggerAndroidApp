@@ -1,4 +1,4 @@
-package com.mangoblogger.app.Splash;
+package com.mangobloggerandroid.app.Splash;
 
 
 
@@ -36,7 +36,7 @@ public class Transition {
 
     public Transition(RectF srcRect, RectF dstRect, long duration, Interpolator interpolator) {
         if (!MathUtils.haveSameAspectRatio(srcRect, dstRect)) {
-            throw new com.mangoblogger.app.Splash.IncompatibleRatioException();
+            throw new com.mangobloggerandroid.app.Splash.IncompatibleRatioException();
         }
         mSrcRect = srcRect;
         mDstRect = dstRect;

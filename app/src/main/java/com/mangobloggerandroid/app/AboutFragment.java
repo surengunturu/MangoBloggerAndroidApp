@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangobloggerandroid.app;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -92,7 +92,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.facebook:
                 try {
-                    startBrowserIntent("https://www.facebook.com/mangoblogger/");
+                    startBrowserIntent("https://www.facebook.com/mangobloggerandroid/");
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getActivity(), "Please install a web browser or Facebook app",  Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -100,7 +100,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.twitter:
                 try {
-                    startBrowserIntent("https://twitter.com/mangoblogger");
+                    startBrowserIntent("https://twitter.com/mangobloggerandroid");
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getActivity(), "Please install a web browser or Twitter app",  Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -138,7 +138,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     private void startShareIntent() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = "https://play.google.com/store/apps/details?id=com.mangoblogger.app \n \n Check it out!";
+        String shareBody = "https://play.google.com/store/apps/details?id=com.mangobloggerandroid.app \n \n Check it out!";
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
@@ -148,7 +148,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         Intent intent = new Intent(Intent.ACTION_SEND);
         if(intent.resolveActivity(getContext().getPackageManager()) != null) {
             getActivity().getIntent().setData(Uri.parse(("mailto: ")));
-            String[] to = {"contact@mangoblogger.com"};
+            String[] to = {"contact@mangobloggerandroid.com"};
             intent.putExtra(Intent.EXTRA_EMAIL, to);
             intent.putExtra(Intent.EXTRA_SUBJECT, "Mail from Mangoblogger App");
             intent.setType("message/rfc822");

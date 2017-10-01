@@ -1,11 +1,8 @@
-package com.mangoblogger.app;
+package com.mangobloggerandroid.app;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.view.KeyEvent;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -22,7 +19,7 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-       if (Uri.parse(url).getHost().equals("www.mangoblogger.com")) {
+       if (Uri.parse(url).getHost().equals("www.mangobloggerandroid.com")) {
             // This is my web site, so do not override; let my WebView load the page
             return false;
         }
