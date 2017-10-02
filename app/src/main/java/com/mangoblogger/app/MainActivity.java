@@ -30,8 +30,8 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String ANALYTICS_URL_KEY = "analytics_url"; // value must be equal to parameter in firebase remote config
-    private static final String UXTERMS_URL_KEY = "uxterms_url"; // value must be equal to parameter in firebase remote config
+//    private static final String ANALYTICS_URL_KEY = "analytics_url"; // value must be equal to parameter in firebase remote config
+//    private static final String UXTERMS_URL_KEY = "uxterms_url"; // value must be equal to parameter in firebase remote config
     public static final String ABOUT_KEY = "about";
     public static final String CONTACT_NUMBER_KEY = "contact_number"; // value must be equal to parameter in firebase remote config
     public static final String COUNTRY_CODE_KEY = "contact_number_country_code"; // value must be equal to parameter in firebase remote config
@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private String mCountryCode;
     private String mContactNumber;
-    private String mAnalyticsUrl;
-    private String mUxtermsUrl;
+//    private String mAnalyticsUrl;
+//    private String mUxtermsUrl;
     private String mAbout;
     private String mAddress;
     private String mGeoLatitude;
@@ -68,31 +68,18 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     //inflate analytics fragment
                     mViewPager.setCurrentItem(0);
-                    setAnalyticsScreenName("Analytics",
-                            WebFragment.class.getName());
-
                     initSnackBar();
 
                     return true;
                 case R.id.navigation_dashboard:
                     //inflate ux fragment
                     mViewPager.setCurrentItem(1);
-                    setAnalyticsScreenName("Ux Terms",
-                            WebFragment.class.getName());
-
                     initSnackBar();
                     return true;
                 case R.id.navigation_notifications:
                     //inflate about fragment
                     mViewPager.setCurrentItem(2);
-                    setAnalyticsScreenName("About",
-                            AboutFragment.class.getName());
                     return true;
-                case R.id.navigation_firebaseList :
-                    mViewPager.setCurrentItem(3);
-                    setAnalyticsScreenName("Firebase List", FirebaseList.class.getName());
-                    return true;
-
             }
             return false;
         }
@@ -163,10 +150,6 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    private void setAnalyticsScreenName(String screeName, String className) {
-        mFirebaseAnalytics.setCurrentScreen(getParent(), screeName,
-                className);
-    }
 
     private void firebaseRemoteConfigSettings() {
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
@@ -178,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchFirebaseRemoteConfig() {
-        long cacheExpiration = 3600; // 1 hour in seconds.
+        long cacheExpiration = 36008*12; // 12 hour in seconds.
         mFirebaseRemoteConfig.fetch(cacheExpiration)
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
@@ -205,13 +188,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void initPagerAdapter() {
         mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        // shows list of contacts, populated from json file
-        mPagerAdapter.addFragment(WebFragment.newInstance(mAnalyticsUrl, "Analytics"), "Analytics");
-        // shows list of sent messages, populates from sqlite database
-        mPagerAdapter.addFragment(WebFragment.newInstance(mUxtermsUrl, "Ux Terms"), "Ux Terms");
+        // shows mBlogList of contacts, populated from json file
+        mPagerAdapter.addFragment(FirebaseListFragment.newInstance("https://mangoblogger-9ffff.firebaseio.com/analytics"), "Analytics");
+        // shows mBlogList of sent messages, populates from sqlite database
+        mPagerAdapter.addFragment(FirebaseListFragment.newInstance("https://mangoblogger-9ffff.firebaseio.com/ux_terms"), "Ux Terms");
         mPagerAdapter.addFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
                 mGeoLatitude, mGeoLongitude), "About");
-       mPagerAdapter.addFragment(FirebaseList.newInstance(), "Firebase List");
 
         mViewPager.setAdapter(mPagerAdapter);
 
@@ -243,8 +225,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getRemoteConfigs() {
-        mAnalyticsUrl = mFirebaseRemoteConfig.getString(ANALYTICS_URL_KEY);
-        mUxtermsUrl = mFirebaseRemoteConfig.getString(UXTERMS_URL_KEY);
         mAbout = mFirebaseRemoteConfig.getString(ABOUT_KEY);
         mCountryCode = mFirebaseRemoteConfig.getString(COUNTRY_CODE_KEY);
         mContactNumber = mFirebaseRemoteConfig.getString(CONTACT_NUMBER_KEY);

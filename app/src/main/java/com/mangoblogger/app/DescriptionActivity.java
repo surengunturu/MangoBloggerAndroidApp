@@ -22,7 +22,7 @@ public class DescriptionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
 
-        // Just passing data from FirebaseList activity to this activity
+        // Just passing data from FirebaseListFragment activity to this activity
         Intent intent= getIntent();
         title = intent.getStringExtra("TITLE");
         description = intent.getStringExtra("DESCRIPTION");

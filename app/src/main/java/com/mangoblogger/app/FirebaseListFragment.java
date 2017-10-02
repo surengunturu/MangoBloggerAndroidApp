@@ -1,31 +1,19 @@
 package com.mangoblogger.app;
 
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,32 +22,41 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FirebaseList extends Fragment {
+public class FirebaseListFragment extends Fragment {
+    private static final String URL = "url";
 
-    List<BlogModel> list = new ArrayList<>();  /* List of a Model class */
-    FirebaseDataAdapter firebaseDataAdapter;
+    private List<BlogModel> mBlogList;  /* List of a Model class */
+    private FirebaseDataAdapter firebaseDataAdapter;
 
-    RecyclerView recyclerView;
-    private Context context;
+    private RecyclerView recyclerView;
 
-
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    Firebase ref = new Firebase("https://fir-test-51eed.firebaseio.com/Blogger"); /* connect to firebase*/
-
+    private Firebase mFirebaseRef;
     private int lastPoistion;
-    private String blog = "blog";
     private boolean switchWindow = false;
+    private String mUrl;
 
 
-    public FirebaseList() {
+    public FirebaseListFragment() {
         // Required empty public constructor
     }
 
 
 
-    public static FirebaseList newInstance() {
-        FirebaseList firebaseList = new FirebaseList();
-        return firebaseList;
+    public static FirebaseListFragment newInstance(String url) {
+        FirebaseListFragment fragment = new FirebaseListFragment();
+        Bundle args = new Bundle();
+        args.putString(URL, url);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mUrl = getArguments().getString(URL);
+        }
     }
 
     @Override
@@ -71,6 +68,10 @@ public class FirebaseList extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.list_db);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new GridSpacing(10));
+        
+        mBlogList = new ArrayList<>();
+        mFirebaseRef = new Firebase(mUrl); /* connect to firebase*/
+
 
         return view;
     }
@@ -80,19 +81,19 @@ public class FirebaseList extends Fragment {
     public void  onStart() {
         super.onStart();
 
-       ref.addValueEventListener(new ValueEventListener() {
+       mFirebaseRef.addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
 
-               list.clear();
+               mBlogList.clear();
                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
 
                    BlogModel blogModel = dataSnapshot1.getValue(BlogModel.class);
-                   list.add(blogModel);
+                   mBlogList.add(blogModel);
 
                }
 
-               firebaseDataAdapter = new FirebaseDataAdapter(list, getActivity());
+               firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
                recyclerView.setAdapter(firebaseDataAdapter);
                recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
                firebaseDataAdapter.setOnItemClickListener(new FirebaseDataAdapter.OnItemClickListener() {
@@ -140,7 +141,7 @@ public class FirebaseList extends Fragment {
         int spacing;
         int span;
 
-        public GridSpacing(int spacing) {
+        private GridSpacing(int spacing) {
             this.spacing = spacing;
         }
 
