@@ -32,7 +32,7 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_layout, null);
+        View view = inflater.inflate(R.layout.item_firebase_terms_list, null);
         return new ViewHolder(view);
     }
 
@@ -41,17 +41,8 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
         BlogModel blogModel = blogModels.get(position);
         holder.title.setText(blogModel.getTitle());
-        Glide.with(context).load(blogModel.getImage()).bitmapTransform(new CircleTranform(context)).animate(R.anim.scale).into(holder.firebase_image);
-
-        if(position  >  prevPosition){
-            AnimationUtils.animate(holder,true);
-        }
-
-        else{
-            AnimationUtils.animate(holder,false);
-        }
-        prevPosition=position;
-
+//        holder.description.setText(blogModel.getDescription());
+//        Glide.with(context).load(blogModel.getImage()).into(holder.firebase_image);
 
     }
 
@@ -62,12 +53,14 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
+//        TextView description;
         ImageView firebase_image;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.firebase_title);
-            firebase_image = (ImageView) itemView.findViewById(R.id.firebase_image);
+            title = (TextView) itemView.findViewById(R.id.title);
+//            description = (TextView) itemView.findViewById(R.id.description);
+            firebase_image = (ImageView) itemView.findViewById(R.id.banner);
 
             itemView.setOnClickListener(this);
 
