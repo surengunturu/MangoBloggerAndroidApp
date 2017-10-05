@@ -3,6 +3,7 @@ package com.mangoblogger.app;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.mangoblogger.app.widget.ExpandableTextView;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
+
 
 import java.util.List;
 
@@ -23,15 +25,31 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
     List<BlogModel> blogModels;
     Context context;
     LayoutInflater inflater;
+    private final SparseBooleanArray mCollapsedStatus;
     int prevPosition=0;
     int count;
-  OnItemClickListener onItemClickListener;
+//  OnItemClickListener onItemClickListener;
 
+    /**
+     * Called when a view created by this adapter has been attached to a window.
+     * <p>
+     * <p>This can be used as a reasonable signal that the view is about to be seen
+     * by the user. If the adapter previously freed any resources in
+     * {@link #onViewDetachedFromWindow(RecyclerView.ViewHolder) onViewDetachedFromWindow}
+     * those resources should be restored here.</p>
+     *
+     * @param holder Holder of the view being attached
+     */
+    @Override
+    public void onViewAttachedToWindow(ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+    }
 
     public FirebaseDataAdapter(List<BlogModel> blogModels, Context context) {
         this.blogModels = blogModels;
         inflater = LayoutInflater.from(context);
         this.context = context;
+        mCollapsedStatus = new SparseBooleanArray();
     }
 
 
@@ -47,16 +65,7 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
         final BlogModel blogModel = blogModels.get(position);
         holder.title.setText(blogModel.getTitle());
-        holder.description.setText(blogModel.getDescription());
-        int count = blogModel.getDescription().split("[!?.:]+").length;
-
-
-        if(count < 3) {
-            holder.buttonToggle.setVisibility(View.GONE);
-        } else {
-            setExpandableTextView(holder);
-        }
-//        setExpandableTextView(holder);
+        holder.description.setText(blogModel.getDescription(), mCollapsedStatus, position);
         if(!blogModel.getImage().equals("null")) {
              Glide.with(context).load(blogModel.getImage()).into(holder.firebase_image);
         }
@@ -67,24 +76,26 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
         return blogModels.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder  {
         TextView title;
-        ExpandableTextView description;
+//        ExpandableTextView description;
         ImageView firebase_image;
-        Button buttonToggle;
-
+//        Button buttonToggle;
+        ExpandableTextView description;
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
-            description = (ExpandableTextView) itemView.findViewById(R.id.description);
-            firebase_image = (ImageView) itemView.findViewById(R.id.banner);
-            buttonToggle =  (Button) itemView.findViewById(R.id.button_toggle);
+            description = (ExpandableTextView) itemView.findViewById(R.id.expand_text_view);
 
-            itemView.setOnClickListener(this);
+//            description = (ExpandableTextView) itemView.findViewById(R.id.description);
+            firebase_image = (ImageView) itemView.findViewById(R.id.banner);
+//            buttonToggle =  (Button) itemView.findViewById(R.id.button_toggle);
+
+//            itemView.setOnClickListener(this);
 
         }
-
+/*
         @Override
         public void onClick(View view) {
 
@@ -93,19 +104,19 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
                         blogModels.get(getAdapterPosition()).getDescription(), blogModels.get(getAdapterPosition()).getImage(), getAdapterPosition());
             }
 
-        }
+        }*/
     }
 
 
-    public interface OnItemClickListener {
+  /*  public interface OnItemClickListener {
         void itemClick(String title, String description, String image, int Position);
     }
 
     public void setOnItemClickListener(final OnItemClickListener onItemClickListener) {
         this.onItemClickListener = (OnItemClickListener) onItemClickListener;
     }
-    
-    private void setExpandableTextView(final ViewHolder holder) {
+  */
+  /*  private void setExpandableTextView(final ViewHolder holder) {
         holder.description.setAnimationDuration(750L);
 
         // set interpolators for both expanding and collapsing animations
@@ -159,8 +170,9 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
             @Override
             public void onCollapse(final ExpandableTextView view)
             {
+
 //                Log.d(TAG, "ExpandableTextView collapsed");
             }
         });
-    }
+    }*/
 }
