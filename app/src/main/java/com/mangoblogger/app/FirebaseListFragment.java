@@ -69,10 +69,10 @@ public class FirebaseListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_firebase_list, container ,false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, 20, true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, 20, true));
 
 
         mBlogList = new ArrayList<>();
@@ -103,7 +103,7 @@ public class FirebaseListFragment extends Fragment {
                firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
                recyclerView.setAdapter(firebaseDataAdapter);
                recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
-               firebaseDataAdapter.setOnItemClickListener(new FirebaseDataAdapter.OnItemClickListener() {
+             /*  firebaseDataAdapter.setOnItemClickListener(new FirebaseDataAdapter.OnItemClickListener() {
                    @Override
                    public void itemClick(String title, String description, String image, int Position) {
 
@@ -119,7 +119,7 @@ public class FirebaseListFragment extends Fragment {
                    }
                });
 
-
+*/
 
            }
 
@@ -154,7 +154,7 @@ public class FirebaseListFragment extends Fragment {
         private int spacing;
         private boolean includeEdge;
 
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+        private GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
             this.spanCount = spanCount;
             this.spacing = spacing;
             this.includeEdge = includeEdge;

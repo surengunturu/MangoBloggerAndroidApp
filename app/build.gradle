@@ -20,12 +20,15 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.mangoblogger.app"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        buildConfigField 'int', 'DEFAULT_ANIMATION_DURATION', '750'
+
     }
     buildTypes {
         release {

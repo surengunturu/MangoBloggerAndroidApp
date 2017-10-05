@@ -1,47 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_card"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="wrap_content"
     android:layout_marginRight="5dp"
     android:elevation="3dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:padding="10dp">
 
         <ImageView
-            android:layout_gravity="center"
             android:id="@+id/banner"
             android:src="@mipmap/ic_mango"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
             android:adjustViewBounds="true"
             android:paddingBottom="10dp" />
 
         <TextView
             android:id="@+id/title"
             android:textAppearance="@android:style/TextAppearance.Large"
-            android:textAlignment="center"
-            android:gravity="center"
+            android:layout_toRightOf="@id/banner"
+            android:text="Hello World"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:padding="10dp"
             android:textColor="@color/cardview_dark_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="5dp"
-            android:id="@+id/underline"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginEnd="30dp"
-            android:background="@color/colorAccent"/>
-    </LinearLayout>
+
+        <com.mangoblogger.app.widget.ExpandableTextView
+            android:id="@+id/description"
+            android:layout_below="@id/title"
+            android:layout_toRightOf="@id/banner"
+            android:paddingLeft="10dp"
+            android:text="Lorem ipsum dolor sit amet.Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum dolor sit amet"
+            android:textSize="14sp"
+            android:textColor="@color/cardview_dark_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            android:ellipsize="end"
+            app:animation_duration="750" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_toggle"
+            android:text="Read More"
+            android:layout_below="@id/description"
+            android:layout_toRightOf="@id/banner"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description"
+            android:layout_toRightOf="@id/banner"
+            android:paddingRight="8dp">
+
+            <ImageButton
+                android:id="@+id/btnLike"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/ic_heart_outline_grey" />
+
+            <ImageButton
+                android:id="@+id/btnComments"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/btn_feed_action"
+                android:src="@mipmap/ic_comment_outline_grey" />
+
+            <ImageButton
+                android:id="@+id/btnMore"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/btn_feed_action"
+                android:src="@mipmap/ic_more_grey" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_heart_small_blue" />
+
+                <TextSwitcher
+                    android:id="@+id/tsLikesCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:inAnimation="@anim/slide_in_likes_counter"
+                    android:outAnimation="@anim/slide_out_likes_counter">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="123 likes"
+                        android:textColor="@color/text_like_counter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_like_counter" />
+                </TextSwitcher>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
