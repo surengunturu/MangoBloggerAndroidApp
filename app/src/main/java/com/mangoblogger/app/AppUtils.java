@@ -27,6 +27,14 @@ public class AppUtils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    public static void startShareIntent(Context context, String shareBody) {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
 
 
 

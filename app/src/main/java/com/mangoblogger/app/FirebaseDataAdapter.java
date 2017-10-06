@@ -2,14 +2,11 @@ package com.mangoblogger.app;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,30 +19,14 @@ import java.util.List;
 
 public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapter.ViewHolder> {
 
-    List<BlogModel> blogModels;
-    Context context;
-    LayoutInflater inflater;
+    private List<BlogModel> blogModels;
+    private Context context;
+    private LayoutInflater inflater;
     private final SparseBooleanArray mCollapsedStatus;
-    int prevPosition=0;
-    int count;
-//  OnItemClickListener onItemClickListener;
 
-    /**
-     * Called when a view created by this adapter has been attached to a window.
-     * <p>
-     * <p>This can be used as a reasonable signal that the view is about to be seen
-     * by the user. If the adapter previously freed any resources in
-     * {@link #onViewDetachedFromWindow(RecyclerView.ViewHolder) onViewDetachedFromWindow}
-     * those resources should be restored here.</p>
-     *
-     * @param holder Holder of the view being attached
-     */
-    @Override
-    public void onViewAttachedToWindow(ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-    }
 
-    public FirebaseDataAdapter(List<BlogModel> blogModels, Context context) {
+
+    protected FirebaseDataAdapter(List<BlogModel> blogModels, Context context) {
         this.blogModels = blogModels;
         inflater = LayoutInflater.from(context);
         this.context = context;
@@ -76,103 +57,44 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
         return blogModels.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder  {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
-//        ExpandableTextView description;
         ImageView firebase_image;
-//        Button buttonToggle;
+        ImageButton shareButton;
+        ImageButton bookmarkButton;
+        ImageButton likeButton;
         ExpandableTextView description;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             description = (ExpandableTextView) itemView.findViewById(R.id.expand_text_view);
-
-//            description = (ExpandableTextView) itemView.findViewById(R.id.description);
             firebase_image = (ImageView) itemView.findViewById(R.id.banner);
-//            buttonToggle =  (Button) itemView.findViewById(R.id.button_toggle);
+            likeButton = (ImageButton) itemView.findViewById(R.id.btnLike);
+            bookmarkButton = (ImageButton) itemView.findViewById(R.id.btnBookmark);
+            shareButton = (ImageButton) itemView.findViewById(R.id.btnShare);
+            likeButton.setOnClickListener(this);
+            bookmarkButton.setOnClickListener(this);
+            shareButton.setOnClickListener(this);
 
-//            itemView.setOnClickListener(this);
 
         }
-/*
+
         @Override
         public void onClick(View view) {
-
-            if (onItemClickListener != null) {
-                onItemClickListener.itemClick(blogModels.get(getAdapterPosition()).getTitle(),
-                        blogModels.get(getAdapterPosition()).getDescription(), blogModels.get(getAdapterPosition()).getImage(), getAdapterPosition());
-            }
-
-        }*/
+          if(title.getText() != null) {
+              switch (view.getId()) {
+                  case R.id.btnLike:
+                      // implement like button on click
+                      break;
+                  case R.id.btnBookmark:
+                      // implement bookmark button on click
+                      break;
+                  case R.id.btnShare:
+                      String shareBody = title.getText() + "\n" + description.getText();
+                      AppUtils.startShareIntent(context, shareBody);
+              }
+          }
+        }
     }
-
-
-  /*  public interface OnItemClickListener {
-        void itemClick(String title, String description, String image, int Position);
-    }
-
-    public void setOnItemClickListener(final OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = (OnItemClickListener) onItemClickListener;
-    }
-  */
-  /*  private void setExpandableTextView(final ViewHolder holder) {
-        holder.description.setAnimationDuration(750L);
-
-        // set interpolators for both expanding and collapsing animations
-        holder.description.setInterpolator(new OvershootInterpolator());
-
-
-        // or set them separately
-        holder.description.setExpandInterpolator(new OvershootInterpolator());
-        holder.description.setCollapseInterpolator(new OvershootInterpolator());
-
-        // toggle the ExpandableTextView
-        holder.buttonToggle.setOnClickListener(new View.OnClickListener()
-        {
-            @SuppressWarnings("ConstantConditions")
-            @Override
-            public void onClick(final View v)
-            {
-                holder.description.toggle();
-                holder.buttonToggle.setText(holder.description.isExpanded() ? R.string.collapse : R.string.expand);
-            }
-        });
-
-        // but, you can also do the checks yourself
-        holder.buttonToggle.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(final View v)
-            {
-                if (holder.description.isExpanded())
-                {
-                    holder.description.collapse();
-                    holder.buttonToggle.setText(R.string.expand);
-                }
-                else
-                {
-                    holder.description.expand();
-                    holder.buttonToggle.setText(R.string.collapse);
-                }
-            }
-        });
-
-        // listen for expand / collapse events
-        holder.description.setOnExpandListener(new ExpandableTextView.OnExpandListener()
-        {
-            @Override
-            public void onExpand(final ExpandableTextView view)
-            {
-//                Log.d(TAG, "ExpandableTextView expanded");
-            }
-
-            @Override
-            public void onCollapse(final ExpandableTextView view)
-            {
-
-//                Log.d(TAG, "ExpandableTextView collapsed");
-            }
-        });
-    }*/
 }

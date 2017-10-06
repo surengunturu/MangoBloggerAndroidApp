@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.mangoblogger.app.AppUtils.startShareIntent;
+
 
 /**
  * Created by karthikprasad on 7/29/17.
@@ -135,18 +137,11 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.share:
-                startShareIntent();
+                startShareIntent(getActivity(), "https://play.google.com/store/apps/details?id=com.mangoblogger.app \n \n Check it out!");
         }
     }
 
-    private void startShareIntent() {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        String shareBody = "https://play.google.com/store/apps/details?id=com.mangoblogger.app \n \n Check it out!";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
-    }
+
 
     private void startEmailIntent() {
         Intent intent = new Intent(Intent.ACTION_SEND);

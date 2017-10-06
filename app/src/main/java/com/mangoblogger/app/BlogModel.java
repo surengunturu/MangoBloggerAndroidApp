@@ -9,6 +9,7 @@ public class BlogModel {
     private String description = "Initialize the description";
 
 
+
     public String getTitle() {
         return title;
     }

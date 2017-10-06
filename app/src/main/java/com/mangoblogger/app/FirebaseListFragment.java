@@ -1,6 +1,5 @@
 package com.mangoblogger.app;
 
-import android.content.Intent;
 
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -103,24 +102,6 @@ public class FirebaseListFragment extends Fragment {
                firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
                recyclerView.setAdapter(firebaseDataAdapter);
                recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
-             /*  firebaseDataAdapter.setOnItemClickListener(new FirebaseDataAdapter.OnItemClickListener() {
-                   @Override
-                   public void itemClick(String title, String description, String image, int Position) {
-
-                       switchWindow = true;
-                       lastPoistion = Position;
-                       Intent intent=new Intent(getActivity(),DescriptionActivity.class);
-                       intent.putExtra("TITLE", title);
-                       intent.putExtra("DESCRIPTION", description);
-                       intent.putExtra("IMAGE", image);
-                       startActivity(intent);
-                       getActivity().overridePendingTransition(R.anim.enter_anim,R.anim.exit_anim);
-
-                   }
-               });
-
-*/
-
            }
 
            @Override

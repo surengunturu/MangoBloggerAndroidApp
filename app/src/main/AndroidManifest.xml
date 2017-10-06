@@ -54,7 +54,6 @@
 
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
-        <activity android:name=".DescriptionActivity"></activity>
     </application>
 
 </manifest>
