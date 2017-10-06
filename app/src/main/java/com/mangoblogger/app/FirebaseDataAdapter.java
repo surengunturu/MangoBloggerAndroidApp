@@ -62,7 +62,7 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
         ImageView firebase_image;
         ImageButton shareButton;
         ImageButton bookmarkButton;
-        ImageButton likeButton;
+//        ButtonAnimationView likeButton;
         ExpandableTextView description;
 
         private ViewHolder(View itemView) {
@@ -70,10 +70,10 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
             title = (TextView) itemView.findViewById(R.id.title);
             description = (ExpandableTextView) itemView.findViewById(R.id.expand_text_view);
             firebase_image = (ImageView) itemView.findViewById(R.id.banner);
-            likeButton = (ImageButton) itemView.findViewById(R.id.btnLike);
+//            likeButton = (ButtonAnimationView) itemView.findViewById(R.id.btnLike);
             bookmarkButton = (ImageButton) itemView.findViewById(R.id.btnBookmark);
             shareButton = (ImageButton) itemView.findViewById(R.id.btnShare);
-            likeButton.setOnClickListener(this);
+//            likeButton.setOnClickListener(this);
             bookmarkButton.setOnClickListener(this);
             shareButton.setOnClickListener(this);
 
@@ -84,14 +84,14 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
         public void onClick(View view) {
           if(title.getText() != null) {
               switch (view.getId()) {
-                  case R.id.btnLike:
+                /*  case R.id.btnLike:
                       // implement like button on click
-                      break;
+                      break;*/
                   case R.id.btnBookmark:
                       // implement bookmark button on click
                       break;
                   case R.id.btnShare:
-                      String shareBody = title.getText() + "\n" + description.getText();
+                      String shareBody = title.getText() + "\n\n" + description.getText();
                       AppUtils.startShareIntent(context, shareBody);
               }
           }
