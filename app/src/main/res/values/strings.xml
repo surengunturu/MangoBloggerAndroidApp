@@ -21,8 +21,10 @@
 
     <string name="expand">More</string>
     <string name="collapse">Less</string>
+    <string name="card_share_body_extra">\n \nFor more terms, install our app from \n https://play.google.com/store/apps/details?id=com.mangobloggerandroid.app</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="play_store_link">https://play.google.com/store/apps/details?id=com.mangobloggerandroid.app</string>
 </resources>

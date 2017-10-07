@@ -91,7 +91,7 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
                       // implement bookmark button on click
                       break;
                   case R.id.btnShare:
-                      String shareBody = title.getText() + "\n\n" + description.getText();
+                      String shareBody = title.getText() + "\n\n" + description.getText()+ context.getString(R.string.card_share_body_extra);
                       AppUtils.startShareIntent(context, shareBody);
               }
           }

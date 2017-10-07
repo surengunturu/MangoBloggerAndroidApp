@@ -137,7 +137,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.share:
-                startShareIntent(getActivity(), "https://play.google.com/store/apps/details?id=com.mangoblogger.app \n \n Check it out!");
+                startShareIntent(getActivity(), getString(R.string.play_store_link)+"\n \n Check it out!");
         }
     }
 
