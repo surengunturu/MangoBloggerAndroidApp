@@ -66,8 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = createContentValuesForBookmark(blogModel, position);
         writableDatabase.insert(BookmarkTable.NAME, null, values);
     }
-
-    public static
+    
 
     private static  ContentValues createContentValuesForBookmark(BlogModel blogModel, int position) {
         ContentValues values = new ContentValues();
