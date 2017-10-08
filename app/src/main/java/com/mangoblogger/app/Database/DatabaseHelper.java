@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.mangoblogger.app.BlogModel;
+import com.mangoblogger.app.model.BlogModel;
 
 import java.util.ArrayList;
 import java.util.List;

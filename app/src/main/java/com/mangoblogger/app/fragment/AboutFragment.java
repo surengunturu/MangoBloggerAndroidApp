@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangoblogger.app.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.mangoblogger.app.AppUtils.startShareIntent;
+import com.mangoblogger.app.activity.MainActivity;
+import com.mangoblogger.app.R;
+
+import static com.mangoblogger.app.util.AppUtils.startShareIntent;
 
 
 /**

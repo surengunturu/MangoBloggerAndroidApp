@@ -2,10 +2,10 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <string name="ga_trackingId">UA-106256858-1</string>
     <bool name="ga_autoActivityTracking">true</bool>
-    <screenName name="com.mangoblogger.app.MainActivity">
+    <screenName name="com.mangoblogger.app.activity.MainActivity">
         Home Screen
     </screenName>
-    <screenName name="com.mangoblogger.app.AboutFragment">
+    <screenName name="com.mangoblogger.app.fragment.AboutFragment">
         About Screen
     </screenName>
     <screenName name="com.mangoblogger.app.Splash.SplashActivity">

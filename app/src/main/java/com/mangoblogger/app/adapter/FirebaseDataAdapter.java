@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangoblogger.app.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mangoblogger.app.util.AppUtils;
 import com.mangoblogger.app.Database.DatabaseHelper;
+import com.mangoblogger.app.R;
+import com.mangoblogger.app.model.BlogModel;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 
@@ -30,7 +33,7 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
 
 
-    protected FirebaseDataAdapter(List<BlogModel> blogModelList, Context context) {
+    public FirebaseDataAdapter(List<BlogModel> blogModelList, Context context) {
         this.blogModelList = blogModelList;
         inflater = LayoutInflater.from(context);
         this.context = context;

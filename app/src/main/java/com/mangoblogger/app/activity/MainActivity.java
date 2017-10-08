@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangoblogger.app.activity;
 
 
 import android.os.Bundle;
@@ -23,6 +23,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.mangoblogger.app.BuildConfig;
+import com.mangoblogger.app.MangoBlogger;
+import com.mangoblogger.app.R;
+import com.mangoblogger.app.fragment.AboutFragment;
+import com.mangoblogger.app.fragment.FirebaseListFragment;
+import com.mangoblogger.app.util.AppUtils;
 
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
@@ -122,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         mCoordinator = (CoordinatorLayout) findViewById(R.id.content_frame);
 
         //google analytics
-        ((SubApplication)getApplication()).startTracking();
+        ((MangoBlogger)getApplication()).startTracking();
 
     }
 

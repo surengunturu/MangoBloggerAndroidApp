@@ -16,4 +16,6 @@
         <attr name="is_enabled" format="boolean"/>
         <attr name="anim_scale_factor" format="float"/>
     </declare-styleable>
+    <bool name="is_rtl">false</bool>
+
 </resources>

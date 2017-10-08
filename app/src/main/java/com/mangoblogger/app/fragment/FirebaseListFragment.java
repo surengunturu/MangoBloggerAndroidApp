@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangoblogger.app.fragment;
 
 
 import android.graphics.Rect;
@@ -15,6 +15,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mangoblogger.app.adapter.FirebaseDataAdapter;
+import com.mangoblogger.app.R;
+import com.mangoblogger.app.model.BlogModel;
 
 
 import java.util.ArrayList;

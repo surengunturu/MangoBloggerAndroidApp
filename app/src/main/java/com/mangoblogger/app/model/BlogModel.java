@@ -1,4 +1,4 @@
-package com.mangoblogger.app;
+package com.mangoblogger.app.model;
 
 
 
