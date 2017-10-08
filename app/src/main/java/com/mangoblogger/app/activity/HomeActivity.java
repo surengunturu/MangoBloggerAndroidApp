@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity  {
                 "https://mangoblogger-9ffff.firebaseio.com/ux_terms", "null",
                 R.mipmap.uxterms_cover, false));
         exploreItems.add(new HomeItem("Blogs",
-                "https://www.mangoblogger.com/blog/", "null",
+                "https://www.mangoblogger.com/mangoblogger-blog/", "null",
                 R.mipmap.blog_cover, true));
 
         return exploreItems;
