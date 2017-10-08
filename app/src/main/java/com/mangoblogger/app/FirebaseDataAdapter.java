@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mangoblogger.app.Database.DatabaseHelper;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 
@@ -19,17 +20,21 @@ import java.util.List;
 
 public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapter.ViewHolder> {
 
-    private List<BlogModel> blogModels;
+    private List<BlogModel> blogModelList;
     private Context context;
     private LayoutInflater inflater;
     private final SparseBooleanArray mCollapsedStatus;
+    private int mCurrentPosition;
+    private BlogModel mCurrentBlogModel;
+    private int[] mPositionList;
 
 
 
-    protected FirebaseDataAdapter(List<BlogModel> blogModels, Context context) {
-        this.blogModels = blogModels;
+    protected FirebaseDataAdapter(List<BlogModel> blogModelList, Context context) {
+        this.blogModelList = blogModelList;
         inflater = LayoutInflater.from(context);
         this.context = context;
+        mPositionList = DatabaseHelper.getBookmarkPositionList(context, true);
         mCollapsedStatus = new SparseBooleanArray();
     }
 
@@ -43,18 +48,25 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-
-        final BlogModel blogModel = blogModels.get(position);
-        holder.title.setText(blogModel.getTitle());
-        holder.description.setText(blogModel.getDescription(), mCollapsedStatus, position);
-        if(!blogModel.getImage().equals("null")) {
-             Glide.with(context).load(blogModel.getImage()).into(holder.firebase_image);
+       /* if(mPositionList != null) {
+            for(int i:mPositionList) {
+                if(i==position) {
+                    holder.bookmarkButton.setImageResource(R.mipmap.ic_bookmark_on);
+                }
+            }
+        }*/
+        mCurrentBlogModel = blogModelList.get(position);
+        mCurrentPosition = holder.getAdapterPosition();
+        holder.title.setText(mCurrentBlogModel.getTitle());
+        holder.description.setText(mCurrentBlogModel.getDescription(), mCollapsedStatus, position);
+        if(!mCurrentBlogModel.getImage().equals("null")) {
+             Glide.with(context).load(mCurrentBlogModel.getImage()).into(holder.firebase_image);
         }
     }
 
     @Override
     public int getItemCount() {
-        return blogModels.size();
+        return blogModelList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -71,10 +83,10 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
             description = (ExpandableTextView) itemView.findViewById(R.id.expand_text_view);
             firebase_image = (ImageView) itemView.findViewById(R.id.banner);
 //            likeButton = (ButtonAnimationView) itemView.findViewById(R.id.btnLike);
-            bookmarkButton = (ImageButton) itemView.findViewById(R.id.btnBookmark);
+//            bookmarkButton = (ImageButton) itemView.findViewById(R.id.btnBookmark);
             shareButton = (ImageButton) itemView.findViewById(R.id.btnShare);
 //            likeButton.setOnClickListener(this);
-            bookmarkButton.setOnClickListener(this);
+//            bookmarkButton.setOnClickListener(this);
             shareButton.setOnClickListener(this);
 
 
@@ -82,14 +94,15 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
         @Override
         public void onClick(View view) {
-          if(title.getText() != null) {
+          if(mCurrentBlogModel != null) {
               switch (view.getId()) {
                 /*  case R.id.btnLike:
                       // implement like button on click
                       break;*/
-                  case R.id.btnBookmark:
-                      // implement bookmark button on click
-                      break;
+                  /*case R.id.btnBookmark:
+                      DatabaseHelper.addBookmark(context, mCurrentBlogModel,
+                              mCurrentPosition, true);
+                      break;*/
                   case R.id.btnShare:
                       String shareBody = title.getText() + "\n\n" + description.getText()+ context.getString(R.string.card_share_body_extra);
                       AppUtils.startShareIntent(context, shareBody);
