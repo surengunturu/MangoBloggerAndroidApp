@@ -104,15 +104,15 @@ public class HomeActivity extends AppCompatActivity  {
         blogs.add(new HomeItem("Indian Mobile Congress 2017",
                 "https://www.mangoblogger.com/blog/highlights-of-india-mobile-congress-2017/",
                 "By : Yatin", R.mipmap.recent_blog_one_cover));
-        blogs.add(new HomeItem("Guide : Google Tag Manager Installation",
-                "https://www.mangoblogger.com/blog/google-tag-manager-installation-website/",
-                "By : Yatin", R.mipmap.recent_blog_two_cover));
-        blogs.add(new HomeItem("What is Google Analytics",
-                "https://www.mangoblogger.com/blog/what-is-google-analytics/",
-                "By : Siddhant", R.mipmap.recent_blog_three_cover));
         blogs.add(new HomeItem("Add Social Login In WordPress Site",
                 "https://www.mangoblogger.com/blog/wordpress-plugin-installation/",
-                "By : Yatin", R.mipmap.recent_blog_four_cover));
+                "By : Yatin", R.mipmap.recent_blog_two_cover));
+        blogs.add(new HomeItem("Guide : Google Tag Manager Installation",
+                "https://www.mangoblogger.com/blog/google-tag-manager-installation-website/",
+                "By : Yatin", R.mipmap.recent_blog_three_cover));
+        blogs.add(new HomeItem("What is Google Analytics",
+                "https://www.mangoblogger.com/blog/what-is-google-analytics/",
+                "By : Siddhant", R.mipmap.recent_blog_four_cover));
         blogs.add(new HomeItem("All About Pixel Tracking",
                 "https://www.mangoblogger.com/blog/all-about-tracking-pixel/",
                 "By : Mangoblogger", R.mipmap.recent_blog_five_cover));

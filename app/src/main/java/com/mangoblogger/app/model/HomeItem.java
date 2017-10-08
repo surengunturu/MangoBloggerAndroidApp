@@ -16,9 +16,10 @@ public class HomeItem {
     }
 
     public HomeItem(String name,  String url, String author, int drawable) {
-        new HomeItem(name, drawable);
         mExtra = author;
         mUrl = url;
+        mName = name;
+        mDrawable = drawable;
     }
 
 

@@ -51,11 +51,11 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
 //        holder.imageView.setImageResource(item.getDrawable());
         holder.parentCardView.setBackgroundResource(item.getDrawable());
         holder.titleText.setText(item.getName());
-        /*if(mCardSize == HomeItemAdapter.CARD_SIZE_MEDIUM
+        if(mCardSize == HomeItemAdapter.CARD_SIZE_MEDIUM
                 || mCardSize == HomeItemAdapter.CARD_SIZE_PAGER) {
             holder.titleText.setText(item.getName());
             holder.subtitleText.setText(item.getExtra());
-        }*/
+        }
 //        holder.ratingTextView.setText(String.valueOf(item.getRating()));
 
     }
