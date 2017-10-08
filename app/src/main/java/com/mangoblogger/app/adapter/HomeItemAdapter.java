@@ -51,15 +51,6 @@ public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        HomeGroup snap = mSnaps.get(position);
-        switch (snap.getGravity()) {
-            case Gravity.CENTER_VERTICAL:
-                return VERTICAL;
-            case Gravity.CENTER_HORIZONTAL:
-                return HORIZONTAL;
-            case Gravity.START:
-                return HORIZONTAL;
-        }
         return HORIZONTAL;
     }
 

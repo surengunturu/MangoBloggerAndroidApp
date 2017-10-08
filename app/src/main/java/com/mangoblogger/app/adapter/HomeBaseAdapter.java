@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.mangoblogger.app.R;
@@ -39,7 +38,7 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
                     .inflate(R.layout.item_card_medium, parent, false));
         } else if(mCardSize == HomeItemAdapter.CARD_SIZE_PAGER) {
             return new ViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_card_medium, parent, false));
+                    .inflate(R.layout.item_card_pager, parent, false));
         } else {
             return null; // not a good practice
         }
@@ -47,12 +46,17 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        HomeItem app = mHomeItems.get(position);
+        HomeItem item = mHomeItems.get(position);
 
-//        holder.imageView.setImageResource(app.getDrawable());
-        holder.parentCardView.setBackgroundResource(app.getDrawable());
-        holder.nameTextView.setText(app.getName());
-//        holder.ratingTextView.setText(String.valueOf(app.getRating()));
+//        holder.imageView.setImageResource(item.getDrawable());
+        holder.parentCardView.setBackgroundResource(item.getDrawable());
+        holder.titleText.setText(item.getName());
+        /*if(mCardSize == HomeItemAdapter.CARD_SIZE_MEDIUM
+                || mCardSize == HomeItemAdapter.CARD_SIZE_PAGER) {
+            holder.titleText.setText(item.getName());
+            holder.subtitleText.setText(item.getExtra());
+        }*/
+//        holder.ratingTextView.setText(String.valueOf(item.getRating()));
 
     }
 
@@ -69,15 +73,17 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageView;
-        public TextView nameTextView;
         CardView parentCardView;
+        TextView titleText;
+        TextView subtitleText;
 //        public TextView ratingTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 //            imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            nameTextView = (TextView) itemView.findViewById(R.id.nameTextView);
             parentCardView = (CardView) itemView.findViewById(R.id.parent_card);
+            titleText = (TextView) itemView.findViewById(R.id.title);
+            subtitleText = (TextView) itemView.findViewById(R.id.sub_title);
 //            ratingTextView = (TextView) itemView.findViewById(R.id.ratingTextView);
         }
 

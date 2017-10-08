@@ -10,12 +10,13 @@ public class HomeGroup {
 
         private int mGravity;
         private String mText;
-        private int cardSize;
+        private int mCardSize;
         private List<HomeItem> mHomeItems;
 
         public HomeGroup(int gravity, int cardSize, String text,  List<HomeItem> apps) {
             mGravity = gravity;
             mText = text;
+            mCardSize = cardSize;
             mHomeItems = apps;
         }
 
@@ -28,7 +29,7 @@ public class HomeGroup {
         }
 
     public int getCardSize() {
-        return cardSize;
+        return mCardSize;
     }
 
     public List<HomeItem> getApps(){
