@@ -1,121 +1,114 @@
 package com.mangoblogger.app.adapter;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
-import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mangoblogger.app.R;
-import com.mangoblogger.app.helper.GravitySnapHelper;
-import com.mangoblogger.app.model.HomeGroup;
+import com.mangoblogger.app.model.HomeItem;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ujjawal on 8/10/17.
+ *
  */
 
-public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHolder> implements GravitySnapHelper.SnapListener {
+public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHolder> {
 
-    public static final int VERTICAL = 0;
-    public static final int HORIZONTAL = 1;
-    public static final int CARD_SIZE_SMALL = 0;
-    public static final int CARD_SIZE_MEDIUM = 1;
-    public static final int CARD_SIZE_PAGER = 2;
+    private List<HomeItem> mHomeItems;
+    private int mCardSize;
+    OnItemClickListener onItemClickListener;
 
 
-    private ArrayList<HomeGroup> mSnaps;
-    // Disable touch detection for parent recyclerView if we use vertical nested recyclerViews
-    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            v.getParent().requestDisallowInterceptTouchEvent(true);
-            return false;
-        }
-    };
-
-    public HomeItemAdapter() {
-        mSnaps = new ArrayList<>();
-    }
-
-    public void addSnap(HomeGroup snap) {
-        mSnaps.add(snap);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return HORIZONTAL;
+    public HomeItemAdapter(int cardSize, List<HomeItem> homeItems) {
+        mHomeItems = homeItems;
+        mCardSize = cardSize;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_home, parent, false);
-
-        return new ViewHolder(view);
-
+        if (mCardSize == HomeBaseAdapter.CARD_SIZE_SMALL) {
+            return new ViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_card_small, parent, false));
+        } else if(mCardSize == HomeBaseAdapter.CARD_SIZE_MEDIUM){
+            return new ViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_card_medium, parent, false));
+        } else if(mCardSize == HomeBaseAdapter.CARD_SIZE_PAGER) {
+            return new ViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_card_pager, parent, false));
+        } else {
+            return null; // not a good practice
+        }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        HomeGroup snap = mSnaps.get(position);
-        holder.snapTextView.setText(snap.getText());
+        HomeItem item = mHomeItems.get(position);
 
-        if (snap.getGravity() == Gravity.START || snap.getGravity() == Gravity.END) {
-            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-                    .recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            holder.recyclerView.setOnFlingListener(null);
-            new GravitySnapHelper(snap.getGravity(), false, this).attachToRecyclerView(holder.recyclerView);
-        } else if (snap.getGravity() == Gravity.CENTER_HORIZONTAL) {
-            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-                    .recyclerView.getContext(), snap.getGravity() == Gravity.CENTER_HORIZONTAL ?
-                    LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL, false));
-            holder.recyclerView.setOnFlingListener(null);
-            new LinearSnapHelper().attachToRecyclerView(holder.recyclerView);
-        } else if (snap.getGravity() == Gravity.CENTER) { // Pager snap
-            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-                    .recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            holder.recyclerView.setOnFlingListener(null);
-            new PagerSnapHelper().attachToRecyclerView(holder.recyclerView);
-        } else { // Top / Bottom
-            holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder
-                    .recyclerView.getContext()));
-            holder.recyclerView.setOnFlingListener(null);
-            new GravitySnapHelper(snap.getGravity()).attachToRecyclerView(holder.recyclerView);
+//        holder.imageView.setImageResource(item.getDrawable());
+        holder.parentCardView.setBackgroundResource(item.getDrawable());
+        holder.titleText.setText(item.getName());
+        if(mCardSize == HomeBaseAdapter.CARD_SIZE_MEDIUM
+                || mCardSize == HomeBaseAdapter.CARD_SIZE_PAGER) {
+            holder.titleText.setText(item.getName());
+            holder.subtitleText.setText(item.getExtra());
         }
+//        holder.ratingTextView.setText(String.valueOf(item.getRating()));
 
+    }
 
-        holder.recyclerView.setAdapter(new HomeBaseAdapter(snap.getCardSize(), snap.getApps()));
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     @Override
     public int getItemCount() {
-        return mSnaps.size();
+        return mHomeItems.size();
     }
 
-    @Override
-    public void onSnap(int position) {
-        Log.d("Snapped: ", position + "");
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView imageView;
+        CardView parentCardView;
+        TextView titleText;
+        TextView subtitleText;
+//        public TextView ratingTextView;
 
-        public TextView snapTextView;
-        public RecyclerView recyclerView;
-
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
-            snapTextView = (TextView) itemView.findViewById(R.id.snapTextView);
-            recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView);
+//            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            parentCardView = (CardView) itemView.findViewById(R.id.parent_card);
+            titleText = (TextView) itemView.findViewById(R.id.title);
+            subtitleText = (TextView) itemView.findViewById(R.id.sub_title);
+            parentCardView.setOnClickListener(this);
+//            ratingTextView = (TextView) itemView.findViewById(R.id.ratingTextView);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (onItemClickListener != null) {
+                HomeItem item = mHomeItems.get(getAdapterPosition());
+                onItemClickListener.itemClick(item, getAdapterPosition());
+            }
+
         }
 
     }
+
+    public interface OnItemClickListener {
+        void itemClick(HomeItem item, int Position);
+    }
+
+    public void setOnItemClickListener(final OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = (OnItemClickListener) onItemClickListener;
+    }
+
 }
+
 
