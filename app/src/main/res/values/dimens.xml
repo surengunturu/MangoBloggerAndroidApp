@@ -12,4 +12,6 @@
     <dimen name="slide_title">20dp</dimen>
     <dimen name="slide_desc">13dp</dimen>
     <dimen name="desc_padding">40dp</dimen>
+    <dimen name="logo_w_h">100dp</dimen>
+
 </resources>
