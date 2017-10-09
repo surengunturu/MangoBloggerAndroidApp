@@ -49,7 +49,7 @@ public class ItemActivity extends AppCompatActivity {
 
     private void attachFragment() {
         FragmentManager fm = getSupportFragmentManager();
-        if(!mOtherActivity) {
+//        if(!mOtherActivity) {
             if (!mItem.isWebView()) {
                 fm.beginTransaction().replace(R.id.container,
                         FirebaseListFragment.newInstance(mItem.getUrl()), mItem.getName())
@@ -59,11 +59,11 @@ public class ItemActivity extends AppCompatActivity {
                         WebFragment.newInstance(mItem.getUrl(), mItem.getName()), mItem.getName())
                         .commit();
             }
-        } else {
+//        } else {
             /*fm.beginTransaction().replace(R.id.container,
                     FirebaseListFragment.newInstance(mItem.getUrl()), mItem.getName())
                     .commit();*/
-        }
+//        }
 
     }
 
