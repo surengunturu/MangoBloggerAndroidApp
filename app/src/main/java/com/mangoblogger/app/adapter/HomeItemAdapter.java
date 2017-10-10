@@ -86,6 +86,8 @@ public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHo
             parentCardView = (CardView) itemView.findViewById(R.id.parent_card);
             titleText = (TextView) itemView.findViewById(R.id.title);
             subtitleText = (TextView) itemView.findViewById(R.id.sub_title);
+//            parentCardView.setRadius(8);
+
             parentCardView.setOnClickListener(this);
 //            ratingTextView = (TextView) itemView.findViewById(R.id.ratingTextView);
         }

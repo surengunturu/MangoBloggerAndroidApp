@@ -3,6 +3,7 @@ package com.mangoblogger.app.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
@@ -41,6 +42,10 @@ public class AppUtils {
 
     public static double clamp(double value, double low, double high) {
         return Math.min(Math.max(value, low), high);
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
 

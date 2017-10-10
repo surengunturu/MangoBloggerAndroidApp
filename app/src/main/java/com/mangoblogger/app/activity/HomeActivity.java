@@ -1,21 +1,36 @@
 package com.mangoblogger.app.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.mangoblogger.app.BuildConfig;
+import com.mangoblogger.app.MangoBlogger;
 import com.mangoblogger.app.R;
-import com.mangoblogger.app.adapter.HomeBaseAdapter;
-import com.mangoblogger.app.model.HomeGroup;
-import com.mangoblogger.app.model.HomeItem;
+import com.mangoblogger.app.fragment.AboutFragment;
+import com.mangoblogger.app.fragment.FirebaseListFragment;
+import com.mangoblogger.app.fragment.HomeFragment;
+import com.mangoblogger.app.util.AppUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by ujjawal on 8/10/17.
@@ -23,12 +38,37 @@ import java.util.List;
  */
 
 public class HomeActivity extends AppCompatActivity  {
+    public static final String ABOUT_KEY = "about";
+    public static final String CONTACT_NUMBER_KEY = "contact_number"; // value must be equal to parameter in firebase remote config
+    public static final String COUNTRY_CODE_KEY = "contact_number_country_code"; // value must be equal to parameter in firebase remote config
+    public static final String ADDRESS_KEY = "address";
+    public static final String GEO_LATITUDE_KEY = "geo_latitude";
+    public static final String GEO_LONGITUDE_KEY = "geo_longitude";
+
+    private static final int ANIM_DURATION_TOOLBAR = 300;
+    private static final int ANIM_DURATION_FAB = 400;
 
 
-    private RecyclerView mRecyclerView;
-    private MenuItem mPrevMenuItem;
-    private BottomNavigationView mNavigation;
-    private boolean mHorizontal;
+    private Toolbar mToolbar;
+    private ImageView mToolbarLogo;
+    private MenuItem mNotificationMenuItem;
+
+
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+
+    private String mCountryCode;
+    private String mContactNumber;
+    private String mAbout;
+    private String mAddress;
+    private String mGeoLatitude;
+    private String mGeoLongitude;
+
+    private boolean doubleBackToExitPressedOnce = false;
+    private boolean pendingIntroAnimation;
+
+
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -37,19 +77,14 @@ public class HomeActivity extends AppCompatActivity  {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    //inflate analytics fragment
-//                    mViewPager.setCurrentItem(0);
-//                    initSnackBar();
-
+                   attachFragment(HomeFragment.newInstance());
                     return true;
                 case R.id.navigation_dashboard:
-                    //inflate ux fragment
-//                    mViewPager.setCurrentItem(1);
-//                    initSnackBar();
+                    attachFragment(FirebaseListFragment.newInstance("https://mangoblogger-9ffff.firebaseio.com/analytics"));
                     return true;
                 case R.id.navigation_notifications:
-                    //inflate about fragment
-//                    mViewPager.setCurrentItem(2);
+                    attachFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
+                            mGeoLatitude, mGeoLongitude));
                     return true;
             }
             return false;
@@ -62,87 +97,192 @@ public class HomeActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        if (savedInstanceState == null) {
+            pendingIntroAnimation = true;
+        }
 
-        mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
+        Fabric.with(this, new Crashlytics());
+        Firebase.setAndroidContext(this);
+
+        // Obtain the FirebaseAnalytics instance.
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setMinimumSessionDuration(20000);
+        // firebase remote configuration
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        firebaseRemoteConfigSettings();
+        fetchFirebaseRemoteConfig();
+
+        Bundle bundle = new Bundle();
+        String id = "MangoBlogger";
+        String name = "Google analytics";
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+        BottomNavigationView mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbarLogo = (ImageView) findViewById(R.id.app_logo);
+        setupToolbar();
+//        startIntroAnimation();
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setHasFixedSize(true);
 
-        setupAdapter();
+        attachFragment(HomeFragment.newInstance());
+
+        //google analytics
+        ((MangoBlogger)getApplication()).startTracking();
+
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        mNotificationMenuItem = menu.findItem(R.id.action_notification);
+//        inboxMenuItem.setActionView(R.layout.menu_item_view);
+        if (pendingIntroAnimation) {
+            pendingIntroAnimation = false;
+//            startIntroAnimation();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_notification:
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void setupToolbar() {
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            mToolbar.setNavigationIcon(R.mipmap.ic_menu_white);
+        }
+    }
+
+
+    private void attachFragment(Fragment fragment) {
+        FragmentManager fm = getSupportFragmentManager();
+
+                   fm.beginTransaction().replace(R.id.container,
+                    fragment)
+                    .commit();
+    }
+
+    private void firebaseRemoteConfigSettings() {
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+
+    }
+
+    private void fetchFirebaseRemoteConfig() {
+        long cacheExpiration = 36008*12; // 12 hour in seconds.
+        mFirebaseRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+                            // After config data is successfully fetched, it must be activated before newly fetched
+                            // values are returned.
+                            mFirebaseRemoteConfig.activateFetched();
+
+                        } /*else {
+                            Toast.makeText(MainActivity.this, "Fetch Failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }*/ // comment it out to test
+                        getRemoteConfigs();
+                    }
+                });
+    }
+
+    private void getRemoteConfigs() {
+        mAbout = mFirebaseRemoteConfig.getString(ABOUT_KEY);
+        mCountryCode = mFirebaseRemoteConfig.getString(COUNTRY_CODE_KEY);
+        mContactNumber = mFirebaseRemoteConfig.getString(CONTACT_NUMBER_KEY);
+        mAddress = mFirebaseRemoteConfig.getString(ADDRESS_KEY);
+        mGeoLatitude = mFirebaseRemoteConfig.getString(GEO_LATITUDE_KEY);
+        mGeoLongitude = mFirebaseRemoteConfig.getString(GEO_LONGITUDE_KEY);
+    }
+
+    private void startIntroAnimation() {
+//        fabCreate.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.btn_fab_size));
+
+        int actionbarSize = AppUtils.dpToPx(56);
+        mToolbar.setTranslationY(-actionbarSize);
+        mToolbarLogo.setTranslationY(-actionbarSize);
+        if(mNotificationMenuItem != null) {
+            mNotificationMenuItem.getActionView().setTranslationY(-actionbarSize);
+
+            mToolbar.animate()
+                    .translationY(0)
+                    .setDuration(ANIM_DURATION_TOOLBAR)
+                    .setStartDelay(300);
+            mToolbarLogo.animate()
+                    .translationY(0)
+                    .setDuration(ANIM_DURATION_TOOLBAR)
+                    .setStartDelay(400);
+            mNotificationMenuItem.getActionView().animate()
+                    .translationY(0)
+                    .setDuration(ANIM_DURATION_TOOLBAR)
+                    .setStartDelay(500)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+//                        startContentAnimation();
+                        }
+                    })
+                    .start();
+        }
+    }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
-    private void setupAdapter() {
-        HomeBaseAdapter itemAdapter = new HomeBaseAdapter(this);
-
-        itemAdapter.addSnap(new HomeGroup(Gravity.START, HomeBaseAdapter.CARD_SIZE_SMALL, "Explore Mangoblogger", getExploreItems()));
-        itemAdapter.addSnap(new HomeGroup(Gravity.START, HomeBaseAdapter.CARD_SIZE_MEDIUM, "Our Recent Blogs", getRecentBlogs()));
-        itemAdapter.addSnap(new HomeGroup(Gravity.CENTER, HomeBaseAdapter.CARD_SIZE_PAGER, "Our Services", getServices()));
-
-        mRecyclerView.setAdapter(itemAdapter);
-
-
-    }
-
-    private List<HomeItem> getExploreItems() {
-        List<HomeItem> exploreItems = new ArrayList<>();
-        exploreItems.add(new HomeItem("Analytics Terms",
-                "https://mangoblogger-9ffff.firebaseio.com/analytics", "null",
-                R.mipmap.analytics_cover, false));
-        exploreItems.add(new HomeItem("Ux Terms",
-                "https://mangoblogger-9ffff.firebaseio.com/ux_terms", "null",
-                R.mipmap.uxterms_cover, false));
-        exploreItems.add(new HomeItem("Blogs",
-                "https://www.mangoblogger.com/mangoblogger-blog/", "null",
-                R.mipmap.blog_cover, true));
-
-        return exploreItems;
-    }
-
-    private List<HomeItem> getRecentBlogs() {
-        List<HomeItem> blogs = new ArrayList<>();
-        blogs.add(new HomeItem("Indian Mobile Congress 2017",
-                "https://www.mangoblogger.com/blog/highlights-of-india-mobile-congress-2017/",
-                "By : Yatin", R.mipmap.recent_blog_one_cover, true));
-        blogs.add(new HomeItem("Add Social Login In WordPress Site",
-                "https://www.mangoblogger.com/blog/wordpress-plugin-installation/",
-                "By : Yatin", R.mipmap.recent_blog_two_cover, true));
-        blogs.add(new HomeItem("Guide : Google Tag Manager Installation",
-                "https://www.mangoblogger.com/blog/google-tag-manager-installation-website/",
-                "By : Yatin", R.mipmap.recent_blog_three_cover, true));
-        blogs.add(new HomeItem("What is Google Analytics",
-                "https://www.mangoblogger.com/blog/what-is-google-analytics/",
-                "By : Siddhant", R.mipmap.recent_blog_four_cover, true));
-        blogs.add(new HomeItem("All About Pixel Tracking",
-                "https://www.mangoblogger.com/blog/all-about-tracking-pixel/",
-                "By : Mangoblogger", R.mipmap.recent_blog_five_cover, true));
-        return blogs;
-    }
-
-    private List<HomeItem> getServices()  {
-        List<HomeItem> services = new ArrayList<>();
-        services.add(new HomeItem("Analytics",
-                "https://www.mangoblogger.com/product/google-analytics-dashboard/",
-                "$100", R.mipmap.service_analytics_cover, true));
-        services.add(new HomeItem("Kickstarter Package",
-                "https://www.mangoblogger.com/product/google-analytics-and-google-tag-manager/",
-                "$200", R.mipmap.service_kickstarter_cover, true));
-        services.add(new HomeItem("SEO Consultation",
-                "https://www.mangoblogger.com/product/seo-consultation/",
-                "$200", R.mipmap.service_seo_cover, true));
-        services.add(new HomeItem("Ux Consultation",
-                "https://www.mangoblogger.com/product/ux-consultation/",
-                "$500", R.mipmap.service_ux_consulation_cover, true));
-
-        return services;
-    }
 
 }
 

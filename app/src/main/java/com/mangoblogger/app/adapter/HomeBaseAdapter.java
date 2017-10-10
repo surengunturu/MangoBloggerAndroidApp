@@ -31,6 +31,7 @@ import java.util.List;
 
 /**
  * Created by ujjawal on 8/10/17.
+ *
  */
 
 public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHolder> implements GravitySnapHelper.SnapListener {
@@ -43,7 +44,6 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
 
     private Context mContext;
     private ArrayList<HomeGroup> mSnaps;
-    List<BlogModel> mBlogList;
 
     // Disable touch detection for parent recyclerView if we use vertical nested recyclerViews
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -60,7 +60,6 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
     public HomeBaseAdapter(Context context) {
         mContext = context;
         mSnaps = new ArrayList<>();
-        mBlogList  = new ArrayList<>();
     }
     public void addSnap(HomeGroup snap) {
         mSnaps.add(snap);
@@ -113,7 +112,6 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
         itemAdapter.setOnItemClickListener(new HomeItemAdapter.OnItemClickListener() {
             @Override
             public void itemClick(HomeItem item, int Position) {
-//                Toast.makeText(mContext, title, Toast.LENGTH_LONG).show();
                 mContext.startActivity(ItemActivity.getStartIntent(mContext, item));
             }
         });
@@ -132,40 +130,16 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView snapTextView;
-        public RecyclerView recyclerView;
+        TextView snapTextView;
+        RecyclerView recyclerView;
 
-        public ViewHolder(View itemView) {
+         ViewHolder(View itemView) {
             super(itemView);
             snapTextView = (TextView) itemView.findViewById(R.id.snapTextView);
             recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView);
         }
 
     }
-
-    private void getDataFromFirebase() {
-        Firebase mFirebaseRef = new Firebase("https://mangoblogger-9ffff.firebaseio.com/analytics");
-        List<BlogModel> blogList = new ArrayList<>();
-        mFirebaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                mBlogList.clear();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
-                    BlogModel blogModel = dataSnapshot1.getValue(BlogModel.class);
-                    mBlogList.add(blogModel);
-
-                }
-
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
-
 
 }
 
