@@ -93,13 +93,13 @@ public class HomeFragment extends Fragment {
     private List<HomeItem> getExploreItems() {
         List<HomeItem> exploreItems = new ArrayList<>();
         exploreItems.add(new HomeItem("Analytics Terms",
-                "https://mangobloggerandroid-9ffff.firebaseio.com/analytics", "null",
+                "https://mangoblogger-9ffff.firebaseio.com/analytics", "null",
                 R.mipmap.analytics_cover, false));
         exploreItems.add(new HomeItem("Ux Terms",
-                "https://mangobloggerandroid-9ffff.firebaseio.com/ux_terms", "null",
+                "https://mangoblogger-9ffff.firebaseio.com/ux_terms", "null",
                 R.mipmap.uxterms_cover, false));
         exploreItems.add(new HomeItem("Blogs",
-                "https://www.mangobloggerandroid.com/mangobloggerandroid-blog/", "null",
+                "https://www.mangoblogger.com/mangoblogger-blog/", "null",
                 R.mipmap.blog_cover, true));
 
         return exploreItems;
@@ -108,19 +108,19 @@ public class HomeFragment extends Fragment {
     private List<HomeItem> getRecentBlogs() {
         List<HomeItem> blogs = new ArrayList<>();
         blogs.add(new HomeItem("Indian Mobile Congress 2017",
-                "https://www.mangobloggerandroid.com/blog/highlights-of-india-mobile-congress-2017/",
+                "https://www.mangoblogger.com/blog/highlights-of-india-mobile-congress-2017/",
                 "By : Yatin", R.mipmap.recent_blog_one_cover, true));
         blogs.add(new HomeItem("Add Social Login In WordPress Site",
-                "https://www.mangobloggerandroid.com/blog/wordpress-plugin-installation/",
+                "https://www.mangoblogger.com/blog/wordpress-plugin-installation/",
                 "By : Yatin", R.mipmap.recent_blog_two_cover, true));
         blogs.add(new HomeItem("Guide : Google Tag Manager Installation",
-                "https://www.mangobloggerandroid.com/blog/google-tag-manager-installation-website/",
+                "https://www.mangoblogger.com/blog/google-tag-manager-installation-website/",
                 "By : Yatin", R.mipmap.recent_blog_three_cover, true));
         blogs.add(new HomeItem("What is Google Analytics",
-                "https://www.mangobloggerandroid.com/blog/what-is-google-analytics/",
+                "https://www.mangoblogger.com/blog/what-is-google-analytics/",
                 "By : Siddhant", R.mipmap.recent_blog_four_cover, true));
         blogs.add(new HomeItem("All About Pixel Tracking",
-                "https://www.mangobloggerandroid.com/blog/all-about-tracking-pixel/",
+                "https://www.mangoblogger.com/blog/all-about-tracking-pixel/",
                 "By : Mangoblogger", R.mipmap.recent_blog_five_cover, true));
         return blogs;
     }
@@ -128,16 +128,16 @@ public class HomeFragment extends Fragment {
     private List<HomeItem> getServices()  {
         List<HomeItem> services = new ArrayList<>();
         services.add(new HomeItem("Analytics",
-                "https://www.mangobloggerandroid.com/product/google-analytics-dashboard/",
+                "https://www.mangoblogger.com/product/google-analytics-dashboard/",
                 "$100", R.mipmap.service_analytics_cover, true));
         services.add(new HomeItem("Kickstarter Package",
-                "https://www.mangobloggerandroid.com/product/google-analytics-and-google-tag-manager/",
+                "https://www.mangoblogger.com/product/google-analytics-and-google-tag-manager/",
                 "$200", R.mipmap.service_kickstarter_cover, true));
         services.add(new HomeItem("SEO Consultation",
-                "https://www.mangobloggerandroid.com/product/seo-consultation/",
+                "https://www.mangoblogger.com/product/seo-consultation/",
                 "$200", R.mipmap.service_seo_cover, true));
         services.add(new HomeItem("Ux Consultation",
-                "https://www.mangobloggerandroid.com/product/ux-consultation/",
+                "https://www.mangoblogger.com/product/ux-consultation/",
                 "$500", R.mipmap.service_ux_consulation_cover, true));
 
         return services;
