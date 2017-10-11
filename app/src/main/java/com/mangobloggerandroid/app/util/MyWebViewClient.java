@@ -1,4 +1,4 @@
-package com.mangobloggerandroid.app;
+package com.mangobloggerandroid.app.util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-
+/**
+ * Created by ujjawal on 9/10/17.
+ */
 
 public class MyWebViewClient extends WebViewClient {
 
@@ -19,7 +21,7 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-       if (Uri.parse(url).getHost().equals("www.mangobloggerandroid.com")) {
+        if (Uri.parse(url).getHost().equals("www.mangobloggerandroid.com")) {
             // This is my web site, so do not override; let my WebView load the page
             return false;
         }

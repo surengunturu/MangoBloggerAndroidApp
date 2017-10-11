@@ -1,4 +1,4 @@
-package com.mangobloggerandroid.app;
+package com.mangobloggerandroid.app.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -10,18 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
-
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.mangobloggerandroid.app.R;
+import com.mangobloggerandroid.app.util.AppUtils;
+import com.mangobloggerandroid.app.util.MyWebViewClient;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-
+/**
+ * Created by ujjawal on 9/10/17.
+ */
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebFragment extends Fragment {
@@ -88,7 +91,7 @@ public class WebFragment extends Fragment {
             }
         });
 
-       mWebView.setWebChromeClient(new WebChromeClient() {
+        mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
                 super.onProgressChanged(view, progress);
                 if(mProgressBar != null) {

@@ -1,4 +1,4 @@
-package com.mangobloggerandroid.app;
+package com.mangobloggerandroid.app.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -12,7 +12,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mangobloggerandroid.app.activity.HomeActivity;
+import com.mangobloggerandroid.app.R;
 
+import static com.mangobloggerandroid.app.util.AppUtils.startShareIntent;
+
+
+/**
+ * Created by karthikprasad on 7/29/17.
+ *  Fragment to show About view
+ */
 
 public class AboutFragment extends Fragment implements View.OnClickListener {
 
@@ -27,12 +36,12 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                                             String address, String geoLatitude, String geoLongitude) {
         AboutFragment fragment = new AboutFragment();
         Bundle args = new Bundle();
-        args.putString(MainActivity.ABOUT_KEY, about);
-        args.putString(MainActivity.COUNTRY_CODE_KEY, countryCode);
-        args.putString(MainActivity.CONTACT_NUMBER_KEY, contactNumber);
-        args.putString(MainActivity.ADDRESS_KEY, address);
-        args.putString(MainActivity.GEO_LATITUDE_KEY, geoLatitude);
-        args.putString(MainActivity.GEO_LONGITUDE_KEY, geoLongitude);
+        args.putString(HomeActivity.ABOUT_KEY, about);
+        args.putString(HomeActivity.COUNTRY_CODE_KEY, countryCode);
+        args.putString(HomeActivity.CONTACT_NUMBER_KEY, contactNumber);
+        args.putString(HomeActivity.ADDRESS_KEY, address);
+        args.putString(HomeActivity.GEO_LATITUDE_KEY, geoLatitude);
+        args.putString(HomeActivity.GEO_LONGITUDE_KEY, geoLongitude);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,12 +50,12 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mAbout = getArguments().getString(MainActivity.ABOUT_KEY);
-            mCountryCode = getArguments().getString(MainActivity.COUNTRY_CODE_KEY);
-            mContactNumber = getArguments().getString(MainActivity.CONTACT_NUMBER_KEY);
-            mAddress = getArguments().getString(MainActivity.ADDRESS_KEY);
-            mGeoLatitude = getArguments().getString(MainActivity.GEO_LATITUDE_KEY);
-            mGeoLongitude = getArguments().getString(MainActivity.GEO_LONGITUDE_KEY);
+            mAbout = getArguments().getString(HomeActivity.ABOUT_KEY);
+            mCountryCode = getArguments().getString(HomeActivity.COUNTRY_CODE_KEY);
+            mContactNumber = getArguments().getString(HomeActivity.CONTACT_NUMBER_KEY);
+            mAddress = getArguments().getString(HomeActivity.ADDRESS_KEY);
+            mGeoLatitude = getArguments().getString(HomeActivity.GEO_LATITUDE_KEY);
+            mGeoLongitude = getArguments().getString(HomeActivity.GEO_LONGITUDE_KEY);
         }
     }
 
@@ -131,18 +140,11 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.share:
-                startShareIntent();
+                startShareIntent(getActivity(), getString(R.string.play_store_link)+"\n \n Check it out!");
         }
     }
 
-    private void startShareIntent() {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        String shareBody = "https://play.google.com/store/apps/details?id=com.mangobloggerandroid.app \n \n Check it out!";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
-    }
+
 
     private void startEmailIntent() {
         Intent intent = new Intent(Intent.ACTION_SEND);

@@ -2,19 +2,19 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <string name="ga_trackingId">UA-106256858-1</string>
     <bool name="ga_autoActivityTracking">true</bool>
-    <screenName name="com.mangobloggerandroid.app.MainActivity">
+    <screenName name="com.mangoblogger.app.activity.MainActivity">
         Home Screen
     </screenName>
-    <screenName name="com.mangobloggerandroid.app.AboutFragment">
+    <screenName name="com.mangoblogger.app.fragment.AboutFragment">
         About Screen
     </screenName>
-    <screenName name="com.mangobloggerandroid.app.Splash.SplashActivity">
+    <screenName name="com.mangoblogger.app.Splash.SplashActivity">
         Splash Screen
     </screenName>
-    <screenName name="com.mangobloggerandroid.app.WelcomeActivity">
+    <screenName name="com.mangoblogger.app.WelcomeActivity">
         App Intro Walkthrough
     </screenName>
-    <screenName name="com.mangobloggerandroid.app.WebFragment">
+    <screenName name="com.mangoblogger.app.WebFragment">
         WebFragments
     </screenName>
 </resources>

@@ -1,17 +1,18 @@
 package com.mangobloggerandroid.app;
 
 import android.app.Application;
-
+import com.firebase.client.Firebase;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.Logger;
+import com.google.android.gms.analytics.Tracker;
 
-/**
- * Created by PyAndroDev on 21-09-2017.
- *
- */
+public class MangoBlogger extends Application {
 
-public class SubApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Firebase.setAndroidContext(this);
+    }
 
     public Tracker mTracker;
 
@@ -45,5 +46,4 @@ public class SubApplication extends Application {
         // Then return the tracker
         return mTracker;
     }
-
 }
