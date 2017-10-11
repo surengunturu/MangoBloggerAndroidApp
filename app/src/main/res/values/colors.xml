@@ -11,5 +11,10 @@
 
     <color name="text_like_counter">#2b5a83</color>
 
+    <color name="btn_default_light_pressed">#40ffffff</color>
+    <color name="btn_default_light_normal">#00000000</color>
+
+
+
 
 </resources>

@@ -126,7 +126,6 @@ public class HomeActivity extends AppCompatActivity  {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbarLogo = (ImageView) findViewById(R.id.app_logo);
         setupToolbar();
-//        startIntroAnimation();
 
 
 
@@ -167,10 +166,12 @@ public class HomeActivity extends AppCompatActivity  {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_home, menu);
         mNotificationMenuItem = menu.findItem(R.id.action_notification);
+        mNotificationMenuItem.setActionView(R.layout.menu_item_view);
+
 //        inboxMenuItem.setActionView(R.layout.menu_item_view);
         if (pendingIntroAnimation) {
             pendingIntroAnimation = false;
-//            startIntroAnimation();
+            startIntroAnimation();
         }
         return true;
     }
@@ -193,7 +194,7 @@ public class HomeActivity extends AppCompatActivity  {
     protected void setupToolbar() {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
-            mToolbar.setNavigationIcon(R.mipmap.ic_menu_white);
+            mToolbar.setNavigationIcon(R.mipmap.ic_menu_black);
         }
     }
 
@@ -247,11 +248,11 @@ public class HomeActivity extends AppCompatActivity  {
 
     private void startIntroAnimation() {
 //        fabCreate.setTranslationY(2 * getResources().getDimensionPixelOffset(R.dimen.btn_fab_size));
-
+        if(mNotificationMenuItem != null && mToolbar != null && mToolbarLogo != null) {
         int actionbarSize = AppUtils.dpToPx(56);
         mToolbar.setTranslationY(-actionbarSize);
         mToolbarLogo.setTranslationY(-actionbarSize);
-        if(mNotificationMenuItem != null) {
+
             mNotificationMenuItem.getActionView().setTranslationY(-actionbarSize);
 
             mToolbar.animate()
