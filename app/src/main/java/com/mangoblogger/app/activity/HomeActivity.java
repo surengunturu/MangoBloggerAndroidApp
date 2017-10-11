@@ -3,7 +3,6 @@ package com.mangoblogger.app.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
@@ -27,7 +25,6 @@ import com.mangoblogger.app.MangoBlogger;
 import com.mangoblogger.app.R;
 import com.mangoblogger.app.fragment.AboutFragment;
 import com.mangoblogger.app.fragment.BookmarkedFragment;
-import com.mangoblogger.app.fragment.FirebaseListFragment;
 import com.mangoblogger.app.fragment.HomeFragment;
 import com.mangoblogger.app.util.AppUtils;
 
@@ -47,7 +44,6 @@ public class HomeActivity extends AppCompatActivity  {
     public static final String GEO_LONGITUDE_KEY = "geo_longitude";
 
     private static final int ANIM_DURATION_TOOLBAR = 300;
-    private static final int ANIM_DURATION_FAB = 400;
 
 
     private Toolbar mToolbar;
@@ -64,7 +60,7 @@ public class HomeActivity extends AppCompatActivity  {
     private String mGeoLatitude;
     private String mGeoLongitude;
 
-    private boolean doubleBackToExitPressedOnce = false;
+//    private boolean doubleBackToExitPressedOnce = false;
     private boolean pendingIntroAnimation;
 
 
@@ -78,14 +74,14 @@ public class HomeActivity extends AppCompatActivity  {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                   attachFragment(HomeFragment.newInstance());
+                   attachFragment(HomeFragment.newInstance(), false);
                     return true;
                 case R.id.navigation_dashboard:
-                    attachFragment(BookmarkedFragment.newInstance());
+                    attachFragment(BookmarkedFragment.newInstance(), true);
                     return true;
                 case R.id.navigation_notifications:
                     attachFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
-                            mGeoLatitude, mGeoLongitude));
+                            mGeoLatitude, mGeoLongitude), true);
                     return true;
             }
             return false;
@@ -130,7 +126,7 @@ public class HomeActivity extends AppCompatActivity  {
 
 
 
-        attachFragment(HomeFragment.newInstance());
+        attachFragment(HomeFragment.newInstance(), false);
 
         //google analytics
         ((MangoBlogger)getApplication()).startTracking();
@@ -143,25 +139,38 @@ public class HomeActivity extends AppCompatActivity  {
         super.onStart();
     }
 
+    /*@Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 1) {
+            getFragmentManager().popBackStack();
+        } else {
+
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
+    }*/
+
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+        if (getFragmentManager().getBackStackEntryCount() < 0) {
+            getFragmentManager().popBackStack();
+        } else {
             super.onBackPressed();
-            return;
         }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -200,12 +209,19 @@ public class HomeActivity extends AppCompatActivity  {
     }
 
 
-    public void attachFragment(Fragment fragment) {
+    public void attachFragment(Fragment fragment, boolean addTobackStack) {
         FragmentManager fm = getSupportFragmentManager();
-
-                   fm.beginTransaction().replace(R.id.container,
+        if(addTobackStack) {
+            fm.beginTransaction().replace(R.id.container,
+                    fragment).addToBackStack(null)
+                    .commit();
+        } else {
+            fm.beginTransaction().replace(R.id.container,
                     fragment)
                     .commit();
+        }
+
+
     }
 
     private void firebaseRemoteConfigSettings() {
@@ -271,13 +287,11 @@ public class HomeActivity extends AppCompatActivity  {
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-//                        startContentAnimation();
                         }
                     })
                     .start();
         }
     }
-
 
 
     @Override

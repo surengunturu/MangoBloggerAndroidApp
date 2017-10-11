@@ -107,9 +107,9 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
             public void itemClick(HomeItem item, int Position) {
                 if(mContext instanceof HomeActivity) {
                     if(item.isWebView()) {
-                        ((HomeActivity) mContext).attachFragment(WebFragment.newInstance(item.getUrl(), item.getName()));
+                        ((HomeActivity) mContext).attachFragment(WebFragment.newInstance(item.getUrl(), item.getName()), true);
                     } else {
-                        ((HomeActivity) mContext).attachFragment(FirebaseListFragment.newInstance(item.getUrl()));
+                        ((HomeActivity) mContext).attachFragment(FirebaseListFragment.newInstance(item.getUrl()), true);
                     }
                 }
             }
