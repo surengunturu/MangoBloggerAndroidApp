@@ -26,6 +26,7 @@ import com.mangoblogger.app.BuildConfig;
 import com.mangoblogger.app.MangoBlogger;
 import com.mangoblogger.app.R;
 import com.mangoblogger.app.fragment.AboutFragment;
+import com.mangoblogger.app.fragment.BookmarkedFragment;
 import com.mangoblogger.app.fragment.FirebaseListFragment;
 import com.mangoblogger.app.fragment.HomeFragment;
 import com.mangoblogger.app.util.AppUtils;
@@ -80,7 +81,7 @@ public class HomeActivity extends AppCompatActivity  {
                    attachFragment(HomeFragment.newInstance());
                     return true;
                 case R.id.navigation_dashboard:
-                    attachFragment(FirebaseListFragment.newInstance("https://mangoblogger-9ffff.firebaseio.com/analytics"));
+                    attachFragment(BookmarkedFragment.newInstance());
                     return true;
                 case R.id.navigation_notifications:
                     attachFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,

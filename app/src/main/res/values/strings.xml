@@ -19,6 +19,9 @@
     <string name="offline_notice">You are currently offline.</string>
     <string name="firebase_list">Firebase List</string>
 
+    <string name="bookmarked_desc">If you see something you like, click on the bookmark icon to save it. All of your bookmarked article will appear here.</string>
+    <string name="start_exploring_label">Start exploring</string>
+
     <string name="expand">More</string>
     <string name="collapse">Less</string>
     <string name="card_share_body_extra">\n \nFor more terms, install our app from \n https://play.google.com/store/apps/details?id=com.mangobloggerandroid.app</string>
