@@ -200,7 +200,7 @@ public class HomeActivity extends AppCompatActivity  {
     }
 
 
-    private void attachFragment(Fragment fragment) {
+    public void attachFragment(Fragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
 
                    fm.beginTransaction().replace(R.id.container,

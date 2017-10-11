@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mangoblogger.app.activity.MainActivity;
+import com.mangoblogger.app.activity.HomeActivity;
 import com.mangoblogger.app.R;
 
 import static com.mangoblogger.app.util.AppUtils.startShareIntent;
@@ -36,12 +36,12 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                                             String address, String geoLatitude, String geoLongitude) {
         AboutFragment fragment = new AboutFragment();
         Bundle args = new Bundle();
-        args.putString(MainActivity.ABOUT_KEY, about);
-        args.putString(MainActivity.COUNTRY_CODE_KEY, countryCode);
-        args.putString(MainActivity.CONTACT_NUMBER_KEY, contactNumber);
-        args.putString(MainActivity.ADDRESS_KEY, address);
-        args.putString(MainActivity.GEO_LATITUDE_KEY, geoLatitude);
-        args.putString(MainActivity.GEO_LONGITUDE_KEY, geoLongitude);
+        args.putString(HomeActivity.ABOUT_KEY, about);
+        args.putString(HomeActivity.COUNTRY_CODE_KEY, countryCode);
+        args.putString(HomeActivity.CONTACT_NUMBER_KEY, contactNumber);
+        args.putString(HomeActivity.ADDRESS_KEY, address);
+        args.putString(HomeActivity.GEO_LATITUDE_KEY, geoLatitude);
+        args.putString(HomeActivity.GEO_LONGITUDE_KEY, geoLongitude);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,12 +50,12 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mAbout = getArguments().getString(MainActivity.ABOUT_KEY);
-            mCountryCode = getArguments().getString(MainActivity.COUNTRY_CODE_KEY);
-            mContactNumber = getArguments().getString(MainActivity.CONTACT_NUMBER_KEY);
-            mAddress = getArguments().getString(MainActivity.ADDRESS_KEY);
-            mGeoLatitude = getArguments().getString(MainActivity.GEO_LATITUDE_KEY);
-            mGeoLongitude = getArguments().getString(MainActivity.GEO_LONGITUDE_KEY);
+            mAbout = getArguments().getString(HomeActivity.ABOUT_KEY);
+            mCountryCode = getArguments().getString(HomeActivity.COUNTRY_CODE_KEY);
+            mContactNumber = getArguments().getString(HomeActivity.CONTACT_NUMBER_KEY);
+            mAddress = getArguments().getString(HomeActivity.ADDRESS_KEY);
+            mGeoLatitude = getArguments().getString(HomeActivity.GEO_LATITUDE_KEY);
+            mGeoLongitude = getArguments().getString(HomeActivity.GEO_LONGITUDE_KEY);
         }
     }
 

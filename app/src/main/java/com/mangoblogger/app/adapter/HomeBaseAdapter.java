@@ -13,22 +13,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.mangoblogger.app.R;
-import com.mangoblogger.app.activity.ItemActivity;
+import com.mangoblogger.app.activity.HomeActivity;
+import com.mangoblogger.app.fragment.FirebaseListFragment;
+import com.mangoblogger.app.fragment.WebFragment;
 import com.mangoblogger.app.helper.GravitySnapHelper;
-import com.mangoblogger.app.model.BlogModel;
 import com.mangoblogger.app.model.HomeGroup;
 import com.mangoblogger.app.model.HomeItem;
 
 import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by ujjawal on 8/10/17.
  *
@@ -112,11 +105,19 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
         itemAdapter.setOnItemClickListener(new HomeItemAdapter.OnItemClickListener() {
             @Override
             public void itemClick(HomeItem item, int Position) {
-                mContext.startActivity(ItemActivity.getStartIntent(mContext, item));
+                if(mContext instanceof HomeActivity) {
+                    if(item.isWebView()) {
+                        ((HomeActivity) mContext).attachFragment(WebFragment.newInstance(item.getUrl(), item.getName()));
+                    } else {
+                        ((HomeActivity) mContext).attachFragment(FirebaseListFragment.newInstance(item.getUrl()));
+                    }
+                }
             }
         });
 
     }
+
+
 
     @Override
     public int getItemCount() {
