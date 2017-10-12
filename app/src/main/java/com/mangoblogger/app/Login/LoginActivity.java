@@ -6,16 +6,28 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mangoblogger.app.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -25,12 +37,19 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
 
+    CallbackManager callbackManager;
+    LoginButton loginButton;
+    TextView textView;
+    AccessToken accessToken;
+    AccessTokenTracker accessTokenTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
+        callbackManager = CallbackManager.Factory.create();
 
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, FrontActivity.class));
@@ -49,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
+        loginButton = (LoginButton) findViewById(R.id.facebook_Login);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -110,6 +130,52 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+
+        loginButton.setReadPermissions("email", "public_profile");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                textView.setText("Login successfull");
+                accessToken = AccessToken.getCurrentAccessToken();
+                handleFacbookToken(accessToken);
+                Log.e("MY TAG", ""+accessToken);
+            }
+
+            @Override
+            public void onCancel() {
+                textView.setText("Login cancel");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+    }
+
+    private void handleFacbookToken(AccessToken accessToken) {
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("MY ACTIVITY", "signInWithCredential:success");
+                            FirebaseUser user = auth.getCurrentUser();
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("MY ACTIVITY", "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
     }
 }
 

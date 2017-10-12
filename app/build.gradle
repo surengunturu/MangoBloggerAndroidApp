@@ -59,10 +59,11 @@ dependencies {
     compile 'com.google.firebase:firebase-config:11.2.2'
     compile 'com.google.android.gms:play-services-tagmanager:11.2.2'
     compile 'com.google.android.gms:play-services-analytics:11.2.2'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     //authentication for facebook and google
     compile 'com.google.firebase:firebase-auth:11.2.2'
-    compile 'com.facebook.android:facebook-android-sdk:4.20.0'
+   // compile 'com.facebook.android:facebook-android-sdk:4.20.0'
     compile 'com.google.android.gms:play-services-auth:11.2.2'
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
