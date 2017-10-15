@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -34,6 +35,7 @@ public class FirebaseListFragment extends Fragment {
     private FirebaseDataAdapter firebaseDataAdapter;
 
     private RecyclerView recyclerView;
+    private ProgressBar mProgressBar;
 
     private Firebase mFirebaseRef;
     private int lastPoistion;
@@ -71,6 +73,8 @@ public class FirebaseListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container ,false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -105,6 +109,7 @@ public class FirebaseListFragment extends Fragment {
                firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
                recyclerView.setAdapter(firebaseDataAdapter);
                recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
+               mProgressBar.setVisibility(View.GONE);
            }
 
            @Override
