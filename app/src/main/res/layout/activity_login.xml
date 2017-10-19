@@ -10,18 +10,20 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#fff"
+        android:background="@drawable/bbb"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_horizontal_margin"
+        android:weightSum="1">
 
 
         <ImageView
+            android:id="@+id/imageView2"
             android:layout_width="@dimen/logo_w_h"
             android:layout_height="@dimen/logo_w_h"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
-            android:src="@drawable/ic_mango" />
+            android:src="@drawable/ic_mango2" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -57,11 +59,13 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="110dp"
+            android:layout_width="113dp"
+            android:background="#fff"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:text="Login" android:textAllCaps="false"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:layout_weight="0.13" />
 
 
         <com.google.android.gms.common.SignInButton
@@ -80,13 +84,14 @@
             android:id="@+id/facebook_Login"/>
 
 
-
         <Button
             android:id="@+id/btn_reset_password"
-            android:layout_width="wrap_content"
+            android:layout_width="162dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@null"
+            android:layout_weight="0.28"
+
+            android:background="#fff"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
             android:textColor="#000000" />
