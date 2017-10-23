@@ -1,10 +1,8 @@
 # MangoBlogger Android App
-Digital Marketing Assistant for your business
+Digital Marketing Assistant App.
 
-This is the code for our mangoblogger.com Android app. 
+An easy way to turn your business website into beautiful Android App using Wordpress API or Decoupled Derupal. We have made the code open source under the Mozilla Public License 2.0. it is well integrated with App Analytics and UX principles/ 
 
-We have made the code open source under the Mozilla Public License 2.0. 
+All the feedback and contributions to the project are welcome. Feel free to send a pull request!
 
-In the future as we continue building our own app the the plan is to make it into an Android Template that businessess can use to quickly spin up Android Apps which integerate well with their websites. The app will have all the analytics tracking built in.
-
-All the feedback and contributions to the project are welcome. 
+Please direct all the questions at - contact@mangoblogger.com
