@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mangobloggerandroid.app.Login.LoginActivity;
 import com.mangobloggerandroid.app.activity.HomeActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -124,7 +125,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         finish();
     }
 
