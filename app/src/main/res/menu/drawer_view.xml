@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/ic_dashboard"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_pt_answer"
+            android:icon="@mipmap/ic_event"
+            android:title="PT-Exam Answer" />
+        <item
+            android:id="@+id/nav_question"
+            android:icon="@mipmap/ic_forum"
+            android:title="PT-Exam Question" />
+        <item
+            android:id="@+id/nav_friends"
+            android:icon="@mipmap/ic_headset"
+            android:title="Friends" />
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:icon="@mipmap/ic_dashboard"
+                android:title="Talent Coaching Centre"
+                android:id="@+id/nav_about"/>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:icon="@mipmap/ic_forum"
+                android:title="Contact Us"
+                android:id="@+id/nav_contact"/>
+        </menu>
+    </item>
+</menu>
