@@ -16,18 +16,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.PopupMenu;
-
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
-import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 
 import java.util.concurrent.TimeUnit;
@@ -310,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initSnackBar() {
-        if (!AppUtils.hasConnection(this)) {
+        if (!AppUtils.isNetworkConnected(this)) {
             Snackbar.make(mCoordinator, R.string.offline_notice, Snackbar.LENGTH_LONG).show();
         }
     }

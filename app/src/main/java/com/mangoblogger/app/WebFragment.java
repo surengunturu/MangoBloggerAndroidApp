@@ -107,7 +107,7 @@ public class WebFragment extends Fragment {
         webSettings.setAppCacheEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); // load online by default
 
-        if (!AppUtils.hasConnection(getContext())) { // loading offline
+        if (!AppUtils.isNetworkConnected(getContext())) { // loading offline
             webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         }
     }

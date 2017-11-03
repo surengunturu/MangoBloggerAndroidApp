@@ -6,4 +6,6 @@ package com.mangoblogger.app.Login;
 
 public class AuthResponse {
     private String status;
+
+
 }
