@@ -51,7 +51,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
                 String password = inputPassword.getText().toString();
-                getNonceId("user", "register");
+//                getNonceId("user", "register");
+                signIn(email, password);
             }
         });
     }
@@ -71,11 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getNonceId(String controller, String method) {
         if (!AppUtils.isNetworkConnected(this)) {
-            ErrorDialogFragment fragment = ErrorDialogFragment.newInstance(
-                    getString(R.string.title_error_no_network)
-                    , getString(R.string.message_error_no_network));
-
-            fragment.show(getFragmentManager(), "FRAGMENT_ERROR");
+            showErrorDialog();
         } else {
             mAuthApi.getNonceId(controller, method, new Callback<NonceId>() {
                 @Override
@@ -91,15 +88,42 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
-
-
-
         }
 
     }
 
-    private void signIn() {
+    private void signIn(String emailId, String password) {
+        if (!AppUtils.isNetworkConnected(this)) {
+            showErrorDialog();
+        } else {
+            mAuthApi.loginUser(emailId, password, new Callback<LoginResponse>() {
+                @Override
+                public void success(LoginResponse loginResponse, Response response) {
+                    if(loginResponse.getStatus().equals("ok")) {
+                        Log.e("Success : Login", loginResponse.getStatus() + " Username : " +
+                                loginResponse.getUsername());
+                        Toast.makeText(getApplicationContext(), loginResponse.getStatus(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), loginResponse.getError(), Toast.LENGTH_LONG).show();
+                    }
+                }
 
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e("Failure : NonceId", error.getLocalizedMessage());
+                    Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+    }
+
+    private void showErrorDialog() {
+        ErrorDialogFragment fragment = ErrorDialogFragment.newInstance(
+                getString(R.string.title_error_no_network)
+                , getString(R.string.message_error_no_network));
+
+        fragment.show(getFragmentManager(), "FRAGMENT_ERROR");
     }
 }
 

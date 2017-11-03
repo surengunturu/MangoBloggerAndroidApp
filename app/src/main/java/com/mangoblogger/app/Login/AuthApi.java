@@ -25,8 +25,8 @@ public interface AuthApi {
                            @Query("method") String method,
                            Callback<NonceId> callback);
 
- @GET("/ledzee1729/user/generate_auth_cookie/?username={username}&password={password}")
+ @GET("/ledzee1729/user/generate_auth_cookie/")
     public void loginUser(@Query("username") String username,
                           @Query("password") String password,
-                          Callback<String> callback);
+                          Callback<LoginResponse> callback);
 }
