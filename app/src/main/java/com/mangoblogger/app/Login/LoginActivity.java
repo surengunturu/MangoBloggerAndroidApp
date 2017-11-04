@@ -55,6 +55,13 @@ public class LoginActivity extends BaseAuthActivity {
                 signIn(email, password);
             }
         });
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+            }
+        });
     }
 
     @Override

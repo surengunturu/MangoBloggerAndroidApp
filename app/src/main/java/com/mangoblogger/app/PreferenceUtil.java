@@ -17,7 +17,6 @@ public class PreferenceUtil {
     private static final String PREFERENCE_USERNAME = USER_PREFERENCES + ".username";
     private static final String PREFERENCE_EMAIL = USER_PREFERENCES + ".email";
     private static final String PREFERENCE_LOGGED_IN = USER_PREFERENCES + ".isLoggedIn";
-    private static final String PREFERENCE_REGISTERED = USER_PREFERENCES + ".registered";
     private static final String PREFERENCE_DISPLAY_NAME = USER_PREFERENCES + ".displayName";
     private static final String PREFERENCE_COOKIE = USER_PREFERENCES + ".cookie";
     private PreferenceUtil() {
@@ -31,7 +30,6 @@ public class PreferenceUtil {
         editor.putString(PREFERENCE_USERNAME, user.getUsername());
         editor.putString(PREFERENCE_EMAIL, user.getEmail());
         editor.putBoolean(PREFERENCE_LOGGED_IN, user.isLoggedIn());
-        editor.putString(PREFERENCE_REGISTERED, user.getRegistered());
         editor.putString(PREFERENCE_DISPLAY_NAME, user.getDisplayname());
         editor.putString(PREFERENCE_COOKIE, user.getCookie());
         editor.apply();
@@ -44,11 +42,10 @@ public class PreferenceUtil {
         final String username = preferences.getString(PREFERENCE_USERNAME, "Test User");
         final String email = preferences.getString(PREFERENCE_EMAIL, "user@example.com");
         final boolean isLoggedIn = preferences.getBoolean(PREFERENCE_LOGGED_IN, false);
-        final String registered = preferences.getString(PREFERENCE_REGISTERED, "04/11/2017");
         final String displayName = preferences.getString(PREFERENCE_DISPLAY_NAME, "Test User");
         final String cookie = preferences.getString(PREFERENCE_COOKIE, "null");
 
-        return new User(id, username, email, registered, displayName, isLoggedIn, cookie);
+        return new User(id, username, email, displayName, isLoggedIn, cookie);
     }
 
     /**
