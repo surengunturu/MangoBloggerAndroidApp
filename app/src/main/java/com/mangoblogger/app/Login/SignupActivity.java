@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mangoblogger.app.AppUtils;
+import com.mangoblogger.app.PreferenceUtil;
 import com.mangoblogger.app.R;
 
 import retrofit.Callback;
@@ -93,6 +94,7 @@ public class SignupActivity extends BaseAuthActivity {
                     inputPassword.setError("Password must be at least 6 characters long");
                     return;
                 }
+                registerUser(username, email, password);
             }
         });
     }
@@ -129,14 +131,22 @@ public class SignupActivity extends BaseAuthActivity {
         }
     }
 
-    private void registerUser(String username, String email, String password) {
+    private void registerUser(final String username, final String email, String password) {
         if(!AppUtils.isNetworkConnected(this)) {
             showErrorDialog();
         } else {
-            mAuthApi.registerUser(username, email, mNonceId, username, "both", password, new Callback<String>() {
+            mAuthApi.registerUser(username, email, mNonceId, username, "both", password, new Callback<RegisterResponse>() {
                 @Override
-                public void success(String s, Response response) {
-                    
+                public void success(RegisterResponse registerResponse, Response response) {
+                    if(registerResponse.getStatus().equals("ok")) {
+                        User user = new User(registerResponse.getUser_id(), username, email, username,
+                                true, registerResponse.getCookie());
+                        PreferenceUtil.writeUserToPreferences(getApplicationContext(), user);
+                        startApp();
+                    } else {
+                        showAuthError(R.id.error_text, registerResponse.getError());
+                    }
+
                 }
 
                 @Override

@@ -18,7 +18,7 @@ public interface AuthApi {
                              @Query("display_name") String display_name,
                              @Query("notify") String notify,
                              @Query("password") String password,
-                             Callback<String> callback);
+                             Callback<RegisterResponse> callback);
 
  @GET("/ledzee1729/get_nonce/")
     public void getNonceId(@Query("controller") String controller,

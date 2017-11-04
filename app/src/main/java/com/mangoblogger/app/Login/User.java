@@ -10,26 +10,22 @@ public class User {
     private String username;
     private String nicename;
     private String email;
-    private String registered;
     private String displayname;
     private String description;
     private String cookie;
     private boolean isLoggedIn;
 
-    public User(String id, String username,  String email,
-                String registered, String displayname) {
+    public User(String id, String username,  String email,String displayname) {
         this.id = id;
         this.username = username;
-        this.nicename = nicename;
         this.email = email;
-        this.registered = registered;
         this.displayname = displayname;
         this.description = description;
     }
 
     public User(String id, String username,  String email,
-                String registered, String displayname, boolean isLoggedIn, String cookie) {
-        User user = new User(id, username, email, registered, displayname);
+                 String displayname, boolean isLoggedIn, String cookie) {
+        User user = new User(id, username, email, displayname);
         user.setCookie(cookie);
         user.setLoggedIn(isLoggedIn);
     }
@@ -75,7 +71,4 @@ public class User {
         return nicename;
     }
 
-    public String getRegistered() {
-        return registered;
-    }
 }

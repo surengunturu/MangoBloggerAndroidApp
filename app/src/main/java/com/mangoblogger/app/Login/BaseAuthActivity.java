@@ -3,6 +3,7 @@ package com.mangoblogger.app.Login;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.mangoblogger.app.MainActivity;
 import com.mangoblogger.app.R;
@@ -28,6 +29,11 @@ public class BaseAuthActivity extends AppCompatActivity {
     protected void startApp() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    public void showAuthError(int resId, String errorText) {
+        TextView errorTextView = (TextView) findViewById(resId);
+        errorTextView.setText(errorText);
     }
 
     public void showErrorDialog() {
