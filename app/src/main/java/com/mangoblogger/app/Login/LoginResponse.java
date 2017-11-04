@@ -15,6 +15,7 @@ public class LoginResponse {
         this.status = status;
         this.cookie = cookie;
         this.user = user;
+        user.setCookie(cookie);
     }
 
     public LoginResponse(String status, String error) {
@@ -28,6 +29,10 @@ public class LoginResponse {
 
     public String getError() {
         return error;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String getStatus() {
