@@ -4,13 +4,13 @@ package com.mangobloggerandroid.app.Login;
  * Created by ujjawal on 3/11/17.
  */
 
-public class NonceId {
+public class NonceIdResponse {
     private String status;
     private String controller;
     private String method;
     private String nonce;
 
-    public NonceId(String status, String controller, String method, String nonce) {
+    public NonceIdResponse(String status, String controller, String method, String nonce) {
         this.status = status;
         this.controller = controller;
         this.method = method;
@@ -19,5 +19,9 @@ public class NonceId {
 
     public String getNonce() {
         return nonce;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

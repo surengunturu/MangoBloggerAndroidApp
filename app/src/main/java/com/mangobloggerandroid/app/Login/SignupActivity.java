@@ -1,6 +1,5 @@
 package com.mangobloggerandroid.app.Login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mangobloggerandroid.app.PreferenceUtil;
@@ -63,9 +61,9 @@ public class SignupActivity extends BaseAuthActivity {
                 String username = inputUsername.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-                if(mNonceId == null) {
-                    getNonceId("user", "registration");
-                }
+                /*if(mNonceId == null) {
+                    getNonceId("user", "register");
+                }*/
 
                 if(TextUtils.isEmpty(username)) {
                     inputUsername.setError("Username is required");
@@ -93,7 +91,6 @@ public class SignupActivity extends BaseAuthActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getNonceId("user", "register");
     }
 
     @Override
@@ -101,15 +98,22 @@ public class SignupActivity extends BaseAuthActivity {
         super.onResume();
     }
 
-    private void getNonceId(String controller, String method) {
-        if (!AppUtils.isNetworkConnected(this)) {
+    private void registerUser(final String username, final String email, final String password) {
+        if(!AppUtils.isNetworkConnected(this)) {
             showErrorDialog();
         } else {
-            mAuthApi.getNonceId(controller, method, new Callback<NonceId>() {
+            showProgressDialog();
+            mAuthApi.getNonceId("user", "register", new Callback<NonceIdResponse>() {
                 @Override
-                public void success(NonceId nonceId, Response response) {
-                    Log.e("Success : NonceId", nonceId.getNonce());
-                    mNonceId = nonceId.getNonce();
+                public void success(NonceIdResponse nonceIdResponse, Response response) {
+                    Log.e("Success : NonceId", nonceIdResponse.getNonce());
+                    if(nonceIdResponse.getStatus().equals("ok")) {
+                        mNonceId = nonceIdResponse.getNonce();
+                        signUp(username, email, password);
+                    } else {
+                        hideProgressDialog();
+                        showAuthError(R.id.error_text, "Sorry, couldn't able to SignIn. Please try again later!");
+                    }
                 }
 
                 @Override
@@ -118,36 +122,31 @@ public class SignupActivity extends BaseAuthActivity {
                     Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
+
         }
     }
 
-    private void registerUser(final String username, final String email, String password) {
-        if(!AppUtils.isNetworkConnected(this)) {
-            showErrorDialog();
-        } else {
-            showProgressDialog();
-            if(mNonceId == null) {
-                getNonceId("user", "register");
+    private void signUp(final String username, final String email,final String password) {
+        mAuthApi.registerUser(username, email, mNonceId, username, "both", password, new Callback<RegisterResponse>() {
+            @Override
+            public void success(RegisterResponse registerResponse, Response response) {
+                if(registerResponse.getStatus().equals("ok")) {
+                    User user = new User(registerResponse.getUser_id(), username, email, username,
+                            true, registerResponse.getCookie());
+                    PreferenceUtil.writeUserToPreferences(getApplicationContext(), user);
+                    hideProgressDialog();
+                    startApp();
+                } else {
+                    hideProgressDialog();
+                    showAuthError(R.id.error_text, registerResponse.getError());
+                }
             }
-                mAuthApi.registerUser(username, email, mNonceId, username, "both", password, new Callback<RegisterResponse>() {
-                @Override
-                public void success(RegisterResponse registerResponse, Response response) {
-                    if(registerResponse.getStatus().equals("ok")) {
-                        User user = new User(registerResponse.getUser_id(), username, email, username,
-                                true, registerResponse.getCookie());
-                        PreferenceUtil.writeUserToPreferences(getApplicationContext(), user);
-                        hideProgressDialog();
-                        startApp();
-                    } else {
-                        hideProgressDialog();
-                        showAuthError(R.id.error_text, registerResponse.getError());
-                    }
-                }
-                @Override
-                public void failure(RetrofitError error) {
-                    showAuthError(R.id.error_text, "Unknown error occurred");
-                }
-            });
-        }
+            @Override
+            public void failure(RetrofitError error) {
+                hideProgressDialog();
+                Log.e("Failure : Register", error.getLocalizedMessage());
+                showAuthError(R.id.error_text, "Unknown error occurred");
+            }
+        });
     }
 }

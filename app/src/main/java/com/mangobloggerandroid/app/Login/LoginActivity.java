@@ -1,7 +1,5 @@
 package com.mangobloggerandroid.app.Login;
 
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -65,6 +63,7 @@ public class LoginActivity extends BaseAuthActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+                finish();
             }
         });
     }
@@ -99,7 +98,7 @@ public class LoginActivity extends BaseAuthActivity {
                 @Override
                 public void failure(RetrofitError error) {
                     hideProgressDialog();
-                    Log.e("Failure : NonceId", error.getLocalizedMessage());
+                    Log.e("Failure : Login", error.getLocalizedMessage());
                     Toast.makeText(getApplicationContext(), error.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });

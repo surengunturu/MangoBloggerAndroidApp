@@ -17,13 +17,13 @@ public interface AuthApi {
                              @Query("nonce") String nonce,
                              @Query("display_name") String display_name,
                              @Query("notify") String notify,
-                             @Query("password") String password,
+                             @Query("user_pass") String password,
                              Callback<RegisterResponse> callback);
 
  @GET("/ledzee1729/get_nonce/")
     void getNonceId(@Query("controller") String controller,
                            @Query("method") String method,
-                           Callback<NonceId> callback);
+                           Callback<NonceIdResponse> callback);
 
  @GET("/ledzee1729/user/generate_auth_cookie/")
     void loginUser(@Query("username") String username,
