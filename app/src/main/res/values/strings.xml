@@ -94,4 +94,7 @@ and move fast</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
     <string name="facebook_app_id">184881255401716</string>
+    <string name="title_error_no_network">No Network</string>
+    <string name="message_error_no_network">You must have a working internet connection!</string>
+
 </resources>

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
     tools:context="com.mangobloggerandroid.app.Login.LoginActivity">
 
     <LinearLayout
@@ -24,6 +23,12 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
             android:src="@drawable/ic_mango2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/error_text"
+            android:textColor="@color/dot_dark_screen1"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
