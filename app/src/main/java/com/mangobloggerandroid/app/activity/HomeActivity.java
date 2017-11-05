@@ -2,11 +2,18 @@ package com.mangobloggerandroid.app.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,7 +28,9 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.mangobloggerandroid.app.BuildConfig;
+import com.mangobloggerandroid.app.Login.LoginActivity;
 import com.mangobloggerandroid.app.MangoBlogger;
+import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.fragment.AboutFragment;
 import com.mangobloggerandroid.app.fragment.BookmarkedFragment;
@@ -35,7 +44,7 @@ import io.fabric.sdk.android.Fabric;
  *
  */
 
-public class HomeActivity extends AppCompatActivity  {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String ABOUT_KEY = "about";
     public static final String CONTACT_NUMBER_KEY = "contact_number"; // value must be equal to parameter in firebase remote config
     public static final String COUNTRY_CODE_KEY = "contact_number_country_code"; // value must be equal to parameter in firebase remote config
@@ -62,10 +71,6 @@ public class HomeActivity extends AppCompatActivity  {
 
 //    private boolean doubleBackToExitPressedOnce = false;
     private boolean pendingIntroAnimation;
-
-
-
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -123,6 +128,7 @@ public class HomeActivity extends AppCompatActivity  {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbarLogo = (ImageView) findViewById(R.id.app_logo);
         setupToolbar();
+        setUpDrawer();
 
 
 
@@ -204,10 +210,35 @@ public class HomeActivity extends AppCompatActivity  {
     protected void setupToolbar() {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
-            mToolbar.setNavigationIcon(R.mipmap.ic_menu_black);
         }
     }
 
+    private void setUpDrawer() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        mToolbar.getNavigationIcon().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.nav_signOut) {
+            PreferenceUtil.signOut(this);
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     public void attachFragment(Fragment fragment, boolean addTobackStack) {
         FragmentManager fm = getSupportFragmentManager();

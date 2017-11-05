@@ -97,4 +97,8 @@ and move fast</string>
     <string name="title_error_no_network">No Network</string>
     <string name="message_error_no_network">You must have a working internet connection!</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
 </resources>

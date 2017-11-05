@@ -22,6 +22,10 @@
                 android:icon="@mipmap/ic_call_black_18dp"
                 android:title="Contact Us"
                 android:id="@+id/nav_contact"/>
+            <item
+                android:icon="@mipmap/ic_logout_black"
+                android:title="Sign Out"
+                android:id="@+id/nav_signOut"/>
         </menu>
     </item>
 </menu>
