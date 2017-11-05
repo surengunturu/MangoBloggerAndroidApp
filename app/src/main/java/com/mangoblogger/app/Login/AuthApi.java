@@ -12,7 +12,7 @@ import retrofit.http.Query;
 
 public interface AuthApi {
  @GET("/ledzee1729/user/register/")
-    public void registerUser(@Query("username") String username,
+    void registerUser(@Query("username") String username,
                              @Query("email") String email,
                              @Query("nonce") String nonce,
                              @Query("display_name") String display_name,
@@ -21,12 +21,16 @@ public interface AuthApi {
                              Callback<RegisterResponse> callback);
 
  @GET("/ledzee1729/get_nonce/")
-    public void getNonceId(@Query("controller") String controller,
+    void getNonceId(@Query("controller") String controller,
                            @Query("method") String method,
                            Callback<NonceId> callback);
 
  @GET("/ledzee1729/user/generate_auth_cookie/")
-    public void loginUser(@Query("username") String username,
+    void loginUser(@Query("username") String username,
                           @Query("password") String password,
                           Callback<LoginResponse> callback);
+
+ @GET("/ledzee1729/user/retrieve_password/")
+    void resetPassword(@Query("user_login") String username,
+                              Callback<ResetPasswordResponse> callback);
 }
