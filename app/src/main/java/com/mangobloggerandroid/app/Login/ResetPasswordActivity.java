@@ -61,16 +61,18 @@ public class ResetPasswordActivity extends BaseAuthActivity {
                 @Override
                 public void success(ResetPasswordResponse resetPasswordResponse, Response response) {
                     if(resetPasswordResponse.getStatus().equals("ok")) {
+                        hideProgressDialog();
                         setResponseMessage(R.color.global_color_green_primary, "Password reset has been sent on your registered email. Check your Inbox");
                     } else {
+                        hideProgressDialog();
                         setResponseMessage(R.color.bg_screen1, resetPasswordResponse.getMsg());
                     }
-                    hideProgressDialog();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     setResponseMessage(R.color.bg_screen1, "Some unknown error occurred");
+                    hideProgressDialog();
                 }
             });
         }

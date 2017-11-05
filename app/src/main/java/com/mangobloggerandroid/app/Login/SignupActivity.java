@@ -93,7 +93,7 @@ public class SignupActivity extends BaseAuthActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        getNonceId("user", "registration");
+        getNonceId("user", "register");
     }
 
     @Override
@@ -125,23 +125,27 @@ public class SignupActivity extends BaseAuthActivity {
         if(!AppUtils.isNetworkConnected(this)) {
             showErrorDialog();
         } else {
-            mAuthApi.registerUser(username, email, mNonceId, username, "both", password, new Callback<RegisterResponse>() {
+            showProgressDialog();
+            if(mNonceId == null) {
+                getNonceId("user", "register");
+            }
+                mAuthApi.registerUser(username, email, mNonceId, username, "both", password, new Callback<RegisterResponse>() {
                 @Override
                 public void success(RegisterResponse registerResponse, Response response) {
                     if(registerResponse.getStatus().equals("ok")) {
                         User user = new User(registerResponse.getUser_id(), username, email, username,
                                 true, registerResponse.getCookie());
                         PreferenceUtil.writeUserToPreferences(getApplicationContext(), user);
+                        hideProgressDialog();
                         startApp();
                     } else {
+                        hideProgressDialog();
                         showAuthError(R.id.error_text, registerResponse.getError());
                     }
-
                 }
-
                 @Override
                 public void failure(RetrofitError error) {
-
+                    showAuthError(R.id.error_text, "Unknown error occurred");
                 }
             });
         }
