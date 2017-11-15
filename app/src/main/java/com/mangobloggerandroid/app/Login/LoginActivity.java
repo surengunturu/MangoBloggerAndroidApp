@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
+import com.mangobloggerandroid.app.activity.HomeActivity;
 import com.mangobloggerandroid.app.util.AppUtils;
 
 import retrofit.Callback;
@@ -126,6 +127,11 @@ public class LoginActivity extends BaseAuthActivity {
         }
 
         return result;
+    }
+
+    private void startApp() {
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 }
 

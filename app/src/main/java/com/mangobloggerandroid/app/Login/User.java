@@ -25,9 +25,12 @@ public class User {
 
     public User(String id, String username,  String email,
                  String displayname, boolean isLoggedIn, String cookie) {
-        User user = new User(id, username, email, displayname);
-        user.setCookie(cookie);
-        user.setLoggedIn(isLoggedIn);
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.displayname = displayname;
+        this.cookie = cookie;
+        this.isLoggedIn = isLoggedIn;
     }
 
 

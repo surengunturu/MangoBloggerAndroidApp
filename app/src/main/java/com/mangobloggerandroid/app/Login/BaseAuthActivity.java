@@ -26,10 +26,7 @@ public class BaseAuthActivity extends AppCompatActivity {
         return adapter.create(AuthApi.class);
     }
 
-    protected void startApp() {
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
-    }
+
 
     public void showAuthError(int resId, String errorText) {
         TextView errorTextView = (TextView) findViewById(resId);

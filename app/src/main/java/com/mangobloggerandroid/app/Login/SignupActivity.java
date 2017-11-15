@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
+import com.mangobloggerandroid.app.activity.HomeActivity;
 import com.mangobloggerandroid.app.util.AppUtils;
 
 import retrofit.Callback;
@@ -108,8 +109,8 @@ public class SignupActivity extends BaseAuthActivity {
                 public void success(NonceIdResponse nonceIdResponse, Response response) {
                     Log.e("Success : NonceId", nonceIdResponse.getNonce());
                     if(nonceIdResponse.getStatus().equals("ok")) {
-                        mNonceId = nonceIdResponse.getNonce();
-                        signUp(username, email, password);
+                        String nonceId = nonceIdResponse.getNonce();
+                        signUp(nonceId, username, email, password);
                     } else {
                         hideProgressDialog();
                         showAuthError(R.id.error_text, "Sorry, couldn't able to SignIn. Please try again later!");
@@ -126,11 +127,12 @@ public class SignupActivity extends BaseAuthActivity {
         }
     }
 
-    private void signUp(final String username, final String email,final String password) {
-        mAuthApi.registerUser(username, email, mNonceId, username, "both", password, new Callback<RegisterResponse>() {
+    private void signUp(String nonceId, final String username, final String email,final String password) {
+        mAuthApi.registerUser(username, email, nonceId, username, "both", password, new Callback<RegisterResponse>() {
             @Override
             public void success(RegisterResponse registerResponse, Response response) {
                 if(registerResponse.getStatus().equals("ok")) {
+
                     User user = new User(registerResponse.getUser_id(), username, email, username,
                             true, registerResponse.getCookie());
                     PreferenceUtil.writeUserToPreferences(getApplicationContext(), user);
@@ -144,9 +146,14 @@ public class SignupActivity extends BaseAuthActivity {
             @Override
             public void failure(RetrofitError error) {
                 hideProgressDialog();
-                Log.e("Failure : Register", error.getLocalizedMessage());
+                Log.e("Failure : Register", error.getLocalizedMessage()+error.getUrl());
                 showAuthError(R.id.error_text, "Unknown error occurred");
             }
         });
+    }
+
+    private void startApp() {
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 }
