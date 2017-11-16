@@ -1,5 +1,7 @@
 package com.mangobloggerandroid.app.model;
 
+import java.util.List;
+
 /**
  * Created by ujjawal on 16/11/17.
  */
@@ -7,9 +9,9 @@ package com.mangobloggerandroid.app.model;
 public class BlogPostCallback {
     private String status;
     private String count;
-    private Posts posts;
+    private List<Posts> posts;
 
-    public BlogPostCallback(String status, String count, Posts posts) {
+    public BlogPostCallback(String status, String count, List<Posts> posts) {
         this.status = status;
         this.count = count;
         this.posts = posts;
@@ -23,7 +25,7 @@ public class BlogPostCallback {
         return count;
     }
 
-    public Posts getPosts() {
+    public List<Posts> getPosts() {
         return posts;
     }
 }

@@ -100,7 +100,7 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
             new GravitySnapHelper(snap.getGravity()).attachToRecyclerView(holder.recyclerView);
         }
 
-        HomeItemAdapter itemAdapter = new HomeItemAdapter(snap.getCardSize(), snap.getApps());
+        HomeItemAdapter itemAdapter = new HomeItemAdapter(mContext, snap.getCardSize(), snap.getApps());
         holder.recyclerView.setAdapter(itemAdapter);
         itemAdapter.setOnItemClickListener(new HomeItemAdapter.OnItemClickListener() {
             @Override

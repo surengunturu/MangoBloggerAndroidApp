@@ -13,6 +13,7 @@ public class HomeItem implements Parcelable {
     private String mName;
     private String mExtra;
     private String mUrl;
+    private String imageUrl;
     private boolean mWebView;
 
    
@@ -30,6 +31,14 @@ public class HomeItem implements Parcelable {
 
     public int getDrawable() {
         return mDrawable;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public String getName() {

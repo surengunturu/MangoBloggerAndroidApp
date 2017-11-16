@@ -1,5 +1,6 @@
 package com.mangobloggerandroid.app.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.model.HomeItem;
 
@@ -22,12 +24,15 @@ public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHo
 
     private List<HomeItem> mHomeItems;
     private int mCardSize;
+    private Context mContext;
     OnItemClickListener onItemClickListener;
 
 
-    public HomeItemAdapter(int cardSize, List<HomeItem> homeItems) {
+    public HomeItemAdapter(Context context, int cardSize, List<HomeItem> homeItems) {
+        mContext = context;
         mHomeItems = homeItems;
         mCardSize = cardSize;
+
     }
 
     @Override
@@ -51,6 +56,13 @@ public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHo
         HomeItem item = mHomeItems.get(position);
 
 //        holder.imageView.setImageResource(item.getDrawable());
+        if(item.getImageUrl() != null) {
+            Glide.with(mContext).load(item.getImageUrl())
+                    .asBitmap()
+                    .placeholder(R.mipmap.blog_cover)
+                    .into(new CardViewTarget(mContext, holder.parentCardView));
+
+        }
         holder.parentCardView.setBackgroundResource(item.getDrawable());
         holder.titleText.setText(item.getName());
         if(mCardSize == HomeBaseAdapter.CARD_SIZE_MEDIUM

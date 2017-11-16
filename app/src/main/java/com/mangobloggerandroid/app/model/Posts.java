@@ -1,5 +1,7 @@
 package com.mangobloggerandroid.app.model;
 
+import java.util.List;
+
 /**
  * Created by ujjawal on 16/11/17.
  */
@@ -8,13 +10,13 @@ public class Posts {
     private String url;
     private String title_plain;
     private Author author;
-    private Attachment attachment;
+    private List<Attachment> attachments;
 
-    public Posts(String url, String title_plain, Author author, Attachment attachment) {
+    public Posts(String url, String title_plain, Author author, List<Attachment> attachments) {
         this.url = url;
         this.title_plain = title_plain;
         this.author = author;
-        this.attachment = attachment;
+        this.attachments = attachments;
     }
 
     public String getUrl() {
@@ -30,6 +32,9 @@ public class Posts {
     }
 
     public Attachment getAttachment() {
-        return attachment;
+        if(attachments.size() > 0) {
+            return attachments.get(0);
+        }
+        return null;
     }
 }
