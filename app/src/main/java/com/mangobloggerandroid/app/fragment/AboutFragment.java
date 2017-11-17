@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.activity.HomeActivity;
 import com.mangobloggerandroid.app.R;
 
@@ -49,6 +50,9 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), getClass().getSimpleName());
+
         if (getArguments() != null) {
             mAbout = getArguments().getString(HomeActivity.ABOUT_KEY);
             mCountryCode = getArguments().getString(HomeActivity.COUNTRY_CODE_KEY);
@@ -85,6 +89,14 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.linkedin).setOnClickListener(this);
         view.findViewById(R.id.insta).setOnClickListener(this);
         view.findViewById(R.id.share).setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), "About Screen");
+
     }
 
     @Override

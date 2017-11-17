@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.facebook.internal.AnalyticsEvents;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.activity.HomeActivity;
@@ -25,6 +28,7 @@ public class LoginActivity extends BaseAuthActivity {
     private EditText inputEmail, inputPassword;
     private AuthApi mAuthApi;
     private Button btnSignup, btnLogin, btnReset;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,8 @@ public class LoginActivity extends BaseAuthActivity {
 
         // set the view now
         setContentView(R.layout.activity_login);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mAuthApi = initAdapter();
 
@@ -75,6 +81,12 @@ public class LoginActivity extends BaseAuthActivity {
         if(PreferenceUtil.isSignedIn(this)) {
             startApp();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "Log-In");
     }
 
 

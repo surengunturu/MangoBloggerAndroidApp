@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.util.AppUtils;
 
@@ -19,11 +20,14 @@ public class ResetPasswordActivity extends BaseAuthActivity {
 
     private EditText inputEmail;
     private Button btnReset, btnBack;
+    private FirebaseAnalytics mAnalytics;
   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
+
+        mAnalytics = FirebaseAnalytics.getInstance(this);
 
         inputEmail = (EditText) findViewById(R.id.email);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
@@ -50,6 +54,12 @@ public class ResetPasswordActivity extends BaseAuthActivity {
                 resetPassword(email);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "Reset Password");
     }
 
     private void resetPassword(String username) {

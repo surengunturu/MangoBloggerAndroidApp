@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.activity.HomeActivity;
@@ -25,11 +26,14 @@ public class SignupActivity extends BaseAuthActivity {
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private AuthApi mAuthApi;
     private String mNonceId;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //Get Firebase auth instance
         mAuthApi = initAdapter();
@@ -97,6 +101,7 @@ public class SignupActivity extends BaseAuthActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mFirebaseAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "User Registration");
     }
 
     private void registerUser(final String username, final String email, final String password) {

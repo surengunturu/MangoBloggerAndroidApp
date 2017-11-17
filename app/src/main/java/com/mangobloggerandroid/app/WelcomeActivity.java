@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.Login.LoginActivity;
 import com.mangobloggerandroid.app.activity.HomeActivity;
 
@@ -34,10 +35,13 @@ public class WelcomeActivity extends AppCompatActivity {
     private int[] layouts;
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
+    private FirebaseAnalytics mAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAnalytics = FirebaseAnalytics.getInstance(this);
 
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
@@ -98,6 +102,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "Welcome Slides");
     }
 
     private void addBottomDots(int currentPage) {

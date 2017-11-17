@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.R;
 
 /**
@@ -28,6 +29,9 @@ public class BookmarkedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), getClass().getSimpleName());
+
         if (getArguments() != null) {
             //args
         }
@@ -41,5 +45,11 @@ public class BookmarkedFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), "Bookmark Screen");
 
+    }
 }

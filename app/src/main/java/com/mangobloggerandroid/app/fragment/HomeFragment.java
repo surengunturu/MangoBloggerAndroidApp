@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.Login.AuthApi;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.adapter.HomeBaseAdapter;
@@ -53,6 +54,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), getClass().getSimpleName());
+
         if (getArguments() != null) {
 //           retreive args
         }
@@ -79,7 +83,15 @@ public class HomeFragment extends Fragment {
 
     }
 
-   /* @Override
+    @Override
+    public void onResume() {
+        super.onResume();
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), "Home Screen");
+
+    }
+
+    /* @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         // verify that host activity implements the callback interface

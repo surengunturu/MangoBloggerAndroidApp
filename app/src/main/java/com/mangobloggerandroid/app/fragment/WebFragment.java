@@ -109,6 +109,9 @@ public class WebFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Bundle params = new Bundle();
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), "Web View Screen");
+
         params.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, "screen");
         params.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
 //        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, params);

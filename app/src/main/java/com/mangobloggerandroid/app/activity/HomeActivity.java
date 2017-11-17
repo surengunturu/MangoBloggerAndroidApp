@@ -61,6 +61,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private String mCountryCode;
     private String mContactNumber;
@@ -107,9 +108,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         Firebase.setAndroidContext(this);
 
         // Obtain the FirebaseAnalytics instance.
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        mFirebaseAnalytics.setMinimumSessionDuration(20000);
+        mFirebaseAnalytics.setMinimumSessionDuration(200);
         // firebase remote configuration
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfigSettings();
@@ -143,6 +144,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "Home Screen");
     }
 
     /*@Override

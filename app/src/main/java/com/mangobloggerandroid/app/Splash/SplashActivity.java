@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.WelcomeActivity;
 
@@ -20,12 +21,15 @@ public class SplashActivity extends Activity {
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 6000;
     private KenBurnsView mKenBurns;
+    private FirebaseAnalytics mAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         setAnimation();
+
+        mAnalytics = FirebaseAnalytics.getInstance(this);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
@@ -42,6 +46,12 @@ public class SplashActivity extends Activity {
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "Home Screen");
     }
 
     private void setAnimation() {

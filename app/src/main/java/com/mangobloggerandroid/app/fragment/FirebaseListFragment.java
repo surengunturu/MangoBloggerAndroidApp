@@ -15,6 +15,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mangobloggerandroid.app.adapter.FirebaseDataAdapter;
 import com.mangobloggerandroid.app.R;
@@ -60,6 +61,10 @@ public class FirebaseListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), getClass().getSimpleName());
+
 
         if (getArguments() != null) {
             mUrl = getArguments().getString(URL);
@@ -124,6 +129,9 @@ public class FirebaseListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), "Home Screen");
+
         if (switchWindow) {
             switchWindow = false;
             recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
