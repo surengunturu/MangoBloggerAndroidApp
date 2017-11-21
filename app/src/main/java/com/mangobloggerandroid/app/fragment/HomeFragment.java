@@ -120,10 +120,10 @@ public class HomeFragment extends Fragment {
     private List<HomeItem> getExploreItems() {
         List<HomeItem> exploreItems = new ArrayList<>();
         exploreItems.add(new HomeItem("Analytics Terms",
-                "https://mangoblogger-9ffff.firebaseio.com/analytics", "null",
+                "https://mangoblogger-android-app.firebaseio.com/analytics", "null",
                 R.mipmap.analytics_cover, false));
         exploreItems.add(new HomeItem("Ux Terms",
-                "https://mangoblogger-9ffff.firebaseio.com/ux_terms", "null",
+                "https://mangoblogger-android-app.firebaseio.com/ux_terms", "null",
                 R.mipmap.uxterms_cover, false));
         exploreItems.add(new HomeItem("Blogs",
                 "https://www.mangoblogger.com/mangoblogger-blog/", "null",

@@ -1,43 +1,35 @@
 {
   "project_info": {
-    "project_number": "294815825175",
-    "firebase_url": "https://mangoblogger-9ffff.firebaseio.com",
-    "project_id": "mangoblogger-9ffff",
-    "storage_bucket": "mangoblogger-9ffff.appspot.com"
+    "project_number": "662419346720",
+    "firebase_url": "https://mangoblogger-android-app.firebaseio.com",
+    "project_id": "mangoblogger-android-app",
+    "storage_bucket": "mangoblogger-android-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:294815825175:android:eaab829c2fc4b4ab",
+        "mobilesdk_app_id": "1:662419346720:android:68548fee9a0249e7",
         "android_client_info": {
           "package_name": "com.mangobloggerandroid.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "294815825175-5glo36g3m5pvlfevai6e7oih1huk9qnd.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.mangoblogger.app",
-            "certificate_hash": "e7d708ba60ff3856e1eb84b8ff777a06aca12104"
-          }
-        },
-        {
-          "client_id": "294815825175-9a55d4l19avup8j2mntg9d6hrlnrjo51.apps.googleusercontent.com",
+          "client_id": "662419346720-tjprrm3bipqfd6opd1h4f3uu8lels5kd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mangobloggerandroid.app",
-            "certificate_hash": "f9027db1fce4795cb8fc37b21bceafe3f55e2a26"
+            "certificate_hash": "49e596927eb93e70c2af6188a6c7a8edf0dcf38b"
           }
         },
         {
-          "client_id": "294815825175-q0rn8guhkmucchp8u33pvaq2k88prapr.apps.googleusercontent.com",
+          "client_id": "662419346720-qsmobhb5qkr8djp42ua6cs94ttl2ikrk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBOIMmkfyVusMmj4r3u7Ltn4H7NlVxS1h4"
+          "current_key": "AIzaSyA6P9e-nKuB7zR1v5Y_mPyQ-tx9YhjrY80"
         }
       ],
       "services": {
@@ -48,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "294815825175-q0rn8guhkmucchp8u33pvaq2k88prapr.apps.googleusercontent.com",
+              "client_id": "662419346720-qsmobhb5qkr8djp42ua6cs94ttl2ikrk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

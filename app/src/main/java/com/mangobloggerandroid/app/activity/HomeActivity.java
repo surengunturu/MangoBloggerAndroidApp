@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
-        mFirebaseAnalytics.setMinimumSessionDuration(200);
+        mFirebaseAnalytics.setMinimumSessionDuration(20000);
         // firebase remote configuration
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfigSettings();
