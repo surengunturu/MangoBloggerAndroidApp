@@ -22,6 +22,7 @@ import com.mangobloggerandroid.app.model.HomeGroup;
 import com.mangobloggerandroid.app.model.HomeItem;
 import com.mangobloggerandroid.app.model.JsonApi;
 import com.mangobloggerandroid.app.model.Posts;
+import com.mangobloggerandroid.app.view.ListShimmerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,8 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private List<Posts> postsList;
-    private ProgressBar mProgressBar;
+//    private ProgressBar mProgressBar;
+    private ListShimmerView mShimmerView;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -73,7 +75,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+//        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mShimmerView = (ListShimmerView) view.findViewById(R.id.shimmer_view);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
@@ -164,8 +167,9 @@ public class HomeFragment extends Fragment {
                     "https://www.mangoblogger.com/blog/all-about-tracking-pixel/",
                     "By : Mangoblogger", R.mipmap.recent_blog_five_cover, true));
         }
-        mProgressBar.setEnabled(false);
-        mProgressBar.setVisibility(View.GONE);
+//        mProgressBar.setEnabled(false);
+//        mProgressBar.setVisibility(View.GONE);
+        mShimmerView.setVisibility(View.GONE);
         return blogs;
     }
 
@@ -192,8 +196,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void getRecentBlogPosts() {
-        mProgressBar.setEnabled(true);
-        mProgressBar.setVisibility(View.VISIBLE);
+//        mProgressBar.setEnabled(true);
+//        mProgressBar.setVisibility(View.VISIBLE);
+        mShimmerView.setVisibility(View.VISIBLE);
 
         final RestAdapter adapter = new RestAdapter.Builder()
                 .setEndpoint("https://mangoblogger.com")
@@ -214,7 +219,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("Blog Post : Fail", error.getLocalizedMessage() );
+                Log.e("Blog Post : Fail", error.getLocalizedMessage()+error.getUrl() );
+                setupAdapter();
             }
         });
     }

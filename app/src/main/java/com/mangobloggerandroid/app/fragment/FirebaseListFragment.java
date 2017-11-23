@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mangobloggerandroid.app.adapter.FirebaseDataAdapter;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.model.BlogModel;
+import com.mangobloggerandroid.app.view.ListShimmerView;
 
 
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ public class FirebaseListFragment extends Fragment {
     private FirebaseDataAdapter firebaseDataAdapter;
 
     private RecyclerView recyclerView;
-    private ProgressBar mProgressBar;
+//    private ProgressBar mProgressBar;
+    private ListShimmerView mShimmerView;
 
     private Firebase mFirebaseRef;
     private int lastPoistion;
@@ -78,8 +80,10 @@ public class FirebaseListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container ,false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        mProgressBar.setVisibility(View.VISIBLE);
+        mShimmerView = (ListShimmerView) view.findViewById(R.id.shimmer_view);
+//        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+//        mProgressBar.setVisibility(View.VISIBLE);
+        mShimmerView.setVisibility(View.VISIBLE);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -114,7 +118,8 @@ public class FirebaseListFragment extends Fragment {
                firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
                recyclerView.setAdapter(firebaseDataAdapter);
                recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
-               mProgressBar.setVisibility(View.GONE);
+//               mProgressBar.setVisibility(View.GONE);
+               mShimmerView.setVisibility(View.GONE);
            }
 
            @Override

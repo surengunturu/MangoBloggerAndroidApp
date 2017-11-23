@@ -12,10 +12,15 @@
         android:layout_marginBottom="60dp"
         />
 
-    <ProgressBar
+    <!--<ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/progress_bar"
+        android:visibility="gone"/>-->
+    <com.mangobloggerandroid.app.view.ListShimmerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shimmer_view"
         android:visibility="gone"/>
 </FrameLayout>
