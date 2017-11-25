@@ -3,7 +3,16 @@ package com.mangobloggerandroid.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mangobloggerandroid.app.Login.User;
+import com.mangobloggerandroid.app.model.BlogModel;
+import com.mangobloggerandroid.app.model.HomeItem;
+import com.mangobloggerandroid.app.util.AppUtils;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -19,8 +28,54 @@ public class PreferenceUtil {
     private static final String PREFERENCE_LOGGED_IN = USER_PREFERENCES + ".isLoggedIn";
     private static final String PREFERENCE_DISPLAY_NAME = USER_PREFERENCES + ".displayName";
     private static final String PREFERENCE_COOKIE = USER_PREFERENCES + ".cookie";
+    public static final String PREFERENCE_BLOG_LIST = ".blogLists";
+    public static final String BLOG_LIST_SYNC_DATE = "blog_list_sync_date";
+    public static final String UX_TERMS_LIST = "Ux_tems_list";
+    public static final String ANALYTICS_TERMS_LIST = "analytics_terms_list";
+    public static final String UX_TERMS_LIST_SYNC_DATE = "ux_terms_sync_date";
+    public static final String ANALYTICS_TERMS_LIST_SYNC_DATE = "analytics_terms_sync_date";
+    public static final String PREFERENCE_ERROR = "no_value_found";
     private PreferenceUtil() {
         //no instance
+    }
+
+    public static void writeDataString(Context context, String key, String value) {
+        SharedPreferences.Editor editor = getEditor(context);
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public static void writeTerms(Context context, List<BlogModel> termList, boolean isUxTerms) {
+        Gson gson = new Gson();
+        String json = gson.toJson(termList);
+        writeDataString(context, isUxTerms?UX_TERMS_LIST:ANALYTICS_TERMS_LIST, json);
+        writeDataString(context, isUxTerms?UX_TERMS_LIST_SYNC_DATE:ANALYTICS_TERMS_LIST_SYNC_DATE, AppUtils.getCurrentWeek());
+    }
+
+    public static List<BlogModel> getTerms(Context context, boolean isUxTerms) {
+        Gson gson = new Gson();
+        List<BlogModel> productFromShared = new ArrayList<>();
+        String jsonPreferences = getStringData(context, isUxTerms?UX_TERMS_LIST:ANALYTICS_TERMS_LIST);
+
+        Type type = new TypeToken<List<BlogModel>>() {}.getType();
+        productFromShared = gson.fromJson(jsonPreferences, type);
+
+        return productFromShared;
+    }
+
+    public static boolean isTermsSynced(Context context, boolean isUxTerms) {
+        return getSharedPreferences(context).getString(isUxTerms?UX_TERMS_LIST_SYNC_DATE:ANALYTICS_TERMS_LIST_SYNC_DATE, PREFERENCE_ERROR)
+                .equals(AppUtils.getCurrentWeek());
+    }
+
+    public static boolean isDataSynced(Context context) {
+        return getSharedPreferences(context).getString(BLOG_LIST_SYNC_DATE, PREFERENCE_ERROR)
+                .equals(AppUtils.getCurrentDate());
+    }
+
+    public static String getStringData(Context context, String key) {
+        SharedPreferences preferences = getSharedPreferences(context);
+        return  preferences.getString(key, PREFERENCE_ERROR);
     }
 
 

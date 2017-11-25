@@ -21,7 +21,7 @@ public class MyWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (Uri.parse(url).getHost().equals("www.mangobloggerandroid.com")) {
+        if (Uri.parse(url).getHost().equals("www.mangoblogger.com")) {
             // This is my web site, so do not override; let my WebView load the page
             return false;
         }
@@ -37,6 +37,8 @@ public class MyWebViewClient extends WebViewClient {
         super.onLoadResource(view, url);
         view.loadUrl("javascript:document.querySelector('header').setAttribute('style','display:none;');");
         view.loadUrl("javascript:document.querySelector('footer').setAttribute('style','display:none;');");
+        view.loadUrl("javascript:(function(){ document.body.style.paddingTop = '50px'})();");
+
     }
 
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {

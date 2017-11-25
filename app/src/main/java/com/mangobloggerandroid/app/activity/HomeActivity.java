@@ -25,6 +25,7 @@ import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.mangobloggerandroid.app.BuildConfig;
@@ -239,6 +240,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if(id == R.id.nav_signOut) {
             PreferenceUtil.signOut(this);
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            if(mAuth.getCurrentUser() != null) {
+                mAuth.signOut();
+            }
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }

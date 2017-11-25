@@ -63,11 +63,13 @@ public class HomeItemAdapter extends RecyclerView.Adapter<HomeItemAdapter.ViewHo
                     .into(new CardViewTarget(mContext, holder.parentCardView));
 
         }
-        holder.parentCardView.setBackgroundResource(item.getDrawable());
+        else {
+            holder.parentCardView.setBackgroundResource(item.getDrawable());
+        }
         holder.titleText.setText(item.getName());
         if(mCardSize == HomeBaseAdapter.CARD_SIZE_MEDIUM
                 || mCardSize == HomeBaseAdapter.CARD_SIZE_PAGER) {
-            holder.titleText.setText(item.getName());
+            holder.titleText.setText(android.text.Html.fromHtml(item.getName()).toString());
             holder.subtitleText.setText(item.getExtra());
         }
 //        holder.ratingTextView.setText(String.valueOf(item.getRating()));

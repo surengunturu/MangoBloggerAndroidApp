@@ -35,9 +35,9 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
     public FirebaseDataAdapter(List<BlogModel> blogModelList, Context context) {
         this.blogModelList = blogModelList;
-        inflater = LayoutInflater.from(context);
+//        inflater = LayoutInflater.from(context);
         this.context = context;
-        mPositionList = DatabaseHelper.getBookmarkPositionList(context, true);
+//        mPositionList = DatabaseHelper.getBookmarkPositionList(context, true);
         mCollapsedStatus = new SparseBooleanArray();
     }
 
@@ -45,7 +45,7 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_firebase_terms_list, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_firebase_terms_list, null);
         return new ViewHolder(view);
     }
 
@@ -61,8 +61,8 @@ public class FirebaseDataAdapter extends RecyclerView.Adapter <FirebaseDataAdapt
         mCurrentBlogModel = blogModelList.get(position);
         mCurrentPosition = holder.getAdapterPosition();
         holder.title.setText(mCurrentBlogModel.getTitle());
-        holder.description.setText(mCurrentBlogModel.getDescription(), mCollapsedStatus, position);
-        if(!mCurrentBlogModel.getImage().equals("null")) {
+        holder.description.setText(android.text.Html.fromHtml(mCurrentBlogModel.getDescription()).toString(), mCollapsedStatus, position);
+        if(!mCurrentBlogModel.getImage().equals("null") && context != null) {
              Glide.with(context).load(mCurrentBlogModel.getImage()).into(holder.firebase_image);
         }
     }

@@ -72,8 +72,26 @@
             android:textAllCaps="false"
             android:textColor="@color/lightBlack"/>
 
+        <Button
+            android:id="@+id/btn_reset_password"
+            android:layout_width="162dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="@null"
+            android:text="@string/btn_forgot_password"
+            android:textAllCaps="false"
+            android:textColor="@color/lightBlack" />
 
-       <!-- <com.google.android.gms.common.SignInButton
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Or"
+            android:textColor="@color/lightBlack"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="10dp"/>
+
+
+        <com.google.android.gms.common.SignInButton
             android:id="@+id/googleBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +99,7 @@
             >
 
         </com.google.android.gms.common.SignInButton>
-
+<!--
         <com.facebook.login.widget.LoginButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,15 +107,6 @@
             android:id="@+id/facebook_Login"/>
 -->
 
-        <Button
-            android:id="@+id/btn_reset_password"
-            android:layout_width="162dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="#fff"
-            android:text="@string/btn_forgot_password"
-            android:textAllCaps="false"
-            android:textColor="@color/lightBlack" />
 
         <!-- Link to Login Screen -->
 

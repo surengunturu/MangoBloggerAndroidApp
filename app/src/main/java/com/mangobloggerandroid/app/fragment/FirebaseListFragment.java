@@ -1,15 +1,16 @@
 package com.mangobloggerandroid.app.fragment;
 
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -17,14 +18,23 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.adapter.FirebaseDataAdapter;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.model.BlogModel;
+import com.mangobloggerandroid.app.model.BlogPostCallback;
+import com.mangobloggerandroid.app.model.JsonApi;
+import com.mangobloggerandroid.app.model.Posts;
 import com.mangobloggerandroid.app.view.ListShimmerView;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 /**
@@ -32,6 +42,7 @@ import java.util.List;
  */
 public class FirebaseListFragment extends Fragment {
     private static final String URL = "url";
+    private static final String POST_TYPE = "post_type";
 
     private List<BlogModel> mBlogList;  /* List of a Model class */
     private FirebaseDataAdapter firebaseDataAdapter;
@@ -44,6 +55,10 @@ public class FirebaseListFragment extends Fragment {
     private int lastPoistion;
     private boolean switchWindow = false;
     private String mUrl;
+    private String mPostType;
+    private List<Posts> postsList;
+    private Context mContext;
+
 
 
     public FirebaseListFragment() {
@@ -52,10 +67,11 @@ public class FirebaseListFragment extends Fragment {
 
 
 
-    public static FirebaseListFragment newInstance(String url) {
+    public static FirebaseListFragment newInstance(String url, String post_type) {
         FirebaseListFragment fragment = new FirebaseListFragment();
         Bundle args = new Bundle();
         args.putString(URL, url);
+        args.putString(POST_TYPE, post_type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,6 +79,8 @@ public class FirebaseListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        mContext = getContext();
 
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
         analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), getClass().getSimpleName());
@@ -70,6 +88,7 @@ public class FirebaseListFragment extends Fragment {
 
         if (getArguments() != null) {
             mUrl = getArguments().getString(URL);
+            mPostType = getArguments().getString(POST_TYPE);
         }
     }
 
@@ -102,31 +121,8 @@ public class FirebaseListFragment extends Fragment {
    @Override
     public void  onStart() {
         super.onStart();
+        downloadTermsViaWordpress();
 
-       mFirebaseRef.addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-
-               mBlogList.clear();
-               for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-
-                   BlogModel blogModel = dataSnapshot1.getValue(BlogModel.class);
-                   mBlogList.add(blogModel);
-
-               }
-
-               firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
-               recyclerView.setAdapter(firebaseDataAdapter);
-               recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
-//               mProgressBar.setVisibility(View.GONE);
-               mShimmerView.setVisibility(View.GONE);
-           }
-
-           @Override
-           public void onCancelled(FirebaseError firebaseError) {
-
-           }
-       });
 
 
     }
@@ -141,6 +137,93 @@ public class FirebaseListFragment extends Fragment {
             switchWindow = false;
             recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
         }
+    }
+
+    private void setupAdapter() {
+        if(postsList != null) {
+            for(int i=0; i<postsList.size(); i++) {
+                Posts post = postsList.get(i);
+                String title = post.getTitle_plain();
+                String imageUrl ="null";
+                if(post.getAttachment() !=null) {
+                    imageUrl = post.getAttachment().getUrl();
+                }
+                String content = post.getContent();
+                BlogModel blogModel = new BlogModel(title, content, imageUrl);
+                mBlogList.add(blogModel);
+            }
+            PreferenceUtil.writeTerms(mContext, mBlogList, mPostType.equals("ux_term"));
+        } else if(PreferenceUtil.isTermsSynced(mContext, mPostType.equals("ux_term"))) {
+            mBlogList = PreferenceUtil.getTerms(mContext, mPostType.equals("ux_term"));
+        }
+        else {
+            downloadTermsViaFirebase();
+        }
+        firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
+        recyclerView.setAdapter(firebaseDataAdapter);
+        recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
+//               mProgressBar.setVisibility(View.GONE);
+        mShimmerView.setVisibility(View.GONE);
+
+
+    }
+
+    private void downloadTermsViaWordpress() {
+        mShimmerView.setVisibility(View.VISIBLE);
+
+        if(!PreferenceUtil.isTermsSynced(mContext, mPostType.equals("ux_term"))) {
+            final RestAdapter adapter = new RestAdapter.Builder()
+                    .setEndpoint("https://mangoblogger.com")
+                    .build();
+
+            JsonApi jsonApi = adapter.create(JsonApi.class);
+
+            jsonApi.getTerms("get_posts", mPostType, "1000", new Callback<BlogPostCallback>() {
+                @Override
+                public void success(BlogPostCallback blogPostCallback, Response response) {
+                    if (blogPostCallback.getStatus().equals("ok")) {
+                        postsList = blogPostCallback.getPosts();
+                        setupAdapter();
+                    } else {
+                        Log.e("Blog Post : ", blogPostCallback.getStatus() + response.getUrl());
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e("Blog Post : Fail", error.getLocalizedMessage() + error.getUrl());
+                    setupAdapter();
+                }
+            });
+
+
+        } else {
+            setupAdapter();
+        }
+    }
+
+    private void downloadTermsViaFirebase() {
+        mFirebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                mBlogList.clear();
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+
+                    BlogModel blogModel = dataSnapshot1.getValue(BlogModel.class);
+                    mBlogList.add(blogModel);
+
+                }
+
+                setupAdapter();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
 
 

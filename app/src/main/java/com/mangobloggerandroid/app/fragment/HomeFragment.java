@@ -1,6 +1,5 @@
 package com.mangobloggerandroid.app.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +10,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.mangobloggerandroid.app.Login.AuthApi;
+import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.adapter.HomeBaseAdapter;
 import com.mangobloggerandroid.app.model.BlogPostCallback;
@@ -22,6 +20,7 @@ import com.mangobloggerandroid.app.model.HomeGroup;
 import com.mangobloggerandroid.app.model.HomeItem;
 import com.mangobloggerandroid.app.model.JsonApi;
 import com.mangobloggerandroid.app.model.Posts;
+import com.mangobloggerandroid.app.util.AppUtils;
 import com.mangobloggerandroid.app.view.ListShimmerView;
 
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
 
-        getRecentBlogPosts();
+        downloadRecentBlogPosts();
 
 
     }
@@ -123,10 +122,10 @@ public class HomeFragment extends Fragment {
     private List<HomeItem> getExploreItems() {
         List<HomeItem> exploreItems = new ArrayList<>();
         exploreItems.add(new HomeItem("Analytics Terms",
-                "https://mangoblogger-android-app.firebaseio.com/analytics", "null",
+                "https://mangoblogger-android-app.firebaseio.com/analytics", "analytics_term",
                 R.mipmap.analytics_cover, false));
         exploreItems.add(new HomeItem("Ux Terms",
-                "https://mangoblogger-android-app.firebaseio.com/ux_terms", "null",
+                "https://mangoblogger-android-app.firebaseio.com/ux_terms", "ux_term",
                 R.mipmap.uxterms_cover, false));
         exploreItems.add(new HomeItem("Blogs",
                 "https://www.mangoblogger.com/mangoblogger-blog/", "null",
@@ -142,14 +141,21 @@ public class HomeFragment extends Fragment {
                 String title = post.getTitle_plain();
                 String url = post.getUrl();
                 String author = post.getAuthor().getName();
-                int id = R.mipmap.recent_blog_one_cover;
+                int id = R.mipmap.blog_cover;
                 HomeItem homeItem = new HomeItem(title, url, author, id, true);
                 if(post.getAttachment() != null) {
                     homeItem.setImageUrl(post.getAttachment().getUrl());
                 }
                 blogs.add(homeItem);
             }
-        } else {
+            PreferenceUtil.writeDataString(getContext(),
+                    PreferenceUtil.BLOG_LIST_SYNC_DATE, AppUtils.getCurrentDate());
+            AppUtils.setList(getContext(), PreferenceUtil.PREFERENCE_BLOG_LIST, blogs);
+
+        } else if(PreferenceUtil.isDataSynced(getContext())) {
+            blogs = AppUtils.getListFromSharedPreferences(getContext(), PreferenceUtil.PREFERENCE_BLOG_LIST);
+        }
+        else {
 
             blogs.add(new HomeItem("Indian Mobile Congress 2017",
                     "https://www.mangoblogger.com/blog/highlights-of-india-mobile-congress-2017/",
@@ -195,34 +201,38 @@ public class HomeFragment extends Fragment {
         void onItemClick(HomeItem homeItem);
     }
 
-    private void getRecentBlogPosts() {
+    private void downloadRecentBlogPosts() {
 //        mProgressBar.setEnabled(true);
 //        mProgressBar.setVisibility(View.VISIBLE);
         mShimmerView.setVisibility(View.VISIBLE);
 
-        final RestAdapter adapter = new RestAdapter.Builder()
-                .setEndpoint("https://mangoblogger.com")
-                .build();
+        if(!PreferenceUtil.isDataSynced(getContext())) {
+            final RestAdapter adapter = new RestAdapter.Builder()
+                    .setEndpoint("https://mangoblogger.com")
+                    .build();
 
-        JsonApi jsonApi = adapter.create(JsonApi.class);
+            JsonApi jsonApi = adapter.create(JsonApi.class);
 
-        jsonApi.getRecentBlogPosts("1", new Callback<BlogPostCallback>() {
-            @Override
-            public void success(BlogPostCallback blogPostCallback, Response response) {
-                if(blogPostCallback.getStatus().equals("ok")) {
-                    postsList = blogPostCallback.getPosts();
-                    setupAdapter();
-                } else {
-                    Log.e("Blog Post : ", blogPostCallback.getStatus()+response.getUrl() );
+            jsonApi.getRecentBlogPosts("1", new Callback<BlogPostCallback>() {
+                @Override
+                public void success(BlogPostCallback blogPostCallback, Response response) {
+                    if (blogPostCallback.getStatus().equals("ok")) {
+                        postsList = blogPostCallback.getPosts();
+                        setupAdapter();
+                    } else {
+                        Log.e("Blog Post : ", blogPostCallback.getStatus() + response.getUrl());
+                    }
                 }
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("Blog Post : Fail", error.getLocalizedMessage()+error.getUrl() );
-                setupAdapter();
-            }
-        });
+                @Override
+                public void failure(RetrofitError error) {
+                    Log.e("Blog Post : Fail", error.getLocalizedMessage() + error.getUrl());
+                    setupAdapter();
+                }
+            });
+        } else {
+            setupAdapter();
+        }
     }
 
 }

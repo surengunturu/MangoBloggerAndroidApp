@@ -109,7 +109,7 @@ public class HomeBaseAdapter extends RecyclerView.Adapter<HomeBaseAdapter.ViewHo
                     if(item.isWebView()) {
                         ((HomeActivity) mContext).attachFragment(WebFragment.newInstance(item.getUrl(), item.getName()), true);
                     } else {
-                        ((HomeActivity) mContext).attachFragment(FirebaseListFragment.newInstance(item.getUrl()), true);
+                        ((HomeActivity) mContext).attachFragment(FirebaseListFragment.newInstance(item.getUrl(), item.getExtra()), true);
                     }
                 }
             }
