@@ -1,4 +1,4 @@
-package com.mangobloggerandroid.app;
+package com.mangobloggerandroid.app.activity;
 
 /**
  * Created by Yatin on 19/09/17.
@@ -27,7 +27,8 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.Login.LoginActivity;
 import com.mangobloggerandroid.app.Login.SignupActivity;
-import com.mangobloggerandroid.app.activity.HomeActivity;
+import com.mangobloggerandroid.app.PreferenceUtil;
+import com.mangobloggerandroid.app.R;
 
 import java.util.Timer;
 import java.util.TimerTask;

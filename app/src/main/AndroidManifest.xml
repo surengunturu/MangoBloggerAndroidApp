@@ -31,7 +31,7 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".activity.WelcomeActivity">
         </activity>
 
         <activity android:name=".activity.HomeActivity">

@@ -14,7 +14,7 @@ import android.view.animation.AnimationUtils;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.R;
-import com.mangobloggerandroid.app.WelcomeActivity;
+import com.mangobloggerandroid.app.activity.WelcomeActivity;
 
 public class SplashActivity extends Activity {
 
