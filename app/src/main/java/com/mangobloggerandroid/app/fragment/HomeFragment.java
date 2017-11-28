@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.PreferenceUtil;
@@ -21,7 +22,6 @@ import com.mangobloggerandroid.app.model.HomeItem;
 import com.mangobloggerandroid.app.model.JsonApi;
 import com.mangobloggerandroid.app.model.Posts;
 import com.mangobloggerandroid.app.util.AppUtils;
-import com.mangobloggerandroid.app.view.ListShimmerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +42,8 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private List<Posts> postsList;
-//    private ProgressBar mProgressBar;
-    private ListShimmerView mShimmerView;
+    private ProgressBar mProgressBar;
+//    private ListShimmerView mShimmerView;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -74,8 +74,9 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        mShimmerView = (ListShimmerView) view.findViewById(R.id.shimmer_view);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+//        mShimmerView = (ListShimmerView) view.findViewById(R.id.shimmer_view);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setHasFixedSize(true);
@@ -159,23 +160,23 @@ public class HomeFragment extends Fragment {
 
             blogs.add(new HomeItem("Indian Mobile Congress 2017",
                     "https://www.mangoblogger.com/blog/highlights-of-india-mobile-congress-2017/",
-                    "By : Yatin", R.mipmap.recent_blog_one_cover, true));
+                    "By : Yatin", R.mipmap.blog_cover, true));
             blogs.add(new HomeItem("Add Social Login In WordPress Site",
                     "https://www.mangoblogger.com/blog/wordpress-plugin-installation/",
-                    "By : Yatin", R.mipmap.recent_blog_two_cover, true));
+                    "By : Yatin", R.mipmap.blog_cover, true));
             blogs.add(new HomeItem("Guide : Google Tag Manager Installation",
                     "https://www.mangoblogger.com/blog/google-tag-manager-installation-website/",
-                    "By : Yatin", R.mipmap.recent_blog_three_cover, true));
+                    "By : Yatin", R.mipmap.blog_cover, true));
             blogs.add(new HomeItem("What is Google Analytics",
                     "https://www.mangoblogger.com/blog/what-is-google-analytics/",
-                    "By : Siddhant", R.mipmap.recent_blog_four_cover, true));
+                    "By : Siddhant", R.mipmap.blog_cover, true));
             blogs.add(new HomeItem("All About Pixel Tracking",
                     "https://www.mangoblogger.com/blog/all-about-tracking-pixel/",
-                    "By : Mangoblogger", R.mipmap.recent_blog_five_cover, true));
+                    "By : Mangoblogger", R.mipmap.blog_cover, true));
         }
-//        mProgressBar.setEnabled(false);
-//        mProgressBar.setVisibility(View.GONE);
-        mShimmerView.setVisibility(View.GONE);
+        mProgressBar.setEnabled(false);
+        mProgressBar.setVisibility(View.GONE);
+//        mShimmerView.setVisibility(View.GONE);
         return blogs;
     }
 
@@ -202,9 +203,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void downloadRecentBlogPosts() {
-//        mProgressBar.setEnabled(true);
-//        mProgressBar.setVisibility(View.VISIBLE);
-        mShimmerView.setVisibility(View.VISIBLE);
+        mProgressBar.setEnabled(true);
+        mProgressBar.setVisibility(View.VISIBLE);
+//        mShimmerView.setVisibility(View.VISIBLE);
 
         if(!PreferenceUtil.isDataSynced(getContext())) {
             final RestAdapter adapter = new RestAdapter.Builder()

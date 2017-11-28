@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.SignInButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
-import com.mangobloggerandroid.app.activity.HomeActivity;
 import com.mangobloggerandroid.app.util.AppUtils;
 
 import retrofit.Callback;
@@ -27,6 +27,8 @@ public class SignupActivity extends BaseAuthActivity {
     private AuthApi mAuthApi;
     private String mNonceId;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private SignInButton mGoogleBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class SignupActivity extends BaseAuthActivity {
 
         //Get Firebase auth instance
         mAuthApi = initAdapter();
+        configGoogleSignIn();
+
 
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
@@ -44,6 +48,8 @@ public class SignupActivity extends BaseAuthActivity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+        mGoogleBtn = (SignInButton) findViewById(R.id.googleBtn);
+
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +96,15 @@ public class SignupActivity extends BaseAuthActivity {
                 }
                 registerUser(username, email, password);
             }
+        });
+
+        mGoogleBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick (View view) {
+
+                signInWithGoogle();
+            }
+
         });
     }
 
@@ -157,8 +172,4 @@ public class SignupActivity extends BaseAuthActivity {
         });
     }
 
-    private void startApp() {
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
-    }
 }

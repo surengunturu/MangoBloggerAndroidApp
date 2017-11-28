@@ -24,30 +24,44 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/below_underline"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha=".5"
-        android:layout_above="@id/layoutDots"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
         android:background="@android:color/black" />
 
-    <Button
-        android:id="@+id/btn_next"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@null"
-        android:text="@string/next"
-        android:textColor="@android:color/black" />
+        android:layout_alignTop="@id/below_underline"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn_skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@null"
-        android:text="@string/skip"
-        android:textColor="@android:color/black" />
+        <Button
+            android:id="@+id/btn_skip"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="LOG IN"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:alpha=".5"
+            android:background="@android:color/black" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:text="SIGN UP"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
 
 </RelativeLayout>

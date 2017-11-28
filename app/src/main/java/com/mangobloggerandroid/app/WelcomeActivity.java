@@ -2,6 +2,7 @@ package com.mangobloggerandroid.app;
 
 /**
  * Created by Yatin on 19/09/17.
+ * Edited by Ujjawal on 28/11/17.
  */
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,17 +26,26 @@ import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.Login.LoginActivity;
+import com.mangobloggerandroid.app.Login.SignupActivity;
 import com.mangobloggerandroid.app.activity.HomeActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class WelcomeActivity extends AppCompatActivity {
+
+    int currentPage = 0;
+    Timer timer;
+    final long DELAY_MS = 100;//delay in milliseconds before task is to be executed
+    final long PERIOD_MS = 5000; // time in milliseconds between successive task executions.
+
 
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip, btnNext;
-    private PrefManager prefManager;
+    private Button btnLogIn, btnSignUp;
     private FirebaseAnalytics mAnalytics;
 
     @Override
@@ -44,10 +55,8 @@ public class WelcomeActivity extends AppCompatActivity {
         mAnalytics = FirebaseAnalytics.getInstance(this);
 
         // Checking for first time launch - before calling setContentView()
-        prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
+        if(PreferenceUtil.isSignedIn(this)) {
             launchHomeScreen();
-            finish();
         }
 
         // Making notification bar transparent
@@ -59,8 +68,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        btnLogIn = (Button) findViewById(R.id.btn_skip);
+        btnSignUp = (Button) findViewById(R.id.btn_next);
 
 
         // layouts of all welcome sliders
@@ -81,25 +90,38 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-        btnSkip.setOnClickListener(new View.OnClickListener() {
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                if (currentPage == layouts.length-1) {
+                    currentPage = 0;
+                }
+                viewPager.setCurrentItem(currentPage++, true);
+            }
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer .schedule(new TimerTask() { // task to be scheduled
+
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
+
+        btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeScreen();
+                launchLogInScreen();
             }
         });
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // checking for last page
                 // if last page home screen will be launched
-                int current = getItem(+1);
-                if (current < layouts.length) {
-                    // move to next screen
-                    viewPager.setCurrentItem(current);
-                } else {
-                    launchHomeScreen();
-                }
+                launchRegisterScreen();
             }
         });
     }
@@ -108,6 +130,15 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "Welcome Slides");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(PreferenceUtil.isSignedIn(this)) {
+         finish();
+        }
+
     }
 
     private void addBottomDots(int currentPage) {
@@ -133,11 +164,22 @@ public class WelcomeActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-    private void launchHomeScreen() {
-        prefManager.setFirstTimeLaunch(false);
+    private void launchLogInScreen() {
         startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+//        finish();
+    }
+
+    private void launchRegisterScreen() {
+        startActivity(new Intent(WelcomeActivity.this, SignupActivity.class));
+//        finish();
+    }
+
+    private void launchHomeScreen() {
+        startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
         finish();
     }
+
+
 
     //	viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -147,15 +189,15 @@ public class WelcomeActivity extends AppCompatActivity {
             addBottomDots(position);
 
             // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts.length - 1) {
+           /* if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
-                btnNext.setText(getString(R.string.start));
-                btnSkip.setVisibility(View.GONE);
+                btnSignUp.setText(getString(R.string.start));
+                btnLogIn.setVisibility(View.GONE);
             } else {
                 // still pages are left
-                btnNext.setText(getString(R.string.next));
-                btnSkip.setVisibility(View.VISIBLE);
-            }
+                btnSignUp.setText(getString(R.string.next));
+                btnLogIn.setVisibility(View.VISIBLE);
+            }*/
         }
 
         @Override

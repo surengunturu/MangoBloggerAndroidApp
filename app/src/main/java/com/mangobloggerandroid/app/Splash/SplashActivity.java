@@ -19,7 +19,7 @@ import com.mangobloggerandroid.app.WelcomeActivity;
 public class SplashActivity extends Activity {
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 6000;
+    private static int SPLASH_TIME_OUT = 2000;
     private KenBurnsView mKenBurns;
     private FirebaseAnalytics mAnalytics;
 

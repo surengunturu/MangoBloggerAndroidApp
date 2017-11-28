@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -25,7 +26,6 @@ import com.mangobloggerandroid.app.model.BlogModel;
 import com.mangobloggerandroid.app.model.BlogPostCallback;
 import com.mangobloggerandroid.app.model.JsonApi;
 import com.mangobloggerandroid.app.model.Posts;
-import com.mangobloggerandroid.app.view.ListShimmerView;
 
 
 import java.util.ArrayList;
@@ -48,8 +48,7 @@ public class FirebaseListFragment extends Fragment {
     private FirebaseDataAdapter firebaseDataAdapter;
 
     private RecyclerView recyclerView;
-//    private ProgressBar mProgressBar;
-    private ListShimmerView mShimmerView;
+    private ProgressBar mProgressBar;
 
     private Firebase mFirebaseRef;
     private int lastPoistion;
@@ -99,10 +98,9 @@ public class FirebaseListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recycler_view, container ,false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mShimmerView = (ListShimmerView) view.findViewById(R.id.shimmer_view);
-//        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-//        mProgressBar.setVisibility(View.VISIBLE);
-        mShimmerView.setVisibility(View.VISIBLE);
+//        mShimmerView = (ListShimmerView) view.findViewById(R.id.shimmer_view);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+//        mShimmerView.setVisibility(View.VISIBLE);
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
 
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -152,9 +150,13 @@ public class FirebaseListFragment extends Fragment {
                 BlogModel blogModel = new BlogModel(title, content, imageUrl);
                 mBlogList.add(blogModel);
             }
+            mProgressBar.setEnabled(false);
+            mProgressBar.setVisibility(View.GONE);
             PreferenceUtil.writeTerms(mContext, mBlogList, mPostType.equals("ux_term"));
         } else if(PreferenceUtil.isTermsSynced(mContext, mPostType.equals("ux_term"))) {
             mBlogList = PreferenceUtil.getTerms(mContext, mPostType.equals("ux_term"));
+            mProgressBar.setEnabled(false);
+            mProgressBar.setVisibility(View.GONE);
         }
         else {
             downloadTermsViaFirebase();
@@ -162,14 +164,15 @@ public class FirebaseListFragment extends Fragment {
         firebaseDataAdapter = new FirebaseDataAdapter(mBlogList, getActivity());
         recyclerView.setAdapter(firebaseDataAdapter);
         recyclerView.getLayoutManager().scrollToPosition(lastPoistion);
-//               mProgressBar.setVisibility(View.GONE);
-        mShimmerView.setVisibility(View.GONE);
+//        mShimmerView.setVisibility(View.GONE);
 
 
     }
 
     private void downloadTermsViaWordpress() {
-        mShimmerView.setVisibility(View.VISIBLE);
+//        mShimmerView.setVisibility(View.VISIBLE);
+        mProgressBar.setEnabled(true);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         if(!PreferenceUtil.isTermsSynced(mContext, mPostType.equals("ux_term"))) {
             final RestAdapter adapter = new RestAdapter.Builder()
@@ -203,6 +206,8 @@ public class FirebaseListFragment extends Fragment {
     }
 
     private void downloadTermsViaFirebase() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setEnabled(true);
         mFirebaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -216,6 +221,8 @@ public class FirebaseListFragment extends Fragment {
                 }
 
                 setupAdapter();
+                mProgressBar.setEnabled(false);
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override

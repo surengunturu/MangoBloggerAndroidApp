@@ -25,7 +25,7 @@ public class PreferenceUtil {
     private static final String PREFERENCE_ID = USER_PREFERENCES + ".id";
     private static final String PREFERENCE_USERNAME = USER_PREFERENCES + ".username";
     private static final String PREFERENCE_EMAIL = USER_PREFERENCES + ".email";
-    private static final String PREFERENCE_LOGGED_IN = USER_PREFERENCES + ".isLoggedIn";
+    public static final String PREFERENCE_LOGGED_IN = USER_PREFERENCES + ".isLoggedIn";
     private static final String PREFERENCE_DISPLAY_NAME = USER_PREFERENCES + ".displayName";
     private static final String PREFERENCE_COOKIE = USER_PREFERENCES + ".cookie";
     public static final String PREFERENCE_BLOG_LIST = ".blogLists";
@@ -42,6 +42,12 @@ public class PreferenceUtil {
     public static void writeDataString(Context context, String key, String value) {
         SharedPreferences.Editor editor = getEditor(context);
         editor.putString(key, value);
+        editor.apply();
+    }
+
+    public static void writeDataBoolean(Context context, String key, boolean value) {
+        SharedPreferences.Editor editor = getEditor(context);
+        editor.putBoolean(key, value);
         editor.apply();
     }
 
