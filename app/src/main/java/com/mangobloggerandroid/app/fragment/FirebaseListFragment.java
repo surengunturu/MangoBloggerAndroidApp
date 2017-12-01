@@ -19,7 +19,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mangobloggerandroid.app.PreferenceUtil;
+import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.adapter.FirebaseDataAdapter;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.model.BlogModel;

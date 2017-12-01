@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.SignInButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.mangobloggerandroid.app.PreferenceUtil;
+import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.util.AppUtils;
 

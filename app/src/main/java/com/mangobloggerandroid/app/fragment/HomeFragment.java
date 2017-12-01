@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.mangobloggerandroid.app.PreferenceUtil;
+import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.adapter.HomeBaseAdapter;
 import com.mangobloggerandroid.app.model.BlogPostCallback;

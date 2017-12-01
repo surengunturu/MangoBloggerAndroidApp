@@ -31,7 +31,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.mangobloggerandroid.app.BuildConfig;
 import com.mangobloggerandroid.app.Login.LoginActivity;
 import com.mangobloggerandroid.app.MangoBlogger;
-import com.mangobloggerandroid.app.PreferenceUtil;
+import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.fragment.AboutFragment;
 import com.mangobloggerandroid.app.fragment.BookmarkedFragment;

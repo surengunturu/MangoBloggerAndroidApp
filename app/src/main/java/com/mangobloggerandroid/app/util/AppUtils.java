@@ -1,21 +1,13 @@
 package com.mangobloggerandroid.app.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mangobloggerandroid.app.PreferenceUtil;
 import com.mangobloggerandroid.app.model.HomeItem;
 
 import java.lang.reflect.Type;

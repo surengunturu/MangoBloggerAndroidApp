@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.Login.LoginActivity;
 import com.mangobloggerandroid.app.Login.SignupActivity;
-import com.mangobloggerandroid.app.PreferenceUtil;
+import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 
 import java.util.Timer;
@@ -38,7 +38,7 @@ public class WelcomeActivity extends AppCompatActivity {
     int currentPage = 0;
     Timer timer;
     final long DELAY_MS = 100;//delay in milliseconds before task is to be executed
-    final long PERIOD_MS = 5000; // time in milliseconds between successive task executions.
+    final long PERIOD_MS = 10000; // time in milliseconds between successive task executions.
 
 
     private ViewPager viewPager;
@@ -94,7 +94,7 @@ public class WelcomeActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == layouts.length-1) {
+                if (currentPage == layouts.length) {
                     currentPage = 0;
                 }
                 viewPager.setCurrentItem(currentPage++, true);
@@ -152,7 +152,7 @@ public class WelcomeActivity extends AppCompatActivity {
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
+            dots[i].setTextSize(50);
             dots[i].setTextColor(colorsInactive[currentPage]);
             dotsLayout.addView(dots[i]);
         }

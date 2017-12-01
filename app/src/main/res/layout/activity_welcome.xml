@@ -16,13 +16,12 @@
         android:id="@+id/layoutDots"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dots_height"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dots_margin_bottom"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/dots_margin_top"
         android:gravity="center"
         android:orientation="horizontal">
 
     </LinearLayout>
-
     <View
         android:id="@+id/below_underline"
         android:layout_width="match_parent"
