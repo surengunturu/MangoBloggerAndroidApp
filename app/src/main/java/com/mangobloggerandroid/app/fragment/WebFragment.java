@@ -1,6 +1,8 @@
 package com.mangobloggerandroid.app.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.ProgressBar;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.R;
+import com.mangobloggerandroid.app.interfaces.FragmentDataPasser;
 import com.mangobloggerandroid.app.util.AppUtils;
 import com.mangobloggerandroid.app.util.MyWebViewClient;
 
@@ -34,6 +37,7 @@ public class WebFragment extends Fragment {
     private ProgressBar mProgressBar;
     private WebView mWebView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private FragmentDataPasser mDataPasser;
     private String mUrl;
     private String mTag;
 
@@ -116,6 +120,26 @@ public class WebFragment extends Fragment {
         params.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
 //        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, params);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        passData();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity = getActivity();
+        if (activity instanceof FragmentDataPasser) {
+        mDataPasser = (FragmentDataPasser) context;
+        }
+    }
+
+    private void passData() {
+        mDataPasser.onDataPass(0);
+    }
+
 
     /**
      * Function to enable caching

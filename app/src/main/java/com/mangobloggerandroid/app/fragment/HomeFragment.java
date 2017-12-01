@@ -1,5 +1,7 @@
 package com.mangobloggerandroid.app.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.mangobloggerandroid.app.interfaces.FragmentDataPasser;
 import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.adapter.HomeBaseAdapter;
@@ -43,6 +46,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<Posts> postsList;
     private ProgressBar mProgressBar;
+    private FragmentDataPasser mDataPasser;
 //    private ListShimmerView mShimmerView;
 
     public static HomeFragment newInstance() {
@@ -92,6 +96,25 @@ public class HomeFragment extends Fragment {
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
         analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), "Home Screen");
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity = getActivity();
+        if (activity instanceof FragmentDataPasser) {
+            mDataPasser = (FragmentDataPasser) context;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        passData();
+    }
+
+    private void passData() {
+        mDataPasser.onDataPass(0);
     }
 
     /* @Override

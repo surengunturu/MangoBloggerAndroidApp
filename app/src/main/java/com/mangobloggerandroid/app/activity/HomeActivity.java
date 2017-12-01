@@ -31,6 +31,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.mangobloggerandroid.app.BuildConfig;
 import com.mangobloggerandroid.app.Login.LoginActivity;
 import com.mangobloggerandroid.app.MangoBlogger;
+import com.mangobloggerandroid.app.interfaces.FragmentDataPasser;
 import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.fragment.AboutFragment;
@@ -45,7 +46,7 @@ import io.fabric.sdk.android.Fabric;
  *
  */
 
-public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentDataPasser {
     public static final String ABOUT_KEY = "about";
     public static final String CONTACT_NUMBER_KEY = "contact_number"; // value must be equal to parameter in firebase remote config
     public static final String COUNTRY_CODE_KEY = "contact_number_country_code"; // value must be equal to parameter in firebase remote config
@@ -59,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar mToolbar;
     private ImageView mToolbarLogo;
     private MenuItem mNotificationMenuItem;
+    private BottomNavigationView mNavigation;
 
 
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
@@ -125,7 +127,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-        BottomNavigationView mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
+        mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbarLogo = (ImageView) findViewById(R.id.app_logo);
@@ -151,6 +153,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         mFirebaseAnalytics.setCurrentScreen(this, getClass().getSimpleName(), "Home Screen");
+    }
+
+    @Override
+    public void onDataPass(int layoutId) {
+        mNavigation.getMenu().getItem(layoutId).setChecked(true);
     }
 
     /*@Override

@@ -1,6 +1,8 @@
 package com.mangobloggerandroid.app.fragment;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.activity.HomeActivity;
 import com.mangobloggerandroid.app.R;
+import com.mangobloggerandroid.app.interfaces.FragmentDataPasser;
 
 import static com.mangobloggerandroid.app.util.AppUtils.startShareIntent;
 
@@ -32,6 +35,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     private String mAddress;
     private String mGeoLatitude;
     private String mGeoLongitude;
+    private FragmentDataPasser mDataPasser;
 
     public static AboutFragment newInstance(String about, String countryCode, String contactNumber,
                                             String address, String geoLatitude, String geoLongitude) {
@@ -92,12 +96,32 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        passData();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
         analytics.setCurrentScreen(getActivity(), getClass().getSimpleName(), "About Screen");
 
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity = getActivity();
+        if (activity instanceof FragmentDataPasser) {
+            mDataPasser = (FragmentDataPasser) context;
+            }
+    }
+
+    private void passData() {
+        mDataPasser.onDataPass(2);
+    }
+
 
     @Override
     public void onClick(View view) {

@@ -1,6 +1,7 @@
 package com.mangobloggerandroid.app.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mangobloggerandroid.app.interfaces.FragmentDataPasser;
 import com.mangobloggerandroid.app.util.PreferenceUtil;
 import com.mangobloggerandroid.app.adapter.FirebaseDataAdapter;
 import com.mangobloggerandroid.app.R;
@@ -49,6 +51,7 @@ public class FirebaseListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ProgressBar mProgressBar;
+    private FragmentDataPasser mDataPasser;
 
     private Firebase mFirebaseRef;
     private int lastPoistion;
@@ -119,10 +122,22 @@ public class FirebaseListFragment extends Fragment {
    @Override
     public void  onStart() {
         super.onStart();
+        passData();
         downloadTermsViaWordpress();
+    }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity = getActivity();
+        if (activity instanceof FragmentDataPasser) {
+            mDataPasser = (FragmentDataPasser) context;
 
+        }
+    }
 
+    private void passData() {
+        mDataPasser.onDataPass(0);
     }
 
     @Override

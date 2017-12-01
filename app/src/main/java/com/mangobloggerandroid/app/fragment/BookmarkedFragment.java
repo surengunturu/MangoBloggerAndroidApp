@@ -1,5 +1,6 @@
 package com.mangobloggerandroid.app.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,14 @@ import android.view.ViewGroup;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.mangobloggerandroid.app.R;
+import com.mangobloggerandroid.app.interfaces.FragmentDataPasser;
 
 /**
  * Created by ujjawal on 11/10/17.
  */
 
 public class BookmarkedFragment extends Fragment {
+    private FragmentDataPasser mDataPasser;
     public BookmarkedFragment() {
         // Required empty public constructor
     }
@@ -35,6 +38,25 @@ public class BookmarkedFragment extends Fragment {
         if (getArguments() != null) {
             //args
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity activity = getActivity();
+        if (activity instanceof FragmentDataPasser) {
+            mDataPasser = (FragmentDataPasser) context;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        passData();
+    }
+
+    private void passData() {
+        mDataPasser.onDataPass(1);
     }
 
     @Override
