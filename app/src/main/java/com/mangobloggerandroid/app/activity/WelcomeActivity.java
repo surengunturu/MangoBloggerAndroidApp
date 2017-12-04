@@ -227,16 +227,15 @@ public class WelcomeActivity extends AppCompatActivity {
      * View pager adapter
      */
     public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
+
 
         public MyViewPagerAdapter() {
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View view = layoutInflater.inflate(layouts[position], container, false);
+            View view = LayoutInflater.from(container.getContext()).inflate(layouts[position], container, false);
             container.addView(view);
 
             return view;

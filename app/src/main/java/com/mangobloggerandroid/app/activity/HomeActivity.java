@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
@@ -72,8 +74,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private String mAddress;
     private String mGeoLatitude;
     private String mGeoLongitude;
+    private boolean doubleBackToExitPressedOnce = false;
 
-//    private boolean doubleBackToExitPressedOnce = false;
+
+    //    private boolean doubleBackToExitPressedOnce = false;
     private boolean pendingIntroAnimation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -160,12 +164,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mNavigation.getMenu().getItem(layoutId).setChecked(true);
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 1) {
-            getFragmentManager().popBackStack();
-        } else {
-
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 return;
@@ -181,17 +182,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
-        }
-    }*/
-
-    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() < 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
+        } else  {
+            getSupportFragmentManager().popBackStack();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
