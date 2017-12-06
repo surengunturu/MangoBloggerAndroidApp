@@ -142,8 +142,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         attachFragment(HomeFragment.newInstance(), false);
 
-        //google analytics
-        ((MangoBlogger)getApplication()).startTracking();
 
 
     }

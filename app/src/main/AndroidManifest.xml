@@ -24,7 +24,8 @@
         tools:node="merge"
         tools:replace="android:label">
 
-        <activity android:name=".Splash.SplashActivity">
+        <activity android:name=".Splash.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -54,6 +55,8 @@
             </intent-filter>
         </receiver>
 
+
+
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
@@ -69,14 +72,21 @@
         -->
         <receiver
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:exported="true">
+            android:exported="true"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
-        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
-
+        <service android:name="com.google.android.gms.tagmanager.InstallReferrerService" />
+        <receiver
+            android:name="com.google.android.gms.tagmanager.InstallReferrerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
