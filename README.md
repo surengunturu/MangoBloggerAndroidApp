@@ -8,5 +8,3 @@ All the feedback and contributions to the project are welcome. Feel free to send
 Please direct all the questions at - contact@mangoblogger.com
 
 Check us out at https://www.mangoblogger.com
-
-checking
