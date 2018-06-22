@@ -70,7 +70,7 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnLogIn = (Button) findViewById(R.id.btn_skip);
-        btnSignUp = (Button) findViewById(R.id.btn_next);
+        //btnSignUp = (Button) findViewById(R.id.btn_next);
 
 
         // layouts of all welcome sliders
@@ -117,14 +117,14 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // checking for last page
-                // if last page home screen will be launched
-                launchRegisterScreen();
-            }
-        });
+//        btnSignUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // checking for last page
+//                // if last page home screen will be launched
+//                launchRegisterScreen();
+//            }
+//        });
     }
 
     @Override
@@ -170,10 +170,10 @@ public class WelcomeActivity extends AppCompatActivity {
 //        finish();
     }
 
-    private void launchRegisterScreen() {
-        startActivity(new Intent(WelcomeActivity.this, SignupActivity.class));
-//        finish();
-    }
+//    private void launchRegisterScreen() {
+//        startActivity(new Intent(WelcomeActivity.this, SignupActivity.class));
+////        finish();
+//    }
 
     private void launchHomeScreen() {
         startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
