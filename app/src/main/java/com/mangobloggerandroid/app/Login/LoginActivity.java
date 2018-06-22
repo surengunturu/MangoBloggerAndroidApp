@@ -35,7 +35,7 @@ public class LoginActivity extends BaseAuthActivity {
 
     private EditText inputEmail, inputPassword;
     private AuthApi mAuthApi;
-    private Button btnSignup, btnLogin, btnReset;
+    private Button btnLogin, btnReset; //btnSignup,
     private FirebaseAnalytics mFirebaseAnalytics;
 
 
@@ -55,7 +55,7 @@ public class LoginActivity extends BaseAuthActivity {
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
+        //btnSignup = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
         mGoogleBtn = (SignInButton) findViewById(R.id.googleBtn);
@@ -82,13 +82,13 @@ public class LoginActivity extends BaseAuthActivity {
             }
         });
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
-                finish();
-            }
-        });
+//        btnSignup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+//                finish();
+//            }
+//        });
 
         mGoogleBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -103,7 +103,7 @@ public class LoginActivity extends BaseAuthActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(PreferenceUtil.isSignedIn(this)) {
+        if(true) {
             startApp();
         }
     }
