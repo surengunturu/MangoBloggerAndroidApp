@@ -17,4 +17,7 @@
     <screenName name="com.mangoblogger.app.WebFragment">
         WebFragments
     </screenName>
+    <screenName name="com.mangobloggerandroid.app.fragment">
+        About Page
+    </screenName>
 </resources>

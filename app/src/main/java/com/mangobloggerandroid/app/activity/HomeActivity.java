@@ -24,6 +24,11 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -40,6 +45,8 @@ import com.mangobloggerandroid.app.fragment.AboutFragment;
 import com.mangobloggerandroid.app.fragment.BookmarkedFragment;
 import com.mangobloggerandroid.app.fragment.HomeFragment;
 import com.mangobloggerandroid.app.util.AppUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -75,7 +82,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private String mGeoLatitude;
     private String mGeoLongitude;
     private boolean doubleBackToExitPressedOnce = false;
+    TagManager mTagManager;
 
+    public String DailySpecial = "";
 
     //    private boolean doubleBackToExitPressedOnce = false;
     private boolean pendingIntroAnimation;
@@ -93,6 +102,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     attachFragment(BookmarkedFragment.newInstance(), true);
                     return true;
                 case R.id.navigation_notifications:
+                    aboutPage();
                     attachFragment(AboutFragment.newInstance(mAbout, mCountryCode, mContactNumber, mAddress,
                             mGeoLatitude, mGeoLongitude), true);
                     return true;
@@ -106,6 +116,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadGTMContainer();
         setContentView(R.layout.activity_home);
         if (savedInstanceState == null) {
             pendingIntroAnimation = true;
@@ -336,12 +347,56 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void loadGTMContainer () {
+        // TODO Get the TagManager
+        mTagManager = ((MangoBlogger) getApplication()).getTagManager();
 
+        // Enable verbose logging
+        mTagManager.setVerboseLoggingEnabled(true);
+
+        // Load the container
+        PendingResult pending =
+                mTagManager.loadContainerPreferFresh("GTM-PJT59FL",
+                        R.raw.gtmtag);
+
+        // Define the callback to store the loaded container
+        pending.setResultCallback(new ResultCallback<ContainerHolder>() {
+            @Override
+            public void onResult(ContainerHolder containerHolder) {
+
+                // If unsuccessful, return
+                if (!containerHolder.getStatus().isSuccess()) {
+                    // Deal with failure
+                    return;
+                }
+
+                // Manually refresh the container holder
+                // Can only do this once every 15 minutes or so
+                containerHolder.refresh();
+
+                // Set the container holder, only want one per running app
+                // We can retrieve it later as needed
+                ((MangoBlogger) getApplication()).setContainerHolder(
+                        containerHolder);
+
+            }
+        }, 2, TimeUnit.SECONDS);
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
+    public void aboutPage(){
+        ContainerHolder holder =
+                ((MangoBlogger) getApplication()).getContainerHolder();
+        DailySpecial = holder.getContainer().getContainerId();
+        DataLayer dl =  mTagManager.getDataLayer();
+        dl.pushEvent("openScreen",
+                DataLayer.mapOf(
+                        "screen-name","AboutPage"
+                ));
+    }
 
 }
 

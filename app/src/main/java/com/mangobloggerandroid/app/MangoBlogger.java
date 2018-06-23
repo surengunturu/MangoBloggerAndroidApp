@@ -27,39 +27,32 @@ public class MangoBlogger extends Application {
         Firebase.setAndroidContext(this);
 
 
-        initGoogleAnalytics();
+//        initGoogleAnalytics();
 //        initGoogleTagManager();
     }
 
-    private void initGoogleAnalytics() {
-        analytics = GoogleAnalytics.getInstance(this);
-        analytics.setLocalDispatchPeriod(1800);
+    public Tracker mTracker;
 
-        tracker = analytics.newTracker("UA-106256858-1"); // Replace with actual tracker id
-        tracker.enableExceptionReporting(true);
-        tracker.enableAdvertisingIdCollection(true);
-        tracker.enableAutoActivityTracking(true);
+    public ContainerHolder mContainerHolder;
+    public TagManager mTagManager;
+
+    // Get the Tag Manager
+    public TagManager getTagManager() {
+        if (mTagManager == null) {
+            // create the TagManager, save it in mTagManager
+            mTagManager = TagManager.getInstance(this);
+        }
+        return mTagManager;
     }
 
-    private void initGoogleTagManager() {
-        TagManager tagManager = TagManager.getInstance(this);
-        PendingResult<ContainerHolder> pending =
-                tagManager.loadContainerPreferNonDefault(CONTAINER_ID,
-                        R.raw.gtm_defaultcontainer);
-      /*  pending.setResultCallback(new ResultCallback<ContainerHolder>() {
-            @Override
-            public void onResult(ContainerHolder containerHolder) {
-                ContainerHolderSingleton.setContainerHolder(containerHolder);
-                Container container = containerHolder.getContainer();
-                if (!containerHolder.getStatus().isSuccess()) {
-                    Log.e("CuteAnimals", "failure loading container");
-//                    displayErrorToUser(R.string.load_error);
-                    return;
-                }
-                ContainerLoadedCallback.registerCallbacksForContainer(container);
-                containerHolder.setContainerAvailableListener(new ContainerLoadedCallback());
-                startMainActivity();
-            }
-        }, TIMEOUT_FOR_CONTAINER_OPEN_MILLISECONDS, TimeUnit.MILLISECONDS);*/
+    // Set the ContainerHolder
+    public void setContainerHolder(ContainerHolder containerHolder) {
+        mContainerHolder = containerHolder;
     }
+
+    // Get the ContainerHolder
+    public ContainerHolder getContainerHolder() {
+        return mContainerHolder;
+    }
+
 }
