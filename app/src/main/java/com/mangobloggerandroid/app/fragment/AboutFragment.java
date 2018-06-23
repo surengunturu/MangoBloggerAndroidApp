@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.mangobloggerandroid.app.MangoBlogger;
 import com.mangobloggerandroid.app.activity.HomeActivity;
 import com.mangobloggerandroid.app.R;
 import com.mangobloggerandroid.app.interfaces.FragmentDataPasser;
@@ -137,6 +140,13 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.facebook:
                 try {
+                    TagManager tagManager =((MangoBlogger) getActivity().getApplication()).getTagManager();
+                    DataLayer dl = tagManager.getDataLayer();
+                    dl.pushEvent("facebookEvent",
+                            DataLayer.mapOf(
+                                    "screen-name","AboutPage"
+                            )
+                            );
                     startBrowserIntent("https://www.facebook.com/mangobloggerandroid/");
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getActivity(), "Please install a web browser or Facebook app",  Toast.LENGTH_LONG).show();
@@ -145,6 +155,13 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.twitter:
                 try {
+                    TagManager tagManager =((MangoBlogger) getActivity().getApplication()).getTagManager();
+                    DataLayer dl = tagManager.getDataLayer();
+                    dl.pushEvent("twitterEvent",
+                            DataLayer.mapOf(
+                                    "screen-name","AboutPage"
+                            )
+                    );
                     startBrowserIntent("https://twitter.com/mangobloggerandroid");
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getActivity(), "Please install a web browser or Twitter app",  Toast.LENGTH_LONG).show();
@@ -153,6 +170,13 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.youtube:
                 try {
+                    TagManager tagManager =((MangoBlogger) getActivity().getApplication()).getTagManager();
+                    DataLayer dl = tagManager.getDataLayer();
+                    dl.pushEvent("youtubeEvent",
+                            DataLayer.mapOf(
+                                    "screen-name","AboutPage"
+                            )
+                    );
                     startBrowserIntent("https://www.youtube.com/channel/UCCgxPOWNEqpcA60HnYg051w");
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getActivity(), "Please install a web browser or Youtube app",  Toast.LENGTH_LONG).show();
@@ -161,6 +185,13 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.linkedin:
                 try {
+                    TagManager tagManager =((MangoBlogger) getActivity().getApplication()).getTagManager();
+                    DataLayer dl = tagManager.getDataLayer();
+                    dl.pushEvent("linkedInEvent",
+                            DataLayer.mapOf(
+                                    "screen-name","AboutPage"
+                            )
+                    );
                     startBrowserIntent("https://www.linkedin.com/company-beta/17919027");
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getActivity(), "Please install a web browser or Linkedin app",  Toast.LENGTH_LONG).show();
@@ -169,6 +200,13 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.insta:
                 try {
+                    TagManager tagManager =((MangoBlogger) getActivity().getApplication()).getTagManager();
+                    DataLayer dl = tagManager.getDataLayer();
+                    dl.pushEvent("instaEvent",
+                            DataLayer.mapOf(
+                                    "screen-name","AboutPage"
+                            )
+                    );
                     startBrowserIntent("https://www.instagram.com/mangoblogger_analytics/");
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getActivity(), "Please install a web browser or instagram app",  Toast.LENGTH_LONG).show();
@@ -221,6 +259,5 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
             startActivity(browserIntent);
         }
     }
-
 
 }
