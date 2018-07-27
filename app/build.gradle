@@ -22,7 +22,7 @@ android {
         config {
             keyAlias 'mangoblogger'
             keyPassword 'fixme96'
-            storeFile file('C:/Users/Avnish/Desktop/Keystore/mangoblogger2.jks')
+            storeFile file('/Users/SwathiGunturu/Desktop/Keystore/mangoblogger2.jks')
             storePassword 'fixme96'
         }
     }

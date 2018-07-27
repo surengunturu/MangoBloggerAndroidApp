@@ -1,25 +1,137 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGrey"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="15dp"
     tools:context="fragment.BookmarkedFragment">
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="Bookmarked"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="@string/bookmarked_desc"
-        android:textSize="18sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="1dp"
+            android:text="Employee Onboarding App-Google Sheets Add-on"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/about_title"
+            android:scaleType="fitXY"
+            android:src="@mipmap/onboarding_app_timeline" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="Employee Onboarding App by MangoBlogger is the new standard in hiring and onboarding employees. Businesses around the world are using it to onboard employees with minimum human intervention and save a ton of time"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text=" "
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="It automates seding offer letters, recommendation
+letters, giving tasks to new employees and doing all of the IT processes for you. "
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text=" "
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="Imagine how easily you will be able to scale the internship program."
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text=" "
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="Whether you are hiring interns, employees, onboarding clients, or giving access to a guest blogger, our app will do it all for you."
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text=" "
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="No hosting, no domains, no maintenance. This app works right out a Google Sheet, just like an add-on "
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text=" "
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="Main Features:
+            (1) Automate sending customized offer letter and emails
+            (2) Integrates with Gsuite to provision email automatically
+            (3) Add an employee to Google analytics, contacts, calendar, Trello Board, and many other tools
+            (4) Attach multiple documents to emails related to onboarding
+            (5) Tools to increase employee engagement and satisfaction"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text=" "
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/sendEmail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Email Downloaded Link"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text=" "
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</ScrollView>
