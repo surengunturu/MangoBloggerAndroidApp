@@ -9,11 +9,16 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_collections_bookmark_black_24dp"
-        android:title="Products" />
+        android:title="Onboarding App Add On " />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_mangoblogger_grey_24dp"
         android:title="Mangoblogger" />
+
+    <item
+        android:id="@+id/navigation_dashboard1"
+        android:icon="@drawable/ic_collections_bookmark_black_24dp"
+        android:title="SEOMango Add On" />
 
 </menu>
